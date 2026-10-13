@@ -142,7 +142,9 @@ def _table_and_label(issue: int, rule_snapshot, snapshot):
                 bool(rule_snapshot.get("is_estimate", True)),
                 rule_snapshot.get("by_level"))
     mode = rule_snapshot or "official"
-    tbl = pr.get_prize_table(int(issue), mode=mode)
+    # 服务器交接勘误（V3_HANDOFF_REVIEW_2026-10-14.md）：显式传入的 snapshot
+    # 必须一路传到计奖表，否则会静默回落到 data/dlt/ 下的旧默认快照。
+    tbl = pr.get_prize_table(int(issue), mode=mode, snapshot=snapshot)
     if mode == "legacy_config":
         return tbl, SRC_LEGACY_STATIC, True, None
     if mode.startswith("official") and snapshot is not None and getattr(snapshot, "ok", False):
@@ -203,7 +205,7 @@ def settle_period(issue: int,
 
     # 不计派奖的对照表（用于分离 base / bonus 贡献）
     if snapshot is not None and getattr(snapshot, "ok", False) and snapshot.has(issue):
-        table_nb = pr.get_prize_table(issue, mode="official_no_bonus")
+        table_nb = pr.get_prize_table(issue, mode="official_no_bonus", snapshot=snapshot)
         has_bonus_info = True
     else:
         table_nb = table

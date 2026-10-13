@@ -246,3 +246,58 @@ def test_duplicate_prize_implementations_agree():
             a = pr.get_prize_table(issue, mode=our_mode)
             b = od.issue_table(issue, bonus_mode)
             assert a == b, (issue, bonus_mode)
+
+
+# ---------------------------------------------------------------------------
+# 服务器交接勘误（V3_HANDOFF_REVIEW_2026-10-14.md §「服务器必须区分两个奖金快照」）
+# ---------------------------------------------------------------------------
+
+def _synthetic_snapshot(tmp_path, issue, level, amount, draw_date="2021-04-10"):
+    """构造一个只含单期、单奖级显式单注奖金的最小官方快照。"""
+    import pandas as pd
+
+    draws = pd.DataFrame([{
+        "issue": int(issue), "draw_date": draw_date, "pool_after": 1.0e9,
+        "amt_一等奖": 1_000_000.0,
+    }])
+    levels = pd.DataFrame([{
+        "issue": int(issue), "level": level, "stake_amount": float(amount),
+        "stake_count": 10.0, "total_amount": float(amount) * 10.0,
+    }])
+    d = tmp_path / "draws.csv"
+    l = tmp_path / "levels.csv"
+    draws.to_csv(d, index=False)
+    levels.to_csv(l, index=False)
+    return pr.OfficialSnapshot(draws_csv=str(d), levels_csv=str(l))
+
+
+def test_official_snapshot_is_actually_used_when_passed_to_settle_period(tmp_path):
+    """显式传入的 snapshot 必须真正决定计奖表，不得静默回落到默认旧快照。
+
+    21039 属 era2，前区中 0 个 + 后区中 2 个 = 九等奖，一组 5+12 中该奖级恰 1 注。
+    合成快照把九等奖单注设为 99 元，则单组回收必须是 99 元。
+    """
+    snap = _synthetic_snapshot(tmp_path, 21039, "九等奖", 99.0)
+    assert snap.ok and snap.has(21039)
+
+    res = pa.settle_period(21039, [0], rule_snapshot="official",
+                           snapshot=snap, costs={})
+    assert res["gross"] == 99, (
+        "settle_period 未使用显式 snapshot，gross={} 说明落回了默认快照".format(
+            res["gross"]))
+
+    # 换一个金额，结果必须随之改变 —— 证明是传入的快照在起作用
+    snap2 = _synthetic_snapshot(tmp_path, 21039, "九等奖", 123.0)
+    res2 = pa.settle_period(21039, [0], rule_snapshot="official",
+                            snapshot=snap2, costs={})
+    assert res2["gross"] == 123
+
+
+def test_explicit_snapshot_matches_get_prize_table_with_same_snapshot(tmp_path):
+    """账本与显式计奖入口在同期必须给出一致的分组回收。"""
+    snap = _synthetic_snapshot(tmp_path, 21039, "九等奖", 77.0)
+    table = pr.get_prize_table(21039, mode="official", snapshot=snap)
+    expected = pr.group_payout(table, 0)
+    res = pa.settle_period(21039, [0], rule_snapshot="official",
+                           snapshot=snap, costs={})
+    assert res["gross"] == expected
