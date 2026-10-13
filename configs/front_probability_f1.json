@@ -1,0 +1,173 @@
+{
+  "_description": "F1 前区边际概率模型比较 —— 冻结协议配置 (F1-0)。所有参数在此显式冻结；不从旧 config.py 读取融合权重、候选池或过滤规则。仅模拟，不投注。",
+  "protocol": {
+    "frozen_date": "2026-10-14",
+    "handoff_commit": "fdb736c875dafcf5564b19fb53cc6b5e58ea93ea",
+    "authority_docs": [
+      "docs/project_notes/SERVER_F1_HANDOFF_PLAN.md",
+      "docs/project_notes/FRONT_PROBABILITY_RESEARCH_PLAN.md",
+      "docs/project_notes/V3_HANDOFF_REVIEW_2026-10-14.md"
+    ],
+    "simulation_only": true,
+    "data_exposure": "全部 7001..26042 期已被历史研究反复使用；本轮只称时间顺序历史评估，不称新的未见测试"
+  },
+  "run": {
+    "run_id_prefix": "f1_front_probability",
+    "outputs_root": "outputs",
+    "refuse_existing_run_dir": true
+  },
+  "data": {
+    "csv": "data/dlt/data.csv",
+    "sha256": "2082a591a7724bf9114614a3d3fcd58b45dfb6414b3edf40d01ad5b9693f90b4",
+    "expected_rows": 2860,
+    "expected_issue_min": 7001,
+    "expected_issue_max": 26042,
+    "expected_duplicate_issues": 0
+  },
+  "features": {
+    "windows": [10, 30, 100],
+    "min_history": 120,
+    "n_front": 35,
+    "expected_dim": 252,
+    "builder": "feature_engineering.build_front_training_dataset"
+  },
+  "evaluation": {
+    "recent_modelable_periods": 800,
+    "n_blocks": 4,
+    "block_size": 200,
+    "min_first_train_periods": 500,
+    "expanding_train_window": true,
+    "same_issues_for_all_candidates": true,
+    "index_base": "history_row",
+    "index_base_note": "frozen_blocks 的索引是 data.csv 按期号升序后的行号（第 0 行 = 最早一期 7001）。X 的第 0 行对应历史行 min_history=120，评估器统一减去该偏移。",
+    "frozen_blocks": [
+      {"fold": 0, "target_index_start": 2060, "target_index_stop": 2260, "train_index_start": 120, "train_index_stop": 2060, "n_train": 1940, "issue_first": 20129, "issue_last": 22044},
+      {"fold": 1, "target_index_start": 2260, "target_index_stop": 2460, "train_index_start": 120, "train_index_stop": 2260, "n_train": 2140, "issue_first": 22045, "issue_last": 23094},
+      {"fold": 2, "target_index_start": 2460, "target_index_stop": 2660, "train_index_start": 120, "train_index_stop": 2460, "n_train": 2340, "issue_first": 23095, "issue_last": 24144},
+      {"fold": 3, "target_index_start": 2660, "target_index_stop": 2860, "train_index_start": 120, "train_index_stop": 2660, "n_train": 2540, "issue_first": 24145, "issue_last": 26042}
+    ]
+  },
+  "candidates": {
+    "U": {
+      "kind": "uniform",
+      "probability": 0.14285714285714285
+    },
+    "F": {
+      "kind": "smoothed_frequency",
+      "window": 100,
+      "prior_strength": 100,
+      "prior_per_number": 0.14285714285714285,
+      "history_source": "history_before_target"
+    },
+    "L": {
+      "kind": "logistic_l2",
+      "penalty": "l2",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 1000,
+      "class_weight": null,
+      "standardize": "fit_on_training_fold_only",
+      "n_outputs": 35
+    },
+    "R": {
+      "kind": "random_forest",
+      "n_estimators": 300,
+      "max_depth": 8,
+      "min_samples_split": 8,
+      "min_samples_leaf": 3,
+      "random_state": 42,
+      "n_outputs": 35,
+      "positive_class": "located_via_classes_ ; single-class(class 0) => positive probability 0",
+      "standardize": "none"
+    },
+    "N": {
+      "kind": "mlp",
+      "hidden_layers": [64, 32],
+      "hidden_activation": "relu",
+      "dropout": 0.1,
+      "output_dim": 35,
+      "output_activation": "none",
+      "loss": "BCEWithLogitsLoss_uniform_mean",
+      "pos_weight": null,
+      "optimizer": "AdamW",
+      "lr": 0.001,
+      "weight_decay": 0.01,
+      "batch_size": 64,
+      "max_epochs": 200,
+      "dtype": "float32",
+      "batchnorm": false,
+      "amp": false,
+      "lr_search": false,
+      "internal_valid_fraction": 0.2,
+      "internal_valid_rounding": "ceil",
+      "checkpoint_metric": "mean_brier_on_internal_validation_final_probability",
+      "checkpoint_metric_interpretation": "验证段每个样本先作 sum(p)=5 的统一 logit 偏移（即协议所称『最终概率』），再取 (行,35) 上的平均 Brier。原始 sigmoid 只用于 p_raw 诊断。",
+      "min_delta": 1e-06,
+      "patience": 20,
+      "first_valid_epoch_is_initial_best": true,
+      "ties": "earlier_epoch",
+      "refit": "reinitialize_and_fit_scaler_on_full_training_fold_then_train_exactly_selected_epochs",
+      "seeds": [17, 42, 2026],
+      "seed_aggregation": "equal_weight_mean_of_raw_probabilities_then_single_logit_offset"
+    }
+  },
+  "probability": {
+    "clip_eps": 1e-08,
+    "target_sum": 5.0,
+    "offset_solver": "deterministic_monotone_root_find_on_sum_sigmoid_logit_plus_a",
+    "tie_break_seed": 20261013,
+    "tie_break_rule": "descending p; exact ties broken by fixed per-issue permutation from default_rng(tie_break_seed + issue)"
+  },
+  "statistics": {
+    "primary_metric": "per_period_mean_brier",
+    "secondary_metrics": ["per_period_binary_logloss", "calibration_10_equal_width_bins"],
+    "selection_metrics_excluded": ["top5_hit", "k_distribution", "k_ge_3_4_5", "after_tax_return"],
+    "comparisons": ["L-U", "R-U", "N-U"],
+    "paired_unit": "issue",
+    "bootstrap": {
+      "kind": "moving_block",
+      "block_lengths": [20, 50],
+      "n_resamples": 2000,
+      "seed": 20261013
+    },
+    "family_alpha": 0.05,
+    "family_size": 6,
+    "per_comparison_two_sided_confidence": 0.98333333,
+    "promotion_criteria": [
+      "overall_brier_improvement_vs_U_positive",
+      "at_least_3_of_4_blocks_same_direction",
+      "both_block_length_adjusted_interval_lower_bounds_gt_0",
+      "overall_logloss_not_worse_than_U",
+      "overall_brier_not_worse_than_F"
+    ],
+    "tie_epsilon": 1e-12,
+    "tie_preference_order": ["L", "R", "N"],
+    "uniform_brier_reference": 0.04081632653061224,
+    "uniform_top5_mean_hit_reference": 0.7142857142857143
+  },
+  "resources": {
+    "cpu_threads": 8,
+    "cpu_threads_rule": "min(8, available_cpu_cores)",
+    "device": "cuda:5",
+    "device_selection_note": "服务器实测：GPU 0/3/4/5/7 无计算进程；选 cuda:5。运行前必须复核空闲性，若被占用则改选并记录。",
+    "gpu_uuid": "GPU-2c04eb76-7bb7-cc71-9e7e-9899d758dc05",
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "single_training_process": true,
+    "no_ddp": true,
+    "torch_deterministic": true
+  },
+  "time_budget": {
+    "protocol_and_tests_days": 1,
+    "training_and_evaluation_days": 1,
+    "conclusion_days": 1,
+    "note": "建议上限 3 个工作日；超时交付已完成部分与阻碍，不自动扩展模型或续期"
+  },
+  "forbidden": [
+    "real_betting",
+    "forward_looking_scheduling",
+    "web_service",
+    "model_or_parameter_search_beyond_frozen_candidates",
+    "using_target_labels_for_calibration_or_selection",
+    "writing_best_params_back_to_config.py"
+  ]
+}
