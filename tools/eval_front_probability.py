@@ -27,6 +27,7 @@ import argparse
 import hashlib
 import json
 import os
+import pickle
 import platform
 import shutil
 import sys
@@ -53,6 +54,7 @@ from tools.front_probability_models import (  # noqa: E402
 
 STATUS_FILE = "status.json"
 PRED_FILE = "predictions.npz"
+MODEL_FILE = "model.pkl"
 RUN_LOG = "run.log"
 
 
@@ -81,31 +83,48 @@ def hash_config(config: Dict) -> str:
 
 
 def code_hash() -> str:
-    """当前源码指纹：git HEAD + **工作区源码文件内容**的 sha256。
+    """当前源码指纹：git HEAD（若有）+ **源码文件内容**的 sha256。
 
-    只用 ``git status --porcelain`` 不够：对**已经处于修改状态**的文件再改一次，
-    porcelain 输出不变，缓存单元会被误判为可复用（对抗性复核发现）。
-    因此这里直接对 ``git ls-files`` 列出的源码文件内容取哈希。
+    两个由对抗性复核发现的要点：
+
+    * 只用 ``git status --porcelain`` 不够：对**已经处于修改状态**的文件再改一次，
+      porcelain 输出不变，缓存单元会被误判为可复用。
+    * **不在 git 仓库内时不能退化成常量**：原先返回 "no-git" 会让所有单元共享同一个
+      代码指纹，改完代码仍会复用旧结果。这里改为对源码目录内容取哈希。
     """
     import subprocess
+
+    names: List[str] = []
     try:
         head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                               capture_output=True, text=True, check=True).stdout.strip()
-        tracked = subprocess.run(["git", "ls-files", "tools", "tests", "configs",
-                                  "*.py"],
+        tracked = subprocess.run(["git", "ls-files", "tools", "tests", "configs", "*.py"],
                                  cwd=ROOT, capture_output=True, text=True,
                                  check=True).stdout.split()
-        h = hashlib.sha256(head.encode("utf-8"))
-        for rel in sorted(set(tracked)):
-            p = os.path.join(ROOT, rel)
-            if not os.path.isfile(p):
-                h.update(("MISSING " + rel).encode("utf-8"))
-                continue
-            h.update(rel.encode("utf-8"))
-            h.update(sha256_file(p).encode("ascii"))
-        return "{}:{}".format(head[:12], h.hexdigest()[:16])
+        names = sorted(set(tracked))
     except Exception:
-        return "no-git"
+        head = "no-git"
+        # 退化为直接扫描源码目录，绝不用常量
+        for sub in ("tools", "tests", "configs"):
+            base = os.path.join(ROOT, sub)
+            for dirpath, _dirs, files in os.walk(base):
+                for fn in sorted(files):
+                    if fn.endswith((".py", ".json", ".txt")):
+                        names.append(os.path.relpath(os.path.join(dirpath, fn), ROOT))
+        for fn in sorted(os.listdir(ROOT)):
+            if fn.endswith(".py"):
+                names.append(fn)
+        names = sorted(set(names))
+
+    h = hashlib.sha256(head.encode("utf-8"))
+    for rel in names:
+        p = rel if os.path.isabs(rel) else os.path.join(ROOT, rel)
+        if not os.path.isfile(p):
+            h.update(("MISSING " + rel).encode("utf-8"))
+            continue
+        h.update(rel.encode("utf-8"))
+        h.update(sha256_file(p).encode("ascii"))
+    return "{}:{}".format(head[:12], h.hexdigest()[:16])
 
 
 def alpha_tail(alpha: float, family_size: int) -> float:
@@ -484,11 +503,17 @@ def _load_unit(unit_dir: str) -> Dict:
     rec["issues"] = np.asarray(rec["issues"], dtype=np.int64)
     rec["fold_ids"] = np.asarray(rec["fold_ids"], dtype=np.int64)
     rec["timing_seconds"] = float(rec["timing_seconds"])
+    rec["extras"] = json.loads(str(rec.get("extras", "{}")))
+    rec["device_used"] = str(rec.get("device_used", ""))
+    rec.pop("extras_raw", None)
     return rec
 
 
 def _save_unit(unit_dir: str, rec: Dict, hashes: Dict, meta: Dict) -> None:
     os.makedirs(unit_dir, exist_ok=True)
+    extras = rec.get("extras") or {}
+    model_obj = rec.pop("_model_obj", None)
+
     np.savez_compressed(
         os.path.join(unit_dir, PRED_FILE),
         issues=np.asarray(rec["issues"], dtype=np.int64),
@@ -503,11 +528,26 @@ def _save_unit(unit_dir: str, rec: Dict, hashes: Dict, meta: Dict) -> None:
         fold=np.array(int(rec["fold"])),
         train_end=np.array(int(rec["train_end"])),
         timing_seconds=np.array(float(rec["timing_seconds"])),
+        device_used=np.array(str(rec.get("_device_used", ""))),
+        extras=np.array(json.dumps(extras, ensure_ascii=False)),
     )
+
+    # 协议要求模型写入独立运行目录；序列化失败不能拖垮整轮运行。
+    model_note = "not_saved"
+    if model_obj is not None:
+        try:
+            with open(os.path.join(unit_dir, MODEL_FILE), "wb") as fh:
+                pickle.dump(model_obj, fh, protocol=4)
+            model_note = "saved"
+        except Exception as exc:                        # noqa: BLE001
+            model_note = "pickle_failed: {}: {}".format(type(exc).__name__, exc)
+
     with open(os.path.join(unit_dir, STATUS_FILE), "w", encoding="utf-8") as fh:
         json.dump({"complete": True, "fold": int(rec["fold"]),
-                   "candidate": rec["candidate"], **hashes, **meta}, fh,
-                  ensure_ascii=False, indent=2)
+                   "candidate": rec["candidate"], **hashes, **meta,
+                   "model_file": model_note,
+                   "device_used": str(rec.get("_device_used", "")),
+                   "extras": extras}, fh, ensure_ascii=False, indent=2)
 
 
 def _fit_and_predict_unit(fold: Dict, candidate: str, dataset: Dict,
@@ -531,8 +571,18 @@ def _fit_and_predict_unit(fold: Dict, candidate: str, dataset: Dict,
     X_te, iss_te = X[te_lo:te_hi], issues[te_lo:te_hi]
     y_te = y[te_lo:te_hi]
 
+    # 显式把 --device 注入本次拟合：fit_candidate 没有 device 形参，候选 N 从
+    # config.resources.device 解析设备。若不注入，命令行设备会被静默忽略，
+    # 而日志/清单仍记录命令行的值（对抗性复核发现）。
+    run_config = config
+    if device is not None:
+        run_config = dict(config)
+        res = dict(config.get("resources", {}))
+        res["device"] = str(device)
+        run_config["resources"] = res
+
     t0 = time.time()
-    fitted = fit_candidate(candidate, X_tr, y_tr, iss_tr, config)
+    fitted = fit_candidate(candidate, X_tr, y_tr, iss_tr, run_config)
     t_fit = time.time() - t0
 
     t0 = time.time()
@@ -542,6 +592,21 @@ def _fit_and_predict_unit(fold: Dict, candidate: str, dataset: Dict,
     if len(recs) != (te_hi - te_lo):
         raise EvaluationError("预测期数与评估块不符：{} vs {}".format(
             len(recs), te_hi - te_lo))
+
+    extras: Dict = {}
+    if recs and "seed_epochs" in recs[0]:
+        extras["seed_epochs"] = [int(e) for e in recs[0]["seed_epochs"]]
+        extras["per_seed_epochs"] = [int(e) for e in recs[0]["seed_epochs"]]
+    if isinstance(fitted, dict) and fitted.get("seeds"):
+        extras["mlp_seeds"] = [
+            {"seed": int(r.get("seed", -1)),
+             "selected_epoch": int(r.get("selected_epoch", -1)),
+             "epochs_run": int(r.get("epochs_run", -1)),
+             "best_val_brier": float(r.get("best_val_brier", float("nan"))),
+             "n_fit": int(r.get("n_fit", -1)), "n_valid": int(r.get("n_valid", -1))}
+            for r in fitted["seeds"]]
+        extras["mlp_status"] = fitted.get("status")
+        extras["mlp_device"] = fitted.get("device")
 
     return {
         "fold": int(fold["fold"]),
@@ -560,6 +625,9 @@ def _fit_and_predict_unit(fold: Dict, candidate: str, dataset: Dict,
         "timing_seconds": float(t_fit + t_pred),
         "timing_fit_seconds": float(t_fit),
         "timing_predict_seconds": float(t_pred),
+        "extras": extras,
+        "_model_obj": fitted,          # 由 _save_unit 单独落盘；不进入 npz
+        "_device_used": run_config.get("resources", {}).get("device"),
     }
 
 
@@ -683,8 +751,14 @@ def _environment_record() -> Dict:
         env["cudnn_deterministic"] = bool(torch.backends.cudnn.deterministic)
         env["cudnn_benchmark"] = bool(torch.backends.cudnn.benchmark)
         env["cublas_workspace_config"] = os.environ.get("CUBLAS_WORKSPACE_CONFIG")
-    except Exception:
-        pass
+        env["gpu_names"] = [torch.cuda.get_device_name(i)
+                            for i in range(torch.cuda.device_count())]
+        # 在 run_folds 之后调用，故这里的重新播种不会影响已完成的拟合；
+        # 记录 set_determinism 的完整返回，便于事后审计（复核发现其返回值曾被丢弃）。
+        from tools.front_probability_mlp import set_determinism
+        env["determinism_record"] = set_determinism(20261013, "cpu")
+    except Exception as exc:                            # noqa: BLE001
+        env["torch_error"] = "{}: {}".format(type(exc).__name__, exc)
     return env
 
 

@@ -556,3 +556,86 @@ def test_predictions_jsonl_uses_protocol_field_name(tmp_path):
     rec = json.loads(open(run_dir / "predictions.jsonl", encoding="utf-8").readline())
     assert rec["model_id"] == "U"
     assert rec["candidate"] == "U"
+
+
+# ---------------------------------------------------------------------------
+# 8. 协议明确要求的边界测试（对抗性复核指出原先只有 docstring 声称）
+# ---------------------------------------------------------------------------
+
+def test_external_block_labels_do_not_change_the_fit(tmp_path):
+    """扰动**外部评估块**的标签，训练结果与预测必须逐位不变。
+
+    SERVER_F1_HANDOFF_PLAN.md §F1-2 要求「先写失败测试覆盖……内部验证与外部块隔离」，
+    §5 把「早停读到外部标签」列为审阅重点。
+    """
+    csv = make_csv(tmp_path / "d.csv")
+    cfg = tiny_config(csv, cands=("L",), n_blocks=1)
+    ds = small_dataset(cfg)
+    off = ds["min_history"]
+    f = ev.fold_ranges(cfg)[0]
+    lo = f["target_index_start"] - off
+    hi = f["target_index_stop"] - off
+
+    r1 = ev.run_folds(cfg, ds, str(tmp_path / "r1"), device="cpu",
+                      candidates=["L"], resume=False)
+
+    ds2 = {"X": ds["X"].copy(), "y": ds["y"].copy(),
+           "issues": ds["issues"].copy(), "min_history": off, "history": None}
+    assert lo > 0, "评估块之前必须有训练期"
+    # 训练期标签保持原样；只翻转评估块（仍保持每期恰好 5 个 1）
+    for i in range(lo, hi):
+        ds2["y"][i] = np.roll(ds2["y"][i], 7)
+    assert np.array_equal(ds2["y"][:lo], ds["y"][:lo])
+    assert not np.array_equal(ds2["y"][lo:hi], ds["y"][lo:hi]), "扰动必须真的改变了评估块标签"
+
+    r2 = ev.run_folds(cfg, ds2, str(tmp_path / "r2"), device="cpu",
+                      candidates=["L"], resume=False)
+
+    a, b = r1["predictions"][0], r2["predictions"][0]
+    assert a["model_hash"] == b["model_hash"]
+    assert np.array_equal(a["p_raw"], b["p_raw"])
+    assert np.array_equal(a["p"], b["p"])
+    assert a["top5"] == b["top5"]
+
+
+def test_training_slice_is_exactly_the_training_fold(tmp_path):
+    """训练切片必须只用训练区间（防止把评估块并入训练的变异）。"""
+    csv = make_csv(tmp_path / "d.csv")
+    cfg = tiny_config(csv, cands=("U",), n_blocks=2)
+    ds = small_dataset(cfg)
+    res = ev.run_folds(cfg, ds, str(tmp_path / "r"), device="cpu",
+                       candidates=["U"], resume=False)
+    off = ds["min_history"]
+    for rec in res["predictions"]:
+        f = ev.fold_ranges(cfg)[rec["fold"]]
+        last_train_issue = int(ds["issues"][f["train_index_stop"] - off - 1])
+        first_target_issue = int(ds["issues"][f["target_index_start"] - off])
+        assert rec["train_end"] == last_train_issue
+        assert rec["n_train"] == f["n_train"]
+        assert rec["train_end"] < first_target_issue
+        assert rec["train_start"] == int(ds["issues"][f["train_index_start"] - off])
+
+
+def test_cli_device_is_forwarded_to_the_mlp(tmp_path, monkeypatch):
+    """--device 必须真正生效；不得只在日志里记录而让 N 用配置里的卡（复核发现）。"""
+    import tools.front_probability_mlp as fmlp
+
+    csv = make_csv(tmp_path / "d.csv")
+    cfg = tiny_config(csv, cands=("N",), n_blocks=1)
+    assert cfg["resources"]["device"] == "cpu"
+    cfg["resources"]["device"] = "cuda:5"        # 配置写 cuda:5
+
+    seen = {}
+
+    def spy(X_train, y_train, train_issues, config, device=None):
+        seen["device_arg"] = device
+        seen["config_device"] = config.get("resources", {}).get("device")
+        raise RuntimeError("stop-after-capture")
+
+    monkeypatch.setattr(fmlp, "fit_mlp_candidate", spy)
+    ds = small_dataset(cfg)
+    with pytest.raises(RuntimeError):
+        ev._fit_and_predict_unit(ev.fold_ranges(cfg)[0], "N", ds, cfg, "cpu")
+    # 命令行设备必须覆盖配置设备（设备经 config.resources.device 传入拟合）
+    assert seen["config_device"] == "cpu", seen
+    assert seen["device_arg"] is None      # fit_candidate 无 device 形参，属正常
