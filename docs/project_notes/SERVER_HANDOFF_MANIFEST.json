@@ -1,0 +1,3515 @@
+{
+  "created_date": "2026-10-14",
+  "remote": "https://github.com/YangRUi0914/new_lottery.git",
+  "branch": "p1-model-validation",
+  "package": "lottery_server_inputs_20261014.zip",
+  "package_sha256": "a0b49c5c612809e3f0b325b71e8e15c3535e7c581be8bef8d772e1f0cb12b630",
+  "package_bytes": 14304406,
+  "data_rows": 2860,
+  "data_issue_min": 7001,
+  "data_issue_max": 26042,
+  "data_exposure": "Historical research data already exposed; no fresh holdout claim",
+  "tests": {
+    "command": "python -m pytest tests/ -q",
+    "passed": 152,
+    "skipped": 0
+  },
+  "excluded": [
+    "model weights",
+    "verification/results simulation outputs",
+    "virtual environments",
+    "credentials"
+  ],
+  "files": [
+    {
+      "path": "data/dlt/data.csv",
+      "bytes": 93342,
+      "sha256": "2082a591a7724bf9114614a3d3fcd58b45dfb6414b3edf40d01ad5b9693f90b4"
+    },
+    {
+      "path": "data/dlt/official_dlt_draws.csv",
+      "bytes": 482971,
+      "sha256": "0c8eedda29d38a80fc61f1dffc467d35f1d7cca06eae809a9c6ebaad26335d57"
+    },
+    {
+      "path": "data/dlt/official_dlt_prize_levels.csv",
+      "bytes": 1222099,
+      "sha256": "e083287f4a22203bb98bcd62bedc5501efd275abafe1fa49cf62ddec850bfe11"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/budget_start_sensitivity.json",
+      "bytes": 1842,
+      "sha256": "bc391657f47dc8842b167b4716054e11c8a0886d6d8cbecd8752fc154c806152"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/budget_v2.json",
+      "bytes": 12541,
+      "sha256": "cb1d62b3559a67fe3ef7b3e09cf047ec3fa88174a8ebd673920460c33c756557"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/eval_profit_v2.json",
+      "bytes": 11910,
+      "sha256": "7d27deba8b9e931841d642dc762dba4b227139772b6056b185a6be8e2886044a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/ledger_s1_oos.json",
+      "bytes": 76428,
+      "sha256": "0760375d6d73e2ef6ebacf7abd3a147c736d171b2452ce95c8dcea6eb3dea758"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/math_baseline_scenarios_v2.json",
+      "bytes": 39076,
+      "sha256": "7960cf729c79acd55ef98e689e71a0d73abf736364aa289632d107810ea9536e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/opportunity_map_26117.json",
+      "bytes": 15420,
+      "sha256": "06ea6198c346f3bcd25fee183384b0bfcb92898f3eaff7a27a108f3f79559a44"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/pool_conditional_v2.json",
+      "bytes": 1050220,
+      "sha256": "46e7b389fc4d9a7b2475221f5537008a647c2d41babae09a52a171bcc0806236"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/pool_conditional_v2_withpools.json",
+      "bytes": 1068814,
+      "sha256": "6d51393dded3d957eaefd1f915f31db91581b901c8811f8b035093700e3ba1cc"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/power_v2.json",
+      "bytes": 4716,
+      "sha256": "5976bff98098647efac57603169db63a107f6f18b0efe2180cbcd234ba718e63"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/rows_d4_policies.json",
+      "bytes": 384057,
+      "sha256": "0a98ff18c2078c20d5154631d3e007e943ccbbfec34cb931d13573596de8c67e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/SUMMARY.csv",
+      "bytes": 1641,
+      "sha256": "14033b9396072ebd8fa501dca26e2f2bc939361094f12f8da939792e579181e2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/corrections/SUMMARY.json",
+      "bytes": 18689,
+      "sha256": "369aaa913f506921aba78c53b85d4f23c6881a8ee9bd95a9a20011f409b6fb42"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/protocol/ROUND2_MANIFEST.json",
+      "bytes": 5974,
+      "sha256": "c65c466fc025198348795b8ad9e6f172493d2c7b188f5f2f887830f1d86d3021"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/results/math_baseline_r2.json",
+      "bytes": 15647,
+      "sha256": "512aee9fa9003ab58cc7555788f4fee024d0f466c5a8d8b6a912a339156211fe"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/results/math_baseline_scenarios_r2.json",
+      "bytes": 32470,
+      "sha256": "eab04a6c3e5776537bc0d39c73b6761ecd587f89a5945d03613630df40bcfc09"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/sources/TAX_10044631.html.html",
+      "bytes": 5710,
+      "sha256": "56981d31fa07c1558d0bd49869732cff7563814fa2f11c50be7fd23c4812595e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r2/sources/TAX_content.html.html",
+      "bytes": 38953,
+      "sha256": "46a0f9e53c07f6e2b8db05c3fc93a02769cbb874d725774d66286178db0621ee"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_correction_r3/corrections/power_v3.json",
+      "bytes": 6169,
+      "sha256": "10dfe3d61a1c3ae9db54d02ea43bb3155f803113bb609ef445ab2105e75988cd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/dlt_full_7001_26116.csv",
+      "bytes": 73726,
+      "sha256": "a24f959856b04621e7e2b9d50d780c6f9f6a94e7c7c1a8e67e83b75372365613"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/dlt_hist_7001_26042.csv",
+      "bytes": 93342,
+      "sha256": "2082a591a7724bf9114614a3d3fcd58b45dfb6414b3edf40d01ad5b9693f90b4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/official_dlt_draws.csv",
+      "bytes": 482971,
+      "sha256": "0c8eedda29d38a80fc61f1dffc467d35f1d7cca06eae809a9c6ebaad26335d57"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/official_dlt_prize_levels.csv",
+      "bytes": 1222099,
+      "sha256": "e083287f4a22203bb98bcd62bedc5501efd275abafe1fa49cf62ddec850bfe11"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/official_fetch_meta.json",
+      "bytes": 558,
+      "sha256": "334d63fa9fefe1bfb72ea3bef6103db2fd28948bec0a43da545ccf9980456671"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/PRISTINE_backtest_plus.py.diff",
+      "bytes": 35304,
+      "sha256": "223a0f381c34a604b3aef6ed1e0c4908a7ac36c5b45dab93a276ba8a756ac71d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/PRISTINE_backtest_plus.py.HEAD.py",
+      "bytes": 125084,
+      "sha256": "21875f4ace5298ea4e8aeb0b294a79cbeb1d0b7047b93d125c85e9afc5092afa"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/PRISTINE_backtest_plus.py.WORKTREE.py",
+      "bytes": 159629,
+      "sha256": "ad13e2f83ea7af750201721539aadaf78337518c317f11025cb395b5a7ce9841"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/PRISTINE_data_dlt_26042.csv",
+      "bytes": 93342,
+      "sha256": "2082a591a7724bf9114614a3d3fcd58b45dfb6414b3edf40d01ad5b9693f90b4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/PRISTINE_snapshot_manifest.json",
+      "bytes": 1055,
+      "sha256": "b7d62b3f0708c4dffe1e6295c6d7b377a7422fa26b29bbd6164211d61e251dc6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/tmp_basic.csv",
+      "bytes": 301867,
+      "sha256": "7ab2bea7d6cfb7e8c98694943a6179feebe7409b04a595760ff98672a0a4cbb4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/data/tmp_basic_counts.csv",
+      "bytes": 130261,
+      "sha256": "80b978132f70c665cb2922ddc5543f625d176b0631ad5e4e3b53016afe1549b5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/protocol/DATA_VERSION_26042.csv",
+      "bytes": 93342,
+      "sha256": "2082a591a7724bf9114614a3d3fcd58b45dfb6414b3edf40d01ad5b9693f90b4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/protocol/ENVIRONMENT_AND_PARAMS.json",
+      "bytes": 5261,
+      "sha256": "bb68f7999be45e9ca74ef2d05cf4f5f76bc459919a444d53cb391b1c9004da90"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/protocol/FROZEN_PROTOCOL.md",
+      "bytes": 15186,
+      "sha256": "ed1818bd0c3fc7b92b4fb01a3c45950e89be64f7e46c21aa2a477e80b00c7450"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/_boundary.txt",
+      "bytes": 1697,
+      "sha256": "34ff560c3726eea8681bdd933c9d4f6cc3ebf339b93b6f7595dfe9c553a4c3c2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/_forensic.txt",
+      "bytes": 2552,
+      "sha256": "6f8a6190ec23ac20ae88f0012ce7a30c8443444ae0872a73d0933786dbda242f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/_recs.pkl",
+      "bytes": 906504,
+      "sha256": "cd5cb3a65811bd93e26e6f1dbe45ca0044ede010bfec15012907a8549f02d372"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/backtest_window_prize_by_issue.csv",
+      "bytes": 42299,
+      "sha256": "4e1ec6721ea8f056e21cd7b078ee2c33789a43c30223cde4cd491a59a4d65305"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/expected_value_5plus12.csv",
+      "bytes": 1013,
+      "sha256": "6597436f7dccd8c212aeeecc52746b417c77c0b51d69b089ee667b072247bb14"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/implied_total_bets.csv",
+      "bytes": 28108,
+      "sha256": "baa39c1c3ee232c21fb0ba39efa4ab186a9fdecd1cd78b28aa124976e3653f1d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/indep_level_condition_mapping_check.csv",
+      "bytes": 1944,
+      "sha256": "782b3420c65ae1770d8def20ca09abda19419cbd1eff5cca226b18248a9bb1a6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/level_amount_eras.csv",
+      "bytes": 1325,
+      "sha256": "58da25f4fd6e734bb592d2564aeeb0118cb15d7acbf34389dd8cb76918638b01"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/level_amount_timeline.csv",
+      "bytes": 797542,
+      "sha256": "b190e4879c25b9d482cf7cfa6ee9a4ccd15fce38aad869f0e3e9cff141c32c87"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/level_amount_value_intervals.csv",
+      "bytes": 465097,
+      "sha256": "97e7630f9ab049fd51b163a505c8c0fe96509d833a18a5b4ae5b336c23cf2635"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/level_condition_fit_24001_26013.csv",
+      "bytes": 1681,
+      "sha256": "ed7d7d70135fa2970a6a769b8623c947e6fe31e625328b239be5a085c3a66a42"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/level_condition_fit_26014_26116.csv",
+      "bytes": 1338,
+      "sha256": "ff5638f0a753213ec094e8722b8e4bcff74d315da661ef6eac3ff2288725ad5a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/level_condition_mapping_empirical.csv",
+      "bytes": 1084,
+      "sha256": "79acc64aa44f2a38ecf03266d44d919c3f80f263a84867b0c120b370b00dfb4d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/newrule_two_issues_article_text.txt",
+      "bytes": 5186,
+      "sha256": "0911754c8865d145fb6319558cfaa1164abaa6c480e142b7f13371d94514ee74"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/official_newrule_qa_text.txt",
+      "bytes": 3957,
+      "sha256": "13539fa6f26f1ee03711c842a1814db4f9961a8f7174d8b13d88ce7e3593d536"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/official_rules_2026_pdf_text_utf8.txt",
+      "bytes": 10721,
+      "sha256": "1077174ad6bac676668c38dae42687dbc069cddd56ff86e405e0245645e7af0a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/pai_jiang_timeline.csv",
+      "bytes": 3725,
+      "sha256": "f1de198210d3676ca9967e2dbc52cce9c19d94d3deab7d0993b307807ff31af7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/payout_5plus12_by_issue.csv",
+      "bytes": 50930,
+      "sha256": "d8c9a985d1dc1c94a91de904e276878064f002365850df34c83b597785c9c133"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/payout_5plus12_summary.csv",
+      "bytes": 401,
+      "sha256": "baecea03e7d9b296d47067fa3508c9ea6e23abda6a674ad83be379ef97b29ed9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/pool_threshold_fit.csv",
+      "bytes": 557,
+      "sha256": "17b0293389d8c2fea70955fa9cdfbde2fb590b16c739353eb9a9bc99de01eb65"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/prize_level_table_empirical.csv",
+      "bytes": 1932,
+      "sha256": "b7aa33c14086b7fa6267e09f0f23896c9d0e0d4cac53fad35d79adb2beeda379"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/empirical/verbatim_article15_from_live_official_pages.txt",
+      "bytes": 540,
+      "sha256": "c4ff0d13224b0f0732edbb7d54530b34315250f05f8f3e16e064416818e0ec6f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/EVIDENCE_MANIFEST.json",
+      "bytes": 9829,
+      "sha256": "c7277075a4e1aa824aef2fdc3de5895098cd81377c329723d67490e40522e98d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0001.json",
+      "bytes": 431422,
+      "sha256": "b342fa6d219c8ece2077a548195d8442237fb15364a64fb678b89e21bfc3196d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0002.json",
+      "bytes": 461384,
+      "sha256": "8453c7873c67286060c6ab93ce4f00c9bdd398de0430b37bfc8990ae3c58d63a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0003.json",
+      "bytes": 523670,
+      "sha256": "aa140b569c7af65b3f2c53a113db3bc2a5edbb078fac1f24403a5bfefb3c872e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0004.json",
+      "bytes": 554192,
+      "sha256": "92bdc5dadbca7665f69e5f60b1b42e80e2e4aed35c5efec0bb89d51dde1ad22b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0005.json",
+      "bytes": 463680,
+      "sha256": "cc6d86c20886d7419acd121b391f0e4880cd25a3ad2b8e5bf9ddee8c0a6c37e4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0006.json",
+      "bytes": 529245,
+      "sha256": "6e0b64dc525671a14e943ed55125a42c4afb0daa1eb2a784ccd4681551e9ecd2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0007.json",
+      "bytes": 546052,
+      "sha256": "64f38fdc98939e81e485b366f8bd7a1f4d040c8d511c18e77af9cc95d30524d7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0008.json",
+      "bytes": 463852,
+      "sha256": "5d1c7738a6d888cef71c12db2659a13cf8ca0df0963cef21c9ba8cdf15fe45f8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0009.json",
+      "bytes": 526426,
+      "sha256": "39071c21df28b2480fdfc3c4cef98d3e12548d73868ce1b7ba4f4544a66beb6f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0010.json",
+      "bytes": 463540,
+      "sha256": "1a7afa76ba66ba7adb348a12fb9549c317da0b1210ed8f1120699d1d21e097a4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0011.json",
+      "bytes": 461866,
+      "sha256": "e4a391742f797b6f5ce7d0f2f98f11022c075bbfe1fd8723869f8869036d7d25"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0012.json",
+      "bytes": 457448,
+      "sha256": "88a0e53917840aca1a46b130fa00f209b19a0d46d3e446708efbc828fefb25a0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0013.json",
+      "bytes": 457228,
+      "sha256": "964f0bb66df1c65dc3c1f5e76744cfa3b363574776efc0ca92a36d96a249f25e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0014.json",
+      "bytes": 457122,
+      "sha256": "9280334bc897a313bf64c9eb9a75a0821cf5d368e5f4c16bd2a39b5f22284877"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0015.json",
+      "bytes": 456989,
+      "sha256": "6965d1a61952f32145a353e57184be079aad073cf9bc26f6f94c25cd27d7b324"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0016.json",
+      "bytes": 455102,
+      "sha256": "4804a3588f348ce8fde2548000214015d427284dad1f94e00ad98e3705c73271"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0017.json",
+      "bytes": 454936,
+      "sha256": "143ea6e8998b0df67bcc8c588b3b1e329ccd157d17b0e2029dcbbf08ca67bdbd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0018.json",
+      "bytes": 455138,
+      "sha256": "4d94f51f13ed7df9121d4b53def3f1f1938332db53d7f389607969e6ad3f8e03"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0019.json",
+      "bytes": 454953,
+      "sha256": "c4f6f50763cec27cca013a10e503b3e6f7adc84d6ca68ef97539edea017a6e03"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0020.json",
+      "bytes": 454309,
+      "sha256": "d729e814c913f9326fa89ac69bec237fafc054bd8eee4a8cf92c26a21bcdf999"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0021.json",
+      "bytes": 454064,
+      "sha256": "8930354d921cc6b18e4449d44bbbc4a2635fa7d327a01f9978734e1e345ba01b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0022.json",
+      "bytes": 453503,
+      "sha256": "3a227d3cff3db851b84397d9e522a8816c94ce8337c6b82208f6d36a7901beef"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0023.json",
+      "bytes": 453548,
+      "sha256": "86ea1de5f65950d9327df067d1b44399cc5ded2cfb05bafb9eaf4027c326077d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0024.json",
+      "bytes": 452722,
+      "sha256": "be77633035bf68fb324b9b83258d2a589eed5dd086b92689fd280372f17febdd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0025.json",
+      "bytes": 450044,
+      "sha256": "d87b8492c3a94af70af30c6c177534d0ec6a12b36117c6d7a80f006026fbd6d1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0026.json",
+      "bytes": 450097,
+      "sha256": "7b252a9b7ad6aa2a88ba11cee71550a31fc0cdc6795572d67bf2d06f6f4b5e4b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0027.json",
+      "bytes": 449787,
+      "sha256": "82eb80b1f001b5eb4e4ae277d4e36a86b152be07f450071186e3e0d823b13cac"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0028.json",
+      "bytes": 449962,
+      "sha256": "3129e49c3b54620eea0c04134a6ed251b9db0bec86f2c08282d13bdb280e8e57"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0029.json",
+      "bytes": 449368,
+      "sha256": "d58af71eefc6b2721715d25e174813545e2a47601a7e362a1b8c7e8057f11aff"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/official_api_page_0030.json",
+      "bytes": 154807,
+      "sha256": "818975130b69e3a14db8efb4cb636e8eaec761da462e166b0ad2664048aabde6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_ADVERSARIAL_VERIFICATION_2026_rule_reform.json",
+      "bytes": 2673,
+      "sha256": "cbfb5f33c8bf1759a5f0ff52c319af4d7e9a51aacc26694414a23a587c57efc4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_bing_pre2019.html",
+      "bytes": 108495,
+      "sha256": "d68f5cf3d1c3f9e237c125110f9cd43f46e3c938c27365dbc18d83f404f8f435"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_cdx_tzgg.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_excerpt_78500_news.txt",
+      "bytes": 5665,
+      "sha256": "5228a08654945e28dd3e5b91933690457a4815708f8bb1e7c6c90739f3a9df46"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_excerpt_official_rules_art15_16.txt",
+      "bytes": 2451,
+      "sha256": "cdc440118b27bef20ba0ae57e044e28b8393f723b6c6ab7fe68c9913751c56a1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_extract_78500.txt",
+      "bytes": 13423,
+      "sha256": "7952e9e1d845d6433996a6e16285da20b16df3ebc16f2cad2aaaf91b118835fc"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_extract_78500_12299690.txt",
+      "bytes": 13505,
+      "sha256": "215683bdd5f6dfbbe02043a378191d5203840ec00e16ac4244c9a0465ca31065"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_extract_78500_news.txt",
+      "bytes": 7227,
+      "sha256": "930852ec1392119c98cce88b02fb1c5d2184bbd34f5b40437a2992951e854fe2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_extract_hnlottery.txt",
+      "bytes": 2886,
+      "sha256": "313a51ad28f904fe2bd475fb0ad4778660403440258b03b72a9617fa659ea36f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_hn_page.txt",
+      "bytes": 2245,
+      "sha256": "4906c5a590bc533312bbf34e6a9912014dbcf6065aabbf598a006fce4ed352c1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_hn_pdflinks.txt",
+      "bytes": 368,
+      "sha256": "1bd325e3e2e950c7cd625161492ee6f71a2c341f8152654233dd9e849c2fc1be"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_o_rules_2019_dlt_official.html.txt",
+      "bytes": 10501,
+      "sha256": "91afc21a4433d0d68143b7e98c38ac675039936fdee6d28ac81a069d751404e0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_o_rules_2020_notice_dlt_official.html.txt",
+      "bytes": 10411,
+      "sha256": "3c677264274c6c2962b22aac67faca531157b93164b05d5de6a72935b8cf8c7f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_official_rule2026_pdf_fulltext.txt",
+      "bytes": 10721,
+      "sha256": "1077174ad6bac676668c38dae42687dbc069cddd56ff86e405e0245645e7af0a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_parsed_78500_rule.txt",
+      "bytes": 13562,
+      "sha256": "e98cb8655b5e6fdafdd4370b7db578b32592e11780429e82edfb497437b66da3"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_pdf_reextract_meta.json",
+      "bytes": 359,
+      "sha256": "ba521b9600aa92f8385cfe481309a307f01b211e41d26344fb6df9f9c0bfc15a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_pdf_reextract_official_rules.txt",
+      "bytes": 10721,
+      "sha256": "1077174ad6bac676668c38dae42687dbc069cddd56ff86e405e0245645e7af0a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_s_ddg.html",
+      "bytes": 14478,
+      "sha256": "dce28987bff4747eacb5864b5a8b3b84d28ff38a079e1717c5d14ac51dc2afb1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_s_so.html",
+      "bytes": 10713,
+      "sha256": "faceb911c07d1deec8b52ea63bd77ed07a0f85bce4cf8f358051e2bb7eb2ad72"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_s_sogou.html",
+      "bytes": 5851,
+      "sha256": "1f685dedf137f000397d4eee45774f0fc7a4edde0a850049fdb615f35eef40dd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_search_pre2019_0_baidu.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_search_pre2019_0_so.html",
+      "bytes": 10713,
+      "sha256": "f91ddccfc4d871cb9c25dee592ef8b016c5f4beb43b44c825eac029a1f8a6e1c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_search_pre2019_1_baidu.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_search_pre2019_1_so.html",
+      "bytes": 10713,
+      "sha256": "96956c5a92ccb26f985d9740f08e55866cc84fb52bd538be8d31d32f21c0c83f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_search_pre2019_2_baidu.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_search_pre2019_2_so.html",
+      "bytes": 10713,
+      "sha256": "5976569427295fef19902fd5dc85399c6ef65b3e60aff09bb6212a2258f3f421"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_t_hnlottery_rule_change_26014.html.txt",
+      "bytes": 1765,
+      "sha256": "88e73164ca5a410b529e29573249b0c4501ffb45241fd969cbbc7b1fab995ade"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_t_js_lottery_rule_change_26014.html.txt",
+      "bytes": 3037,
+      "sha256": "e8f4cf0f3afd1138e01148878f1dd4aebb5394fd2bb2f0c532189b135af86fa8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_t_official_newrule_qa.html.txt",
+      "bytes": 3850,
+      "sha256": "e8997f1c1827a955c38c6262523cb8285a4dcc005102ec12a5b024338020eb21"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/_x.txt",
+      "bytes": 205,
+      "sha256": "26908a81897ad311679e185d73191da6ea954ecd1232201012f92d29e265aefa"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_78500_12299690.html",
+      "bytes": 31420,
+      "sha256": "a22c459e6959fce451509bdbfaea7233c9ae800f643672a6f13ce3d1007b0dd9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_78500_12299690.txt",
+      "bytes": 15434,
+      "sha256": "eee5c9d4c5d1e1b9354d59102b5abd156cf684f4afc03ed9d75caa0ab7f2e58a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_announce_10052026.html",
+      "bytes": 8403,
+      "sha256": "ef2a32d7f0e265698f713b3e5eee31e9a225f6a1bc0579f4a2679ca9e183f85f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_announce_10052027.html",
+      "bytes": 5096,
+      "sha256": "290a5483fe76d49624d3884fa79ac55768709d03d0abc7aaab4339b0c7a5406f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_api_all_rows.json",
+      "bytes": 3763789,
+      "sha256": "830106dc4dd3fa19744460eb18a4b61fcc2058db9c9cb033f5f6d39f2328c1d3"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_api_p1_rows.json",
+      "bytes": 112570,
+      "sha256": "8686643619acfd58304ba1df3031fc18ea6f5cd3b28b114bf701f94ba5bcb505"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_official_api_page1.json",
+      "bytes": 88201,
+      "sha256": "c094d8e2e098f53e76edcf5a14050bc8c0770a7afd3f1b65ae79702173cce111"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_official_riskctl_2026.pdf",
+      "bytes": 985,
+      "sha256": "abc5c5b75a412e16e6305e130a37b17ec9c401dec713b212912d0f9c02ae3863"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV2/ADV2_official_rules_2026.pdf",
+      "bytes": 987,
+      "sha256": "d6dce36bc83de8e71d74dbee851f6d4f5725576b840c54309e1385e62e3e2037"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV3/announce_26014_desktop.html",
+      "bytes": 8403,
+      "sha256": "ef2a32d7f0e265698f713b3e5eee31e9a225f6a1bc0579f4a2679ca9e183f85f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV3/cited_78500_guize_12299690.html",
+      "bytes": 31459,
+      "sha256": "490613d028cc9a25fcd82bdf8347e3224ca9f18abfa174f906500687eb394174"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV3/official_rules_help_center.html",
+      "bytes": 19917,
+      "sha256": "c704c7934ddc3c5a0160a07f835fe9b6cbd04808b620ab0bcc113c1b7da1a475"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV3/wayback_20241215_official_rules_prereform.html",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_2019rules_72410.html",
+      "bytes": 47112,
+      "sha256": "c843f4bbd24586e1ef0b2f87a2508eda4cfd86322e26381b5956f8f78f0d86ab"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_api_page1.json",
+      "bytes": 305277,
+      "sha256": "ac699e4ed4d592e130864e303982cdcd987e1793302ef7199af854a490beb46f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_api_page2.json",
+      "bytes": 324784,
+      "sha256": "498d1cf9d6e01e5b0cc6ed6170c832a8cf52174ae4ce9ecf035a0ac8a2a8bfd3"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_dlttz_index.html",
+      "bytes": 22992,
+      "sha256": "3d2ada6d138bf5e653e21fc600dacf566e378abcd5e78b0cfb7719849cd27fc6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_dlttz_index_1.html",
+      "bytes": 3142,
+      "sha256": "7f606fe1c392dd11c33edfec032a9a4d7facc39e6595ec47e58b33a3438bf135"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_kjgg_26112.pdf",
+      "bytes": 987,
+      "sha256": "d86db040e3b6b307f484441984969ccb3e3cfe61320004b5a437aaa0a3516758"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_kjgg_26113.pdf",
+      "bytes": 988,
+      "sha256": "31fd9306748d64503fe47e855fbfda776d96bcad96c96231850552debada48fd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_kjgg_26116.pdf",
+      "bytes": 987,
+      "sha256": "14684ee8dbd6e309bb5bb5d63475a694d67b42b8dd16b32c194ba79b579ca33b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_news_pool8e.html",
+      "bytes": 4808,
+      "sha256": "b1090dd765fc2a4c100905d4591e7c8fb49f80104e0e72acf39443b5a9d8a096"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_page2_refetch.json",
+      "bytes": 324784,
+      "sha256": "498d1cf9d6e01e5b0cc6ed6170c832a8cf52174ae4ce9ecf035a0ac8a2a8bfd3"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_riskctl2026_from_announcement.pdf",
+      "bytes": 987,
+      "sha256": "99dad929b34c1ba5827a6c340057431a509cbcca04e04bf1c46e61b1ce9b85d8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_rule2026_extracted.txt",
+      "bytes": 10721,
+      "sha256": "1077174ad6bac676668c38dae42687dbc069cddd56ff86e405e0245645e7af0a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADV_live_rule2026_from_announcement.pdf",
+      "bytes": 209080,
+      "sha256": "78d6efb2f7b2d73e37fd6caeeb1eab0f7b3a0be85013dc71be72c89ac2d8e773"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADVCHECK_claim_source_78500_verbatim_excerpt.txt",
+      "bytes": 5665,
+      "sha256": "5228a08654945e28dd3e5b91933690457a4815708f8bb1e7c6c90739f3a9df46"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADVCHECK_pool8yi_claim_verification.json",
+      "bytes": 2818,
+      "sha256": "23c2afb974a5df9788e3e521d233a282d72e2894ef64dabe78baff630fa8c0ba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ADVCHECK_rules2026_art15_verbatim_excerpt.txt",
+      "bytes": 2451,
+      "sha256": "cdc440118b27bef20ba0ae57e044e28b8393f723b6c6ab7fe68c9913751c56a1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/announce_2019_rule_change_19019.html",
+      "bytes": 47112,
+      "sha256": "c843f4bbd24586e1ef0b2f87a2508eda4cfd86322e26381b5956f8f78f0d86ab"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/arc_2024_yxgz_index.html",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/art_2025_88yi.html",
+      "bytes": 11787,
+      "sha256": "a8c2033880751c8ff1b8556b43897d10e12a5c040bd2115dc4cc13fb4a17d27f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/art_2026_paijiang_different.html",
+      "bytes": 10545,
+      "sha256": "63f363829eae3e150e5951a7907230824a2bc9fdf4182eaa9c9aa62f00f625ad"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/baidu_m_search_dlt_rule_2026.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/baidu_rule8yi_1.html",
+      "bytes": 1467660,
+      "sha256": "a42848257692a8b2c2014c866bceffd0b849aee373371ccfe21b4d18b855c39e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/baike_dlt.html",
+      "bytes": 2538,
+      "sha256": "8f22a4fbfb20916862f3f8061521d418b5bc1c1676e974aa68c1b450d5404f2a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/baike_dlt_rule.html",
+      "bytes": 2574,
+      "sha256": "60805bb56790c34d2cad9c52c9d50fd36027acf4574c9486733cd06888f0c0f0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bd_10yi.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bd_gudingjiang.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing1.html",
+      "bytes": 104582,
+      "sha256": "7343cff3d73020bd5665e249a33506485e94da56b61d18e3b5223a48850ce9f0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing2.html",
+      "bytes": 101740,
+      "sha256": "047335543f0db0d1404353993474731e82fef7b02a7db0d0335976d24cf7f8d1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing_dlt_2019.txt",
+      "bytes": 105975,
+      "sha256": "739b0099d64ee2e23e4daf1f396660ee97725016e6dfe8d0070cb5b7feb1fe28"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing_dlt_2026_new.txt",
+      "bytes": 108408,
+      "sha256": "bfea0e0829fea387bbcc40a5f081dfe76d9691f306eb5230ad7eecc15f7336c6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing_dlt_rules.txt",
+      "bytes": 110242,
+      "sha256": "90d29007f8b5493a8b02c720f54a214da9fe6d36086f46b352d5b74d25beb55a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing_pj_2026.html",
+      "bytes": 107084,
+      "sha256": "8a6cca5d107f31efd839f36c93912ba5f8f67aad635f6d7787bcd87ad691aa1a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing_pj_window.html",
+      "bytes": 104509,
+      "sha256": "efd71d9a72c509f5f7775cffadd3dfec3a69a071ed6834056244f0c4381ae0d4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing_rule.html",
+      "bytes": 104406,
+      "sha256": "dd868d55d5b603afafffa767c0871641567a912c3432d571544204f53c95c257"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing_rule2.html",
+      "bytes": 104585,
+      "sha256": "ce86fcf861e0820dfa217a5c40147f75d9ac018a8b849c7fb1583ee96014fe6d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bing_rule51.html",
+      "bytes": 105409,
+      "sha256": "ee76e90e7b7de2fdb986e8e157d87dc2abb520052868619785a50a80471f88f8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bzzx_index.html",
+      "bytes": 4928,
+      "sha256": "6c399b27fe22bdaa5a74940c0fd92d288979ab10bcd259a5b6e67ed86b5862c6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/bzzx_yxgz_index.html",
+      "bytes": 5067,
+      "sha256": "2105904e4135080d589b6389bdcd8b09a0d84b66c4317d0911e4c9cc0d72834f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/c19_baidu_9level.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/c19_bing_q0.html",
+      "bytes": 130728,
+      "sha256": "022c2d7f2e37cd628dff502560c30c59146f2dbb7d860f48e33caa64d818c510"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/c19_bing_q1.html",
+      "bytes": 127237,
+      "sha256": "b18e421c946b3c4048a9e9868ed3401a39ba0dfba2a7404062e666bedd824a61"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/c19_so_9level.html",
+      "bytes": 10713,
+      "sha256": "2109df38a3997fbdee61af8b8b0a3817dff16a8886a78f10e8b0d1d72848e155"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/c19_so_q0.html",
+      "bytes": 10713,
+      "sha256": "5ac77e54c1d8a3acb01e39cf0a226589bb54381fc384dbffb463113d9098a129"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/c19_so_q1.html",
+      "bytes": 10713,
+      "sha256": "9110dde2974a12af3248a9671d8941b0565524c9fe9d3062d11fec0aaead23bb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/c19_yxgz_index.html",
+      "bytes": 5067,
+      "sha256": "2105904e4135080d589b6389bdcd8b09a0d84b66c4317d0911e4c9cc0d72834f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/c19_yxgz_index2.html",
+      "bytes": 5067,
+      "sha256": "2105904e4135080d589b6389bdcd8b09a0d84b66c4317d0911e4c9cc0d72834f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/CLAUDE_verify_2172410.html.html",
+      "bytes": 34782,
+      "sha256": "94c15679ea1b848dceb69eb23bfe8626534e6c9674fa9152225b969eb72e2160"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/CLAUDE_verify_72410.html.html",
+      "bytes": 47112,
+      "sha256": "c843f4bbd24586e1ef0b2f87a2508eda4cfd86322e26381b5956f8f78f0d86ab"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/col_yxgz_index.html",
+      "bytes": 5067,
+      "sha256": "2105904e4135080d589b6389bdcd8b09a0d84b66c4317d0911e4c9cc0d72834f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/ddg.html",
+      "bytes": 14404,
+      "sha256": "bfbcbdeafe1a7eeeb51f277a8f2a937c01129da9cc1ffe287a5e6128bc6a601c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/dlt_26116_official_pdf.pdf",
+      "bytes": 987,
+      "sha256": "d9a046bd4a51cb87381f76afd55d0ca019a8d700252c4f9d38701069dbe3095c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/dlt_risk_control_2026.pdf",
+      "bytes": 182517,
+      "sha256": "740a9fe7f876c9fbf46b1fd55546b8b8bf7c21ddd1d15bcf4069cf529372e945"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/dlt_rules_2026.pdf",
+      "bytes": 209080,
+      "sha256": "78d6efb2f7b2d73e37fd6caeeb1eab0f7b3a0be85013dc71be72c89ac2d8e773"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/dlt_rules_2026.txt",
+      "bytes": 10735,
+      "sha256": "e146e1ef9f2aa3748fcabf2a6f7ce6be36ca0b9c106a1a18235048add6a07e70"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/fjtc_newrule_pool8yi.html",
+      "bytes": 23583,
+      "sha256": "41627be0608220246ccc7f4750a88a4579064ea58f60a837dfa969e28058afbd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_719.html",
+      "bytes": 479,
+      "sha256": "fda2bba162cd6b0951457aacf4634e83ac6cd5fd734a974a955ea030b3f03cad"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_720.html",
+      "bytes": 1030,
+      "sha256": "a5c6615541813a31cd7bb6f97ce863b59d27c45d9dfb157242212c9a57ea5360"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_725.html",
+      "bytes": 606,
+      "sha256": "4edd84240f4c11c2d947eeb5f2a7ae0491f657669bb8e6aee0f0b0abd7e6f657"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_726.html",
+      "bytes": 1117,
+      "sha256": "8c51af407bb7f1160e4d5cf8741dd8e0f9ce535c9928371c898b32d5a14bf35a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_727.html",
+      "bytes": 300,
+      "sha256": "31f6e3ce6a2ad8c0533f60aa8a2bd454eda9e8ae9f9b501a84385a8108822a75"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_728.html",
+      "bytes": 525,
+      "sha256": "39f4c3357476edd462b5abf5aa4fba1cb55e09cb62cda4b8c38732022bf8dbfc"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_729.html",
+      "bytes": 782,
+      "sha256": "3b7d0c334dd2b145a8f5a0f4d4e904b9e00a4f466b60757805713fd8ef91fdaa"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_730.html",
+      "bytes": 724,
+      "sha256": "eaee24f0a99193565d5d94aa2d92d540861b0f70a014b00c824ec258e45ee3de"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_732.html",
+      "bytes": 4613,
+      "sha256": "90d7b396ad4c48a4819133887f16f2726de4ae6355c82cde0dffa38eac301592"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_733.html",
+      "bytes": 4638,
+      "sha256": "8d6e312786b7a59373129cd3c233b471d7f4f158a5937667d6241bf0f4d40347"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_734.html",
+      "bytes": 4792,
+      "sha256": "b1f14eda744f88ef68a61e387e837c39f766c9f5b0149d8efdb208a29e334e23"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_763.html",
+      "bytes": 1226,
+      "sha256": "e669674e6e9006541d54a9cd268247670c658e88a42b1556f722cccd48b11afa"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_768.html",
+      "bytes": 328,
+      "sha256": "69aada864fd87c9c2dbf804510f97c9b98511a100ef1d569c6c8fe38903dd1b0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/frag_769.html",
+      "bytes": 1167,
+      "sha256": "97363f091c6c8f6a4b107f05343584eb5a31d10234d105cfa793b57ba535c12b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_1.html",
+      "bytes": 27723,
+      "sha256": "c91ce64b59682c9f259eb1a73f8e15318a2a15d131583c34c3a63f6c3e7d6a8d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_10.html",
+      "bytes": 27862,
+      "sha256": "d67a06bc38a275e15ee392a5b3e3bd66b367af33f311626b14dfd2186814fc06"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_11.html",
+      "bytes": 30050,
+      "sha256": "1d85d587ca8153254f27d9d890505e269f136ef69654cc3cf93ae05f9fc9c986"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_12.html",
+      "bytes": 30050,
+      "sha256": "1cf46bb9dd3de8fbacf74c2760199c1f9173686f23d3cbb27bc6c2baaa4abf17"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_13.html",
+      "bytes": 30179,
+      "sha256": "3ccb27a7c6af49310ae4fd0f9a45e11981a9a8f9745abc34fb1440a346c2a8d4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_14.html",
+      "bytes": 30595,
+      "sha256": "0d7fc7cc2f8cdb6e5e966f80b52b63d8b9d0d47bf16516dc114de2e08188e74e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_15.html",
+      "bytes": 29998,
+      "sha256": "ba18df125c841db09dedfb0e5ead79f66479536aeb4d7048c2498bb13ec8ace6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_16.html",
+      "bytes": 29855,
+      "sha256": "6d559b6c98ee5ab9bf3df5d8120148aefca02b7f1375528318695f1ad54ce4c0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_17.html",
+      "bytes": 29915,
+      "sha256": "2ceed31277c5bf03f8d8a795f266c282148159888ea77d8616ad7c8f32cecf58"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_18.html",
+      "bytes": 30316,
+      "sha256": "523ee4e994a865cce1fe03aa008f305babaf6fb32fceb9f2d36c86f16bd4da9f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_19.html",
+      "bytes": 29746,
+      "sha256": "e40da9bf85d5d2bee4a0559cde66660ddf05ea88e66e2d86230b994a108d6179"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_2.html",
+      "bytes": 27997,
+      "sha256": "bcda9afc563bf795fd81619a1e9a5f21648938aeaebdd0d49f75b29906bb0946"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_20.html",
+      "bytes": 30316,
+      "sha256": "30f321ff7cdec7f790e83d5b3166928040e320565f863960df49000644bb2891"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_21.html",
+      "bytes": 30316,
+      "sha256": "d4b272911c464bf595066578e7aa0fada312ad38f5bf65bdde12ad5d9aa330cb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_22.html",
+      "bytes": 30316,
+      "sha256": "4871b79e1f639fca8e6ae3e004f9d9de89ee40f8875289eb4163dae30c716fd9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_23.html",
+      "bytes": 30316,
+      "sha256": "e405217a542ec603d1085372b908a589e96ec4af1061665a2f30e799a4869479"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_24.html",
+      "bytes": 30316,
+      "sha256": "a799ee9d9cd429a0dcc91a3bfa4df6ce1401a2ed23ebbbc13cbcdb10eede26dd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_3.html",
+      "bytes": 27986,
+      "sha256": "e9a304c0b517336049560e8b89b1308f19f9b4793b9e198d4cedae186d698057"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_4.html",
+      "bytes": 27787,
+      "sha256": "b67582071ac1185213bf32563bf4002fcfb19caf0d2f46ccb89961e80006feab"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_5.html",
+      "bytes": 27713,
+      "sha256": "3bd96231c1150215fea7fbbc75ec7509cde7d5032dd75e7f41288658632d2a8d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_6.html",
+      "bytes": 27602,
+      "sha256": "556791a5c0eb8f9a74465078b2ee914f46deb135dbd7ec63cae575f7de6a60d6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_7.html",
+      "bytes": 27510,
+      "sha256": "4ed08a15aceef04dc9b8a98e2171b29ecf709c1d97bfce20c2eeb1fbb5b3a59b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_8.html",
+      "bytes": 27680,
+      "sha256": "b100efb423b90d349cc98cfa767b6386c3ea11e2c45907a93a734c76df912781"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/tzgg_9.html",
+      "bytes": 27903,
+      "sha256": "cea62a6c72316f7e74b1d58d4c9807a70a077a8be53249a3373cc8d7091cbb00"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_crawl/xwzx_1.html",
+      "bytes": 5291,
+      "sha256": "a838233921044911ba5e09869b7516a98ddb0255cc79e7195bbd549b9cb7af6d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_1.html",
+      "bytes": 25712,
+      "sha256": "c981db08de00f83ec261016d743c716c1115d1afae9c91d8e00c5fcf9069814a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_10.html",
+      "bytes": 27110,
+      "sha256": "d27fbb5e90192f8c3211a0abdc26cbafa9db434a09b24c8726d889587b5174d5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_11.html",
+      "bytes": 27771,
+      "sha256": "2c002f2b56090db489cce34e2b31290022e9399b95b3b190dffabf35ef6dceac"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_12.html",
+      "bytes": 27212,
+      "sha256": "32047e881ec27a7c4fefacfe623990aee61f8196d42501535d6dd3e413d7a64a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_13.html",
+      "bytes": 28183,
+      "sha256": "7edb3b77ed56b846b6c303b10f3f07fa787eba7ee1096f41683a6714cfb13f8b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_14.html",
+      "bytes": 27052,
+      "sha256": "aa7a341da95ade997bc4a9091b4fa512c86ed6ab6ca4f2ccc5bb31b451eefd93"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_2.html",
+      "bytes": 25783,
+      "sha256": "087123ec449398f5d74df12354c257178819b6e32a08ddc851f9af0f34193f3c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_3.html",
+      "bytes": 27054,
+      "sha256": "424291a7d38fcc9fc9ee709a4d796c817d76c8c44e7719505a3f676f979dc706"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_4.html",
+      "bytes": 27211,
+      "sha256": "7f59b5ab0f727b47fa105e5361a628813d1e1063883525f936f0a5e817505390"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_5.html",
+      "bytes": 26375,
+      "sha256": "388ca0524b36bda55bfa2db53f9bcbd5a82adecc8802a4502ed52dfd4e0b27a5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_6.html",
+      "bytes": 26484,
+      "sha256": "59e2f64661115ff8b066532c3d23c1f74fb7e313282faf8f9b4212126e311d66"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_7.html",
+      "bytes": 27283,
+      "sha256": "a0a53e40df6d27a1761d394186af34a0a66313cb0900bc921802f5650a2b777c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_8.html",
+      "bytes": 27088,
+      "sha256": "0d57a5009076204b52b2ef6dc7ae13d0b204898a7041c87e76fb0f78c25cea5a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltdt/index_9.html",
+      "bytes": 27164,
+      "sha256": "e302287294eb0e8c81c530a18f3df6659f8d87cbb746dcefc2021ff69dee74d5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_1.html",
+      "bytes": 25625,
+      "sha256": "cf563065ee0f246b2924ed2727079d62f03d282ed1c8790e7df75c192c2b0635"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_10.html",
+      "bytes": 27023,
+      "sha256": "96795f46aed3a67f1044cad5f7a90224ac950f220f842f1158a34c0777587e7e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_11.html",
+      "bytes": 27684,
+      "sha256": "8081c3dd15954869dfadf5835400eaafcdcaeb04e097161c7586550cabc79919"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_12.html",
+      "bytes": 27125,
+      "sha256": "306147aeaeee511782d6a1e15afcf51c74805f4642cd86c37f92c405056d42f8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_13.html",
+      "bytes": 28096,
+      "sha256": "315bf32be753f671c3ebfa3f0aa1645aaf69a72c08a1c57ba80fd87788e90c88"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_14.html",
+      "bytes": 26965,
+      "sha256": "190d8f0bffd7f1599e545032efdb03bb9ea34b78edddf49b648172e4de5609ed"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_15.html",
+      "bytes": 26029,
+      "sha256": "6690f72ee86c8ce8a489f666158c59e4f83a0041137d00eef404a2a55ca4881a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_16.html",
+      "bytes": 25563,
+      "sha256": "a0057880e6eecbf441ccc5aa62ae5b0dc3001f119b52aecd3db1f721662f8ce4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_17.html",
+      "bytes": 26040,
+      "sha256": "5440ee4e665d20c64a00cd13cffd93d7cfe4a7b055f297fbfd8854ea2ea28cd5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_18.html",
+      "bytes": 26145,
+      "sha256": "76de6ad351777c47ff7122357f20f40a2872eb912083c50427072891eb63d22e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_19.html",
+      "bytes": 25337,
+      "sha256": "c24848426899ffb99cbd33743a978050f8e0c11d05f70d6909c0ac15766b3987"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_2.html",
+      "bytes": 25696,
+      "sha256": "12bfd7039aebe3ffb78d8a58425f826c5b1da4106fe30e572417964dfbb7a5ad"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_3.html",
+      "bytes": 26967,
+      "sha256": "b48ec1c4b7675b4d573966fc9987dfa0a2ab8e74c0089247a7d16119ffc163c8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_4.html",
+      "bytes": 27124,
+      "sha256": "1cf0e35be616f087daddbf43a9f52c8d25f24f097e6426ec79e9eb252e74b1e9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_5.html",
+      "bytes": 26288,
+      "sha256": "26c75fc8033788a2a72a8d7b1e346afbc8a03be1bb9c32a6265d23afd7327f90"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_6.html",
+      "bytes": 26397,
+      "sha256": "ed5a6f6c649184e60062ff330bc36502586827051fe28c11b8bcbaa8ced080dd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_7.html",
+      "bytes": 27196,
+      "sha256": "f881849aaa7fc6d20cb1300538baad1cc5b2892cee553657e2527d833d0e479e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_8.html",
+      "bytes": 27001,
+      "sha256": "3ac28aee96824bf37fc09218d3a02d71929c8f9529af5eb675bdf7e25419e9e7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltltxw/index_9.html",
+      "bytes": 27077,
+      "sha256": "27331e183edacf1f483138f0f77be9fe55ec08ac3e90434c42711914850662ad"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_1.html",
+      "bytes": 25625,
+      "sha256": "cf563065ee0f246b2924ed2727079d62f03d282ed1c8790e7df75c192c2b0635"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_10.html",
+      "bytes": 27023,
+      "sha256": "96795f46aed3a67f1044cad5f7a90224ac950f220f842f1158a34c0777587e7e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_11.html",
+      "bytes": 27684,
+      "sha256": "8081c3dd15954869dfadf5835400eaafcdcaeb04e097161c7586550cabc79919"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_12.html",
+      "bytes": 27125,
+      "sha256": "306147aeaeee511782d6a1e15afcf51c74805f4642cd86c37f92c405056d42f8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_13.html",
+      "bytes": 28096,
+      "sha256": "315bf32be753f671c3ebfa3f0aa1645aaf69a72c08a1c57ba80fd87788e90c88"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_14.html",
+      "bytes": 26965,
+      "sha256": "190d8f0bffd7f1599e545032efdb03bb9ea34b78edddf49b648172e4de5609ed"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_2.html",
+      "bytes": 25696,
+      "sha256": "12bfd7039aebe3ffb78d8a58425f826c5b1da4106fe30e572417964dfbb7a5ad"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_3.html",
+      "bytes": 26967,
+      "sha256": "b48ec1c4b7675b4d573966fc9987dfa0a2ab8e74c0089247a7d16119ffc163c8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_4.html",
+      "bytes": 27124,
+      "sha256": "1cf0e35be616f087daddbf43a9f52c8d25f24f097e6426ec79e9eb252e74b1e9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_5.html",
+      "bytes": 26288,
+      "sha256": "26c75fc8033788a2a72a8d7b1e346afbc8a03be1bb9c32a6265d23afd7327f90"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_6.html",
+      "bytes": 26397,
+      "sha256": "ed5a6f6c649184e60062ff330bc36502586827051fe28c11b8bcbaa8ced080dd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_7.html",
+      "bytes": 27196,
+      "sha256": "f881849aaa7fc6d20cb1300538baad1cc5b2892cee553657e2527d833d0e479e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_8.html",
+      "bytes": 27001,
+      "sha256": "3ac28aee96824bf37fc09218d3a02d71929c8f9529af5eb675bdf7e25419e9e7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_dltxw/index_9.html",
+      "bytes": 27077,
+      "sha256": "27331e183edacf1f483138f0f77be9fe55ec08ac3e90434c42711914850662ad"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_home.html",
+      "bytes": 720362,
+      "sha256": "67e33e450535330e8e95bd32f8376f5b6029c54be714a7a32c41ebcbda616f40"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_mobile.html",
+      "bytes": 9560,
+      "sha256": "3d16c73da56e2bae76690f3bf9fddd0038eaf7af9acbd4b29b439262381c1ce8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_root_index.html",
+      "bytes": 720362,
+      "sha256": "67e33e450535330e8e95bd32f8376f5b6029c54be714a7a32c41ebcbda616f40"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_xxgk.html",
+      "bytes": 6508,
+      "sha256": "0217f1af6848b0ab7f5a1740e7a1e254dc52da5d191ed361ca353bd0d832ce99"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_xxgk_index.html",
+      "bytes": 6508,
+      "sha256": "0217f1af6848b0ab7f5a1740e7a1e254dc52da5d191ed361ca353bd0d832ce99"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/gov_zygg_list.html",
+      "bytes": 16340,
+      "sha256": "6e502b0e1dae5204532d5ebe66e591c0dc72b1c7c2a8eeb9ba5eea33ecc38700"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/hnlottery_rule_change_26014.html",
+      "bytes": 10291,
+      "sha256": "de39d06af1a08df94e77cad74070a38ba9196888b5ef2b6b6182c85724d68bc2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/idx_cn_xxgk_tzgg_zygg_index_html.html",
+      "bytes": 16340,
+      "sha256": "6e502b0e1dae5204532d5ebe66e591c0dc72b1c7c2a8eeb9ba5eea33ecc38700"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/idx_n_xxgk_tzgg_dlttz_index_html.html",
+      "bytes": 22992,
+      "sha256": "3d2ada6d138bf5e653e21fc600dacf566e378abcd5e78b0cfb7719849cd27fc6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/idx_xxgk_tzgg_dlttz_index_1_html.html",
+      "bytes": 3142,
+      "sha256": "7f606fe1c392dd11c33edfec032a9a4d7facc39e6595ec47e58b33a3438bf135"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/idx_xxgk_tzgg_dlttz_index_2_html.html",
+      "bytes": 9417,
+      "sha256": "a4df7ba8c91eac7c76d1791b7fa274ad229dc5db9dc9dd77b7c3fe1689751211"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/INDEP_ADVERSARIAL_VERIFY_MANIFEST.json",
+      "bytes": 4569,
+      "sha256": "c46914e244226c5515ffee3ca0ec76663d8f27d38b3b91e529f7e1822a77b236"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_fjtc_newrule_article.html",
+      "bytes": 23583,
+      "sha256": "41627be0608220246ccc7f4750a88a4579064ea58f60a837dfa969e28058afbd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_hnlottery_rule_change.html",
+      "bytes": 10291,
+      "sha256": "de39d06af1a08df94e77cad74070a38ba9196888b5ef2b6b6182c85724d68bc2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_jslottery_rule_change.html",
+      "bytes": 64808,
+      "sha256": "f256cb85507325a3dc71f696921c9fecb444b9a186163990b6a7a365a79d3fe4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_lottery_gov_announcement_26014.html",
+      "bytes": 8403,
+      "sha256": "ef2a32d7f0e265698f713b3e5eee31e9a225f6a1bc0579f4a2679ca9e183f85f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_lottery_gov_newrule_qa.html",
+      "bytes": 11088,
+      "sha256": "9c93bb24fd27308b3535d02988fdfd5c1ab959849fb19b85265ab25603c55989"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_lottery_gov_rules_page.html",
+      "bytes": 19917,
+      "sha256": "c704c7934ddc3c5a0160a07f835fe9b6cbd04808b620ab0bcc113c1b7da1a475"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_m_lottery_gov_announcement_26014.html",
+      "bytes": 5096,
+      "sha256": "290a5483fe76d49624d3884fa79ac55768709d03d0abc7aaab4339b0c7a5406f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_sporttery_riskcontrol_2026.pdf",
+      "bytes": 182517,
+      "sha256": "740a9fe7f876c9fbf46b1fd55546b8b8bf7c21ddd1d15bcf4069cf529372e945"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/indep_sporttery_rule_2026.pdf",
+      "bytes": 988,
+      "sha256": "8937651fa80b540213c313ee9b47d316d1f9fce6ab25d5d1638ef2b5b2a31403"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/js_lottery_draw_26014.html",
+      "bytes": 67145,
+      "sha256": "233692068623c253f23ad287a11be02b9db0255d92f0dc86f9b9b267456cb989"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/js_lottery_rule_change_26014.html",
+      "bytes": 64808,
+      "sha256": "f256cb85507325a3dc71f696921c9fecb444b9a186163990b6a7a365a79d3fe4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/lottery_gov_cn_home.html",
+      "bytes": 720362,
+      "sha256": "67e33e450535330e8e95bd32f8376f5b6029c54be714a7a32c41ebcbda616f40"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/lottery_gov_dlt_index.html",
+      "bytes": 5714,
+      "sha256": "392dbf533e0e301ee47d444b040cec5a9367d75da8eab124231e04388f43463b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/lottery_gov_dlt_notice_list.html",
+      "bytes": 22992,
+      "sha256": "3d2ada6d138bf5e653e21fc600dacf566e378abcd5e78b0cfb7719849cd27fc6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/lottery_gov_home.html",
+      "bytes": 720362,
+      "sha256": "67e33e450535330e8e95bd32f8376f5b6029c54be714a7a32c41ebcbda616f40"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/lottery_gov_pool8yi_news.html",
+      "bytes": 4808,
+      "sha256": "b1090dd765fc2a4c100905d4591e7c8fb49f80104e0e72acf39443b5a9d8a096"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/m_official_home.html",
+      "bytes": 9560,
+      "sha256": "3d16c73da56e2bae76690f3bf9fddd0038eaf7af9acbd4b29b439262381c1ce8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/m_people.html",
+      "bytes": 3379,
+      "sha256": "1bf31550364aab431b0438c008cf06538fe1e3a8071b0549760a5195775a34c7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/m_sina.html",
+      "bytes": 656,
+      "sha256": "fdcc5be0ff31b4c7e6142ab946c181d3c98d2f45f4539fe85ce14a544b32a694"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/m_sohu.html",
+      "bytes": 206219,
+      "sha256": "356d91e64b36aa6cafb67261471aa11e3ada1ecd1b6c60cca06af3f3e3b0f61e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/m_zhcw.html",
+      "bytes": 107204,
+      "sha256": "01fac7491f01047e72264b010f02eef69eb6165acd6a3fc7c30341b1d66f0102"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/mof_approval_2026.html",
+      "bytes": 24932,
+      "sha256": "bf374272b55326fef0d6d2b061a91460ba9355ca26e560b7b5813b2cbb6bd508"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/mof_caizong2025_51.html",
+      "bytes": 19774,
+      "sha256": "a55f310007b3c6864008e18c9653eea9835addf5ee29975f03901fe0308e35bb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/mof_caizong2025_51_live_recheck.html",
+      "bytes": 24932,
+      "sha256": "bf374272b55326fef0d6d2b061a91460ba9355ca26e560b7b5813b2cbb6bd508"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/news_78500_26014_newrule.html",
+      "bytes": 23793,
+      "sha256": "23decd58635abce67945004c805f8b91643b04f437406b0a54db9fd2dce59a0a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/news_toutiao_26014_first.html",
+      "bytes": 72915,
+      "sha256": "b35351947d0b3038a5d1233bc043588e327e634935274785dbf08b8ac90ab04c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/news_toutiao_a2.html",
+      "bytes": 72915,
+      "sha256": "b35351947d0b3038a5d1233bc043588e327e634935274785dbf08b8ac90ab04c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/news_toutiao_a3.html",
+      "bytes": 72915,
+      "sha256": "b35351947d0b3038a5d1233bc043588e327e634935274785dbf08b8ac90ab04c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_ann_m.html",
+      "bytes": 5096,
+      "sha256": "290a5483fe76d49624d3884fa79ac55768709d03d0abc7aaab4339b0c7a5406f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_ann_www.html",
+      "bytes": 3142,
+      "sha256": "7f606fe1c392dd11c33edfec032a9a4d7facc39e6595ec47e58b33a3438bf135"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_announce_rule_change_26014.html",
+      "bytes": 8403,
+      "sha256": "ef2a32d7f0e265698f713b3e5eee31e9a225f6a1bc0579f4a2679ca9e183f85f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_announcement_26014.txt",
+      "bytes": 5096,
+      "sha256": "290a5483fe76d49624d3884fa79ac55768709d03d0abc7aaab4339b0c7a5406f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_dlt_game_rules_page.html",
+      "bytes": 6347,
+      "sha256": "b99f72c92a7ec9679db8e5a822737acf44e0c3df0a735b806c788a758778837b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_DLT_riskcontrol_2026.pdf",
+      "bytes": 987,
+      "sha256": "c28d214695baeb352fa976c50f5a46b3f3dbf69ec7b6c1a82ab0e80327d0f992"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_DLT_rules_2026.pdf",
+      "bytes": 987,
+      "sha256": "40181dd4aac62267e6c0a598554c320f37bf6b773c0b670e2285fbc1097f60a2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_DLT_rules_2026_hnmirror.pdf",
+      "bytes": 209080,
+      "sha256": "78d6efb2f7b2d73e37fd6caeeb1eab0f7b3a0be85013dc71be72c89ac2d8e773"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_DLT_rules_2026_hnmirror.pdf.txt",
+      "bytes": 10831,
+      "sha256": "9ed3d054abf9ddef431dbc8922275bd77cc17d2272af124e38c0c7f3c3e70c00"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_DLT_rules_2026_sporttery.pdf",
+      "bytes": 987,
+      "sha256": "dd4d82fd3dd68030b54f6c94eef47ad282e7a567026705f9edb8fbee7d65fa6a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_draw_notice_26111.pdf",
+      "bytes": 988,
+      "sha256": "286dfacb5cc59802056045813d6649a602ff56786b446531912ca7d253bdb6c8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_draw_notice_26112.pdf",
+      "bytes": 986,
+      "sha256": "1c2d929a160c743184d002491224aceea96441cf59c0812fe3f53e230dc114f4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_draw_notice_26113.pdf",
+      "bytes": 988,
+      "sha256": "3e02f721eea8392010e46e15054ec66fd1e51bfbb19fce98a23d5bac0bf3a603"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_draw_pdf_19018.pdf",
+      "bytes": 989,
+      "sha256": "cc29a2225c4bed9cf8080e9d1ba5fabba26bd7a550894b2368af7fe7154cfd0b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_draw_pdf_19019.pdf",
+      "bytes": 988,
+      "sha256": "f897edaa4f8a6361023c7dc58bdb23c8a905e6ac70576147aea7a17cdef5abd7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_draw_pdf_19020.pdf",
+      "bytes": 988,
+      "sha256": "898814612fc706187fc353eef1ec3bb307e612f794be7c84c8d47add8de79a16"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_gzjs_dlt.html",
+      "bytes": 3142,
+      "sha256": "7f606fe1c392dd11c33edfec032a9a4d7facc39e6595ec47e58b33a3438bf135"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_kjgg_22050.pdf",
+      "bytes": 988,
+      "sha256": "778be055abd7454de980820017743b5f6234ccc0d4ddecf969c28aa581ef0914"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_kjgg_23045.pdf",
+      "bytes": 989,
+      "sha256": "415af4b30a475189b2163cec99a04d00f0515c66e9f7339835b41c4dbb6c8395"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_kjgg_24040.pdf",
+      "bytes": 988,
+      "sha256": "9b00dae36c9c4fe88cf8a77ef5c9b9d50786acb13b577883e7c1952c419e0e24"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_kjgg_25045.pdf",
+      "bytes": 987,
+      "sha256": "c90ae0881d9139a365a1940510755221a2233a9836b6b96546212329f7262650"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_kjgg_26050.pdf",
+      "bytes": 989,
+      "sha256": "7e5840360014de8c0055145aac9d0e1e7da6a4c4c14e004697e7a78f72cb44ec"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_kjgg_26060.pdf",
+      "bytes": 987,
+      "sha256": "b0af42141ffde200c72dc9d4fa485bcf08e9220607b558df98ce5bccf3027d2d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_kjgg_26116.pdf",
+      "bytes": 987,
+      "sha256": "fdb84c4b9fd41e6f121af0bdd3d074bee30ea7a35b6f4454715ca327271068ac"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_lottery_gov_dlt_page.html",
+      "bytes": 5714,
+      "sha256": "392dbf533e0e301ee47d444b040cec5a9367d75da8eab124231e04388f43463b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_lottery_gov_home.html",
+      "bytes": 720362,
+      "sha256": "67e33e450535330e8e95bd32f8376f5b6029c54be714a7a32c41ebcbda616f40"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_newrule_qa.html",
+      "bytes": 11088,
+      "sha256": "9c93bb24fd27308b3535d02988fdfd5c1ab959849fb19b85265ab25603c55989"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_news_20260205.html",
+      "bytes": 10837,
+      "sha256": "90dc49a31750760f6bf728427a18b956ebd1e624316ccd13f758b41da94165a4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_news_88e_paiJiang.html",
+      "bytes": 6192,
+      "sha256": "4a9b41b76861d999ba8b0f4045e4151c16fc7ab22d303e151d04e8a6a91a85b0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_news_newrule_package.html",
+      "bytes": 6270,
+      "sha256": "4e4d93ea3e8a0a963afc9cf4c38ef4fb45f03998abab6da3edca2c50a19dfa44"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_news_pool8e_rule2026.html",
+      "bytes": 10976,
+      "sha256": "16c8a505bbe2b983a46215b558ada57a67bd5b96d935fd012800c01a7df37b21"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_news_pool_8yi.html",
+      "bytes": 4808,
+      "sha256": "b1090dd765fc2a4c100905d4591e7c8fb49f80104e0e72acf39443b5a9d8a096"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2023_start.html",
+      "bytes": 9951,
+      "sha256": "6409bd74825ce027b9076184874dd0a06414db23052fb339aff95b1f56adb940"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2024_1_2_end.html",
+      "bytes": 7231,
+      "sha256": "3b241e51952a847eea7e71397c703e1e649172fd1e55eb0dd2081088666d19e4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2024_end.html",
+      "bytes": 7072,
+      "sha256": "65c2f81d93aabb9c93f6d3d90ef82455330f971cecd3d1be7178bf94b3f2496b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2024_start.html",
+      "bytes": 9240,
+      "sha256": "ee775d96e48bcbe421b4b0ecb7d9c714852a5c03f3ec0196cf54b5b3fb2ddb43"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2025_end.html",
+      "bytes": 11881,
+      "sha256": "3605bc4a208d91da3c3f8e7e0d7370516eba6819d0dc6b139148d609db6373d4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2025_fixed_end.html",
+      "bytes": 7141,
+      "sha256": "f30803be16519e20a521516ff2e4228b198644b7c41b2fdb12fa83025f7930b4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2025_start.html",
+      "bytes": 9163,
+      "sha256": "388915b070c60840dd2d76d6d05f3428990be1fc3a2ac009c78c1f5af7cef7fd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2026_end.html",
+      "bytes": 6756,
+      "sha256": "804d451f84533155cc103b4169f0dfeb91295f0684d81292a94f271cc9c0bae0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pai_jiang_2026_start.html",
+      "bytes": 8191,
+      "sha256": "42724f06614bbf2b87f87eebef20cc00c84ba05c50185169db528af5c3baa4ec"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_paijiang_explainer_2026.html",
+      "bytes": 12264,
+      "sha256": "5a673d6bc27536d27f5ffc227f2800ba1e0c66091f536638e582719e9c93f2d0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_pool_8yi_article.html",
+      "bytes": 4808,
+      "sha256": "b1090dd765fc2a4c100905d4591e7c8fb49f80104e0e72acf39443b5a9d8a096"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_riskcontrol_2026_super_lotto.pdf",
+      "bytes": 987,
+      "sha256": "5c30aa5b676b35461356017f9dab9975a47e2b9470ff056bbfb25da1c526cc2f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_riskctl2026_pdf_from_announcement.pdf",
+      "bytes": 182517,
+      "sha256": "740a9fe7f876c9fbf46b1fd55546b8b8bf7c21ddd1d15bcf4069cf529372e945"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_riskctl2026_pdf_from_announcement.pdf.txt",
+      "bytes": 3100,
+      "sha256": "015a29a5cf62c39cce6704f47e0d3d6e79fe5adb1e1ae95699f142c82cdfeb61"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_rule2026_pdf_from_announcement.pdf",
+      "bytes": 209080,
+      "sha256": "78d6efb2f7b2d73e37fd6caeeb1eab0f7b3a0be85013dc71be72c89ac2d8e773"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_rule_2026_super_lotto.pdf",
+      "bytes": 987,
+      "sha256": "da4002fbf1fabfb724e2b041829d0951154b1c1bee27df7c093455f2a9167cbf"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_rule_notice_20260115.html",
+      "bytes": 8403,
+      "sha256": "ef2a32d7f0e265698f713b3e5eee31e9a225f6a1bc0579f4a2679ca9e183f85f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_rules_2019_1002858.html",
+      "bytes": 19917,
+      "sha256": "c704c7934ddc3c5a0160a07f835fe9b6cbd04808b620ab0bcc113c1b7da1a475"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_site_probe_m.html",
+      "bytes": 9560,
+      "sha256": "3d16c73da56e2bae76690f3bf9fddd0038eaf7af9acbd4b29b439262381c1ce8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_site_probe_www.html",
+      "bytes": 720362,
+      "sha256": "67e33e450535330e8e95bd32f8376f5b6029c54be714a7a32c41ebcbda616f40"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzgg_old_index_1.html",
+      "bytes": 27723,
+      "sha256": "c91ce64b59682c9f259eb1a73f8e15318a2a15d131583c34c3a63f6c3e7d6a8d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzgg_old_index_2.html",
+      "bytes": 27997,
+      "sha256": "bcda9afc563bf795fd81619a1e9a5f21648938aeaebdd0d49f75b29906bb0946"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzgg_old_index_3.html",
+      "bytes": 27986,
+      "sha256": "e9a304c0b517336049560e8b89b1308f19f9b4793b9e198d4cedae186d698057"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzgg_old_index_4.html",
+      "bytes": 27787,
+      "sha256": "b67582071ac1185213bf32563bf4002fcfb19caf0d2f46ccb89961e80006feab"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzgg_old_index_5.html",
+      "bytes": 27713,
+      "sha256": "3bd96231c1150215fea7fbbc75ec7509cde7d5032dd75e7f41288658632d2a8d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzggz_index_1.html",
+      "bytes": 17110,
+      "sha256": "649b8bc11f6e10f44c15274cdc2b2e82c823adc70957242f197afc80c76f7411"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzggz_index_2.html",
+      "bytes": 17333,
+      "sha256": "bac421e7621827f6cd95ab54717c9cdfdfc7299573b72fd427a0a293edf0dafa"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzggz_index_3.html",
+      "bytes": 17191,
+      "sha256": "d27786d510ca9bce560d1277bf3cfdd862911da0ac98164745a341b31b0ed28e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzggz_index_4.html",
+      "bytes": 17362,
+      "sha256": "a7ff29f7484e02e136f9411d2d9416718e2834fa26043523f75fecdfcaf22f8f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzggz_index_5.html",
+      "bytes": 17540,
+      "sha256": "7985ec0a73ff901d8dbf957e418fb5f4433ba04166ac9a915a3afda89cfd2624"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_tzggz_index_6.html",
+      "bytes": 17245,
+      "sha256": "dc10815f4049b3d05a0127a2e4989cceac2e4a9f5e236f0b93547f785c6c018f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_wfjs.html",
+      "bytes": 5067,
+      "sha256": "2105904e4135080d589b6389bdcd8b09a0d84b66c4317d0911e4c9cc0d72834f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_www_lottery_gov_cn_bzzx_yxgz_20211231_10010848_htm.html",
+      "bytes": 9355,
+      "sha256": "1d7a33a7705a19c6057dc3a86253ca3fc06acb06002f7c7c82f4a7f9539843c3"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_www_lottery_gov_cn_dlt_.html",
+      "bytes": 5714,
+      "sha256": "392dbf533e0e301ee47d444b040cec5a9367d75da8eab124231e04388f43463b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_www_lottery_gov_cn_tzgg_index_html.html",
+      "bytes": 27723,
+      "sha256": "c91ce64b59682c9f259eb1a73f8e15318a2a15d131583c34c3a63f6c3e7d6a8d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_www_lottery_gov_cn_xxgk_fg_index_html.html",
+      "bytes": 13265,
+      "sha256": "e714d5b0513dc2810fbff699cb1154d47487e558ee055957d8d56df3859b7604"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_www_lottery_gov_cn_xxgk_index_html.html",
+      "bytes": 6508,
+      "sha256": "0217f1af6848b0ab7f5a1740e7a1e254dc52da5d191ed361ca353bd0d832ce99"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/official_www_lottery_gov_cn_xxgk_tzggz_index_html.html",
+      "bytes": 17110,
+      "sha256": "649b8bc11f6e10f44c15274cdc2b2e82c823adc70957242f197afc80c76f7411"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/old_20190202_change_announce_72411.html",
+      "bytes": 28185,
+      "sha256": "e2fe79f1e0a2e5f6a29d96f39f7c5297ef19729bc64a9fd775a33ffe5cce5262"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/old_20190202_floatprize_special_72409.html",
+      "bytes": 30317,
+      "sha256": "ebc4af867411cf4c3bcd9d447f7a97a725f870d87649d49c9c46c1b8f4f3f7ed"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/old_20190202_rules_72410.html",
+      "bytes": 47112,
+      "sha256": "c843f4bbd24586e1ef0b2f87a2508eda4cfd86322e26381b5956f8f78f0d86ab"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/prize_structure_changes.txt",
+      "bytes": 532583,
+      "sha256": "853fe214fa9a2b3f7e7c3c1edcf372b02279e0e5c8391dd8e48471b81004f503"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_https___m_lottery_gov_cn_xxgk_tzgg_.html",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_https___www_lottery_gov_cn_xxgk_tzgg_.html",
+      "bytes": 16840,
+      "sha256": "647e547879b723dd92c2df6a2c66f05f2bce81adc1800360f53d506a154e16bb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_https_www_lottery_gov_cn_bzzx_.html",
+      "bytes": 4928,
+      "sha256": "6c399b27fe22bdaa5a74940c0fd92d288979ab10bcd259a5b6e67ed86b5862c6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_https_www_lottery_gov_cn_bzzx_yxgz_.html",
+      "bytes": 5067,
+      "sha256": "2105904e4135080d589b6389bdcd8b09a0d84b66c4317d0911e4c9cc0d72834f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_https_www_lottery_gov_cn_ksjz_xwxq_aid_10026630_articleid_12.html",
+      "bytes": 4808,
+      "sha256": "b1090dd765fc2a4c100905d4591e7c8fb49f80104e0e72acf39443b5a9d8a096"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_https_www_lottery_gov_cn_xwzx_index_html.html",
+      "bytes": 5291,
+      "sha256": "a838233921044911ba5e09869b7516a98ddb0255cc79e7195bbd549b9cb7af6d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_https_www_lottery_gov_cn_zrcp_.html",
+      "bytes": 3854,
+      "sha256": "b45798fdf4b869c26acabcbcd1e695ecd4cd61d683e3ebda8d03e9582392abda"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_https_zh_wikipedia_org_wiki_e8_b6_85_e7_ba_a7_e5_a4_a7_e4_b9.html",
+      "bytes": 85141,
+      "sha256": "6b2f68d8fc65ccd8923bf661f9f3be46bc0f8552ccaf855b3dfb47158fe31858"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/probe_ttps___m_lottery_gov_cn_xxgk_tzgg_dlttz_.html",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/promo_2022_dlt_notice.html",
+      "bytes": 10185,
+      "sha256": "cc151cc84d5c975c9789998c63d25eeafcd13110a988b1aaf80d3504390630e6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/promo_2026_dlt_zhuanti.html",
+      "bytes": 3614,
+      "sha256": "a43ccfe32284792ef94cf3571dd93e634763f28736e4d563a2c0a9dc555cfb10"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/prov_js_104853.html",
+      "bytes": 225101,
+      "sha256": "c06d1b1c96ea192a791c15fe53e88822714129200dbe5af9ce6641eadac4b2b4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/prov_ln_sytt.html",
+      "bytes": 19491,
+      "sha256": "8d9cc669ff690d8843b1485d131001da944c698dbf911191bcf5e55fb2da5063"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/prov_nx_429_7.html",
+      "bytes": 59099,
+      "sha256": "c4d2e06abff7745be6d740e790becbd714279ab7a4ffadf205125e1aa6ec1c00"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/RECHECK_hnlottery_41590.html",
+      "bytes": 10291,
+      "sha256": "de39d06af1a08df94e77cad74070a38ba9196888b5ef2b6b6182c85724d68bc2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/RECHECK_hnlottery_rules.pdf",
+      "bytes": 209080,
+      "sha256": "78d6efb2f7b2d73e37fd6caeeb1eab0f7b3a0be85013dc71be72c89ac2d8e773"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/RECHECK_official_api_page1.json",
+      "bytes": 305277,
+      "sha256": "ac699e4ed4d592e130864e303982cdcd987e1793302ef7199af854a490beb46f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/RECHECK_official_api_page2.json",
+      "bytes": 324784,
+      "sha256": "498d1cf9d6e01e5b0cc6ed6170c832a8cf52174ae4ce9ecf035a0ac8a2a8bfd3"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/RECHECK_official_rules_pdf_from_announcement_link.pdf",
+      "bytes": 987,
+      "sha256": "7b48f7b03c69304f43ee9828daf5514f560176779eacd609bc4feaa956c17d7b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/rule_78500_dlt_2026.html",
+      "bytes": 31459,
+      "sha256": "490613d028cc9a25fcd82bdf8347e3224ca9f18abfa174f906500687eb394174"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/rule_78500_dlt_2026_b.html",
+      "bytes": 31993,
+      "sha256": "16f8c63dca1ff0f60a5fb52dc4fcefbff59caa82ff5c141f6b2de24d1acdcb0b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/rules_2019_dlt_official.html",
+      "bytes": 19917,
+      "sha256": "c704c7934ddc3c5a0160a07f835fe9b6cbd04808b620ab0bcc113c1b7da1a475"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/rules_2020_notice_dlt_official.html",
+      "bytes": 34782,
+      "sha256": "94c15679ea1b848dceb69eb23bfe8626534e6c9674fa9152225b969eb72e2160"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se2_chinaso.html",
+      "bytes": 70080,
+      "sha256": "12a4f426e2542f15df8dc99042300ca80c46c935c2f1c34275f115c45df62f91"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se2_mbaidu.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se2_startpage.html",
+      "bytes": 86449,
+      "sha256": "320f785e401d41a2e9aa3dd1b682c68445eab9ec500775cbb668851889d4caf6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se2_toutiao.html",
+      "bytes": 1724492,
+      "sha256": "3a690bf6a7ff70dce8633861d80f92add88b4e96b6f54d006753495c79ca3c5d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se2_yahoo.html",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se_brave.html",
+      "bytes": 74221,
+      "sha256": "7511a015ca5bf0f7bba006dfc4a40c0915278c7a6e87d3a72d2e6990fccc4010"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se_ddg.html",
+      "bytes": 14420,
+      "sha256": "c5a7e5d6efa2e9ef9704b90155ac2b606183977b3331ed7c13b4916e6cef6f29"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se_ddglite.html",
+      "bytes": 14420,
+      "sha256": "1a5a43d10772116f9d17de5164780520f0108ad6b07d58b1cf542de77fe45227"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se_ecosia.html",
+      "bytes": 4983,
+      "sha256": "9a62991a947a83a915b2a91f898a1d0aafa353a26da01c888159d425a30fdff2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se_sogou.html",
+      "bytes": 5774,
+      "sha256": "6669247b7edfa5d4ed661b91b3154774eb68ee9d59bed40100efef20795a75a2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se_wb_avail.html",
+      "bytes": 208,
+      "sha256": "74c67eee79770f1eb61172900f0314ca5f93aaedfa1b4178906cab4089bbe09b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/se_yandex.html",
+      "bytes": 14267,
+      "sha256": "0b877de8c0a02e7d8a1acd7f47df13aeeaaa2bb5a9eb7b76b1918c517c3adc76"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_360_pai2026.html",
+      "bytes": 10713,
+      "sha256": "28365a3cc58436769126d3fa7fa7b09d339afce7f5d9a4e02bb64983af6625ac"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_360_rules_fulltext.html",
+      "bytes": 307092,
+      "sha256": "0b3e7c796ad47822da487111bcaa5e970007d0438de91fd2701739da098d36ea"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_360_site_lottery_gov.html",
+      "bytes": 257437,
+      "sha256": "330b24c0116506be50b5bf7fe5655355aac1ab79c9a7a678e9712e3e00d083d2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_360_体育总局彩票中心_超级大乐透_新规则_26014_执行_公告.html",
+      "bytes": 7109,
+      "sha256": "ce573cc9b44e4dfaa109619ac761adbd82128dbe2a8420f07b60d45002c14f76"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_360_财政部_同意_变更_超级大乐透游戏规则_公告.html",
+      "bytes": 7108,
+      "sha256": "da39c4dc53a51144af646b647e00b1992a216ff2ddae48b546b9953ac41c63b6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_baidu.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_baidu_dlt2026newrule.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_baidu_official_rule.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_baidu_q0.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_baidu_q1.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_baidu_q2.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_bing_pai2026.html",
+      "bytes": 106746,
+      "sha256": "07a7f232ccf05714599f8f34e5a39665b561852635156711f273d7239d4cf98e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_draw26112.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_mof51.html",
+      "bytes": 1307670,
+      "sha256": "8cbf77b5a32f226f1a513cfa291920e95bede809405f0c121a5cf30b1909344f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_old2025.txt",
+      "bytes": 10713,
+      "sha256": "e4eb45be96eac7cc82e675e80614cb8db9106fda47e49e4ed38b6ddf59028e90"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_old2025_sogou.txt",
+      "bytes": 397474,
+      "sha256": "c2ac003fec096d2e47f27b181fdab1479d77b32edf4541f87cd5ed0afe8c1d8b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_old2025b.txt",
+      "bytes": 10713,
+      "sha256": "bc1c96512e3b777ba19a155385b7f06500ae98c031d1acdef36a2992c8e92274"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_old2025b_sogou.txt",
+      "bytes": 5842,
+      "sha256": "93fc596502611c705d36e67830ad87f75741ff5cb0aa60e195c80ab5d6b17c6d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_old_site.txt",
+      "bytes": 10713,
+      "sha256": "62f5536a536fb78a5c373e3a5649e5f05f167de3212e5ca3bafcac45d886bc28"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_old_site_sogou.txt",
+      "bytes": 5829,
+      "sha256": "cfd69203d29d125182f27000534fffa1508cd2eb6273a9679109f37e84cbb3ac"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_oldrule.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_oldrule2.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_oldrule3.html",
+      "bytes": 10713,
+      "sha256": "501a94aa037d8b055a8013854a235ac52f7e2042f62f3dba55f0f502924fdf9c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_pj1.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_pj2.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_pj_so1.html",
+      "bytes": 10713,
+      "sha256": "54af4b5be6fe407a5af53ad35fd7de28fe683e712f0b3ce2aa622b035034b716"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_pj_so2.html",
+      "bytes": 10713,
+      "sha256": "1a3d491f602e3486b489a129f0b05d5d4e090bca97471e1610b795370e685bed"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_pj_so3.html",
+      "bytes": 10713,
+      "sha256": "f7ed6e1f3b1451bafc0424dca0c4f2a53580cb58a2a5a853a53bf22d6645ebf7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_r8_1.html",
+      "bytes": 1443950,
+      "sha256": "c90e8c653e9e6ddc2592fa29943a55b6fa60cb6f2c564368f5ed6678499b0456"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_r8_2.html",
+      "bytes": 7109,
+      "sha256": "3a6c096e068e93931982339738fd7493cc95e4e352c3d02d3bf0895db85d8386"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_r8_3.html",
+      "bytes": 1356683,
+      "sha256": "08c581a87dcc9cf0dd9860d4020e1df5c95a24b910ac8a348584820c57a6e0dd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_r8_4.html",
+      "bytes": 1093494,
+      "sha256": "c2e558ccb369cc795f98a003b6d16373175852dadecd1df0b7a7e0ee482e3a79"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_r8_5.html",
+      "bytes": 7109,
+      "sha256": "21f1257fd3716a2b98d9c8af3c2c4a1b2a2f85edecd60d39170909f8285defb1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_r8_6.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_r8_7.html",
+      "bytes": 1518,
+      "sha256": "c07ad2077d116d75e5c4f168b3667e8f71409215887315660efb2be2a785caba"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_so.html",
+      "bytes": 7109,
+      "sha256": "3666d38942ed84ff195e5b2e5a1eafbb4180697cc67b46c52086c2e8a41211aa"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_so_dlt2026newrule.html",
+      "bytes": 296387,
+      "sha256": "dc29adfe90d2aa05f0f5a6fd94a5d082ec30c4f87caf5271cdc232dd031a6e4e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_so_levelmap.html",
+      "bytes": 10713,
+      "sha256": "04c2b9ea8d00fc00fbc0b444e1c4be5bfbeb5e6eee0ef8a3c0b46d9d20197792"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_so_official_rule.html",
+      "bytes": 7109,
+      "sha256": "4dc1af5a1e1dbdf1fba6a8e7f31aad006b077b0fe5f7a8b079555b6fe93a71bb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_so_q0.html",
+      "bytes": 7109,
+      "sha256": "0a812193132c3d15c45e36cf39663cee0c96541516b113fc9135f2841f037adf"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_so_q1.html",
+      "bytes": 7109,
+      "sha256": "0f5bcc5ae418304203401c42590c34a5c0731b53671c8a8acccbc72abea2e9b5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_so_q2.html",
+      "bytes": 363910,
+      "sha256": "2fb80a0b89a21aba820518d586abb20b3129c40a77bfe4118b82df208fdd87c9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/search_sogou_pai2026.html",
+      "bytes": 5831,
+      "sha256": "6301565c6140ca082a9db386dda5f3c599cdc82ff5c441ee43824f5f63a32886"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sina_paijiang_end_2026.html",
+      "bytes": 38854,
+      "sha256": "40223cc5e626be11a74ed84703f3ab60e509ef21788d4659f6f904bc6287aa0c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sina_rulechange_20260116.html",
+      "bytes": 131755,
+      "sha256": "fd098d9c348c2d996a2934a85ec4a2c1651021af68e42e2652b5c6fbe782dc02"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/so_paijiang.html",
+      "bytes": 7109,
+      "sha256": "63c28dd29673a6145d196955f538d15aebe5ccdfb37978564287a9622ee90d4b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sogou.html",
+      "bytes": 589058,
+      "sha256": "ed5de36e11654cc484e5c18535ad0832897ccfdb08a9a2be55fdda658f770e47"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sogou_2019rules.html",
+      "bytes": 5866,
+      "sha256": "ad998bac7042e9739447086b15a41de94ee7b4dac7c41b2323f6da6d16d6d572"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sogou_2026rules.html",
+      "bytes": 5798,
+      "sha256": "dc01722bef6a5ca8c120b6e49ef3eb89ed4da1e7a86d3a5dc8593a5ad0e58918"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sogou_rule.html",
+      "bytes": 5789,
+      "sha256": "6837cde1904be4cd1fe580f2d048b719767a543ba472afe9c44e8e9f217d07c9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sogou_rules1.html",
+      "bytes": 5838,
+      "sha256": "c5d26f08e9b7fddffaefc7b63c23ea9992f4de81d4d0cb2b9106e523eae92ecb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/SOURCES_MANIFEST.json",
+      "bytes": 2399,
+      "sha256": "497fc5dfb0da41714a2f20c880774e4b09533be852d2d9a8749837aafdfab473"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sporttery_dlt.html",
+      "bytes": 3131,
+      "sha256": "296bbb136f5204683b78160d696e128cec88fee3964cd564cac5f9a8a57e3787"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sporttery_home.html",
+      "bytes": 12625,
+      "sha256": "1df78bb44b7289245bfac59aa137953fbd2accbf0cc2b8cf0332f06f588ccffd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/sporttery_tzgg.html",
+      "bytes": 3131,
+      "sha256": "296bbb136f5204683b78160d696e128cec88fee3964cd564cac5f9a8a57e3787"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/STRAY_commonV1.js",
+      "bytes": 14177,
+      "sha256": "4e06916939b0d6bd9fd71d9e8d9b21860cde23084524588d9fbccafb2c23e2f6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/tcweb_app.js",
+      "bytes": 612686,
+      "sha256": "749f905a1db0d25b3d531f80e3fc36bbd5198863edf3f575066b4108f38408a8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/topic_dlt_202604.html",
+      "bytes": 3614,
+      "sha256": "a43ccfe32284792ef94cf3571dd93e634763f28736e4d563a2c0a9dc555cfb10"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2023_12deng_end.html",
+      "bytes": 7051,
+      "sha256": "6a210d5b5a0032013d057b0b570f51a6b6ce7784d14077ae31d7905a2294d017"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2023_end.html",
+      "bytes": 7001,
+      "sha256": "f3c0f97336702f7633295b39db074273411c393fb8ec22782c9c79b792022eaf"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2023_gudingjiang_expire.html",
+      "bytes": 7275,
+      "sha256": "68d23b15da0b4ed4e02453c5d541a1a4061ea24e7a289f09c41cb8d20d5aee4b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2023_start.html",
+      "bytes": 9951,
+      "sha256": "6409bd74825ce027b9076184874dd0a06414db23052fb339aff95b1f56adb940"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2024_12deng_end.html",
+      "bytes": 7231,
+      "sha256": "3b241e51952a847eea7e71397c703e1e649172fd1e55eb0dd2081088666d19e4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2024_end.html",
+      "bytes": 7072,
+      "sha256": "65c2f81d93aabb9c93f6d3d90ef82455330f971cecd3d1be7178bf94b3f2496b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2024_start.html",
+      "bytes": 9240,
+      "sha256": "ee775d96e48bcbe421b4b0ecb7d9c714852a5c03f3ec0196cf54b5b3fb2ddb43"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2025_end.html",
+      "bytes": 11881,
+      "sha256": "3605bc4a208d91da3c3f8e7e0d7370516eba6819d0dc6b139148d609db6373d4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2025_gudingjiang_end.html",
+      "bytes": 7141,
+      "sha256": "f30803be16519e20a521516ff2e4228b198644b7c41b2fdb12fa83025f7930b4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2025_start.html",
+      "bytes": 9163,
+      "sha256": "388915b070c60840dd2d76d6d05f3428990be1fc3a2ac009c78c1f5af7cef7fd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2026_end.html",
+      "bytes": 6756,
+      "sha256": "804d451f84533155cc103b4169f0dfeb91295f0684d81292a94f271cc9c0bae0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_gonggao/dlt_paijiang_2026_start.html",
+      "bytes": 8191,
+      "sha256": "42724f06614bbf2b87f87eebef20cc00c84ba05c50185169db528af5c3baa4ec"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_tzgg_dlttz/index_1.html",
+      "bytes": 22992,
+      "sha256": "3d2ada6d138bf5e653e21fc600dacf566e378abcd5e78b0cfb7719849cd27fc6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/TOPIC_E_tzgg_dlttz/index_2.html",
+      "bytes": 9417,
+      "sha256": "a4df7ba8c91eac7c76d1791b7fa274ad229dc5db9dc9dd77b7c3fe1689751211"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/toutiao_search_dlt_old_rule.html",
+      "bytes": 1739197,
+      "sha256": "c697ec4fab52a4c3d4a3887398898093af65eb409bd7ad01c24a26c4a989920c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/toutiao_search_dlt_rule.html",
+      "bytes": 1788259,
+      "sha256": "ea962024e6a30eb8076322de40314ca227599c018ca32a55f2eb7dbcea62302c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/toutiao_关于开展2023年超级大乐透派奖活动的公告.html",
+      "bytes": 1732885,
+      "sha256": "9927e1678b8666b26a53a91f8fe08f05278be262d4aa88aef7188635067b3484"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/toutiao_关于开展2024年超级大乐透派奖活动的公告.html",
+      "bytes": 1731708,
+      "sha256": "3467fce94f797e235c953eba8b94cb2790cddf21d76bcaf55137c28ab1d5ced2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/toutiao_关于开展2025年超级大乐透派奖活动的公告.html",
+      "bytes": 1710968,
+      "sha256": "6f61218646088286a621ae4649cec435b3fa5b29d525caabb74f721f7774787b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/toutiao_关于开展2026年超级大乐透派奖活动的公告.html",
+      "bytes": 1740418,
+      "sha256": "e96d59ff788a71625091b4a2c191e9d64b5befb31fd20741a09f080de25eb0b6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/VERIFY_live__gov_cn_xxgk_tzggz_20201127_2172410_html.html",
+      "bytes": 34782,
+      "sha256": "94c15679ea1b848dceb69eb23bfe8626534e6c9674fa9152225b969eb72e2160"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/VERIFY_live_y_gov_cn_bzzx_yxgz_20191119_1002858_html.html",
+      "bytes": 19917,
+      "sha256": "c704c7934ddc3c5a0160a07f835fe9b6cbd04808b620ab0bcc113c1b7da1a475"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/verify_m_10052026.html",
+      "bytes": 3142,
+      "sha256": "7f606fe1c392dd11c33edfec032a9a4d7facc39e6595ec47e58b33a3438bf135"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/verify_m_10052027.html",
+      "bytes": 5096,
+      "sha256": "290a5483fe76d49624d3884fa79ac55768709d03d0abc7aaab4339b0c7a5406f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/verify_mof_51.html",
+      "bytes": 25334,
+      "sha256": "a4ebe3dbcab9140ac0d006d4cfece07833e543febd44adb40f3590e70793bc81"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/verify_www_10052026.html",
+      "bytes": 8403,
+      "sha256": "ef2a32d7f0e265698f713b3e5eee31e9a225f6a1bc0579f4a2679ca9e183f85f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/verify_www_10052027.html",
+      "bytes": 3142,
+      "sha256": "7f606fe1c392dd11c33edfec032a9a4d7facc39e6595ec47e58b33a3438bf135"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/wayback_official_rules_20250305.html",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/wayback_rules_20250305.html",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/x.html",
+      "bytes": 146284,
+      "sha256": "5fae807261ff50c11c6ba7eba376f9ecdfb7d53710f05860a91e6274e7dbac7b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/raw/yandex.html",
+      "bytes": 14292,
+      "sha256": "b1f05016907f6c46f670eeac89832525f9ad848dccd5665ab8918574e8b8b83a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/_scratch_level_distinct.txt",
+      "bytes": 7084,
+      "sha256": "6e8ba1f4f27f0256e264c6d5f96dc3927a4b6e620e35178623872447bdafa84f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/_scratch_new_era_levels.json",
+      "bytes": 43250,
+      "sha256": "2560b80004981b8a64f43752c3fe38c3813c51932eb318eaf337ea38e225789e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/_scratch_newera_rawfields.json",
+      "bytes": 18042,
+      "sha256": "f5620329c0a37dc273db161f77063a48f4bb45f98eccf5908fb7306088cef420"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/_scratch_threshold_recheck.json",
+      "bytes": 505,
+      "sha256": "e7b712f62f8c072e52250b0e511aad8f814934e1db497a622db014d0d46de482"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tests/test_topicC_pool8yi_threshold.py",
+      "bytes": 8118,
+      "sha256": "fc65724a4ebd0f72a391a85defeb71114a7d97e4bd43d58ccc76d61c6a0726a5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/analyze_paijiang_final.py",
+      "bytes": 4473,
+      "sha256": "53af2090a215ff299c85de7fdf75ce70733fa9853b755e6b0932b7c64619c22f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/analyze_promotions.py",
+      "bytes": 9588,
+      "sha256": "1b95e327d5d922e87d4edd552197e1d0501fcb2bacc8bec13b9d94b7c9214667"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/build_evidence_manifest.py",
+      "bytes": 7293,
+      "sha256": "8e75cad02094fb8bea2d761cfe65ecddb453e6272da4a111c948982f0b99731d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/build_prize_table.py",
+      "bytes": 4994,
+      "sha256": "246b6b1fccbb23bc3f3a53393fe4631081f7bd6a9c47f70a7d892e608f6a5dc5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f2_level_amount_intervals.py",
+      "bytes": 3199,
+      "sha256": "cead0e910e44b33f4c8cc496c50dd21061ab5f9dd6a0e507d038e290c2d7ac96"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f2b_era_segmentation.py",
+      "bytes": 3188,
+      "sha256": "41e37ff1ec54e808b86ac4a7102d85ade70bba0cc23bf28d8f7ba5c10af3b918"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f3_pool_fit.py",
+      "bytes": 6405,
+      "sha256": "b3b717f1b4d680a73634b132f8496113d576b1dfd60444142f0541b75ddb765b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f4_condition_mapping.py",
+      "bytes": 5877,
+      "sha256": "9ed994bac928cfb54831a19b4bbc1479c2225e923894239143627720e54c1b55"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f4b_ratio_matching.py",
+      "bytes": 2913,
+      "sha256": "696ebb657e2cfc0e68259364874d87c96a1c01527fe107bc913d5b42f960faf1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f4c_condition_fit.py",
+      "bytes": 3633,
+      "sha256": "448f8eacd43a0ae8389f31c0c731100b0143c4f06bee910b3ef7d4673aee7880"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f5_paijiang_timeline.py",
+      "bytes": 3836,
+      "sha256": "0be77a93f4f17c5f3c1fe883b55c1f4cad6054d7aecca374beeaad20ebe9af24"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f6_payout_table.py",
+      "bytes": 6146,
+      "sha256": "9a29bc93ae9227f43170e03c51578694202958ed54822e3f6955914185f52173"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/f7_expected_value.py",
+      "bytes": 4037,
+      "sha256": "d489ee46616fce07a364ce1700f2a7cf8a80e3ec4e88e253af394295b63e2bda"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/indep_verify_level_mapping.py",
+      "bytes": 4917,
+      "sha256": "c8947438a92ffa1c0132fb88ce83b8e09c255f30fb8564a642ff0f6e8066c7c7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/summarize_eras.py",
+      "bytes": 2940,
+      "sha256": "6c18577604f30af47ec7fd7a0c2af98e5cf20aa5bf881b1372e4e75f991e5e75"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/toutiao_search.py",
+      "bytes": 2753,
+      "sha256": "d289e610ebc25461709fe41a9ec934cb820030767c9906bcd6a10789b1145dd7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/verify_paijiang.py",
+      "bytes": 5004,
+      "sha256": "d58540a916566740eb97fbbd4ef12c54e1edc082358041eaedd6bd8f962f1f70"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/verify_pool_threshold.py",
+      "bytes": 3802,
+      "sha256": "927b743138320ace349265efaeca4cc8ecd4c859754da04adb72de2135a39255"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/verify_prize_mapping.py",
+      "bytes": 4880,
+      "sha256": "d516a965c199b89fd362665481e6ea5e5a2852ece7b0c35f22b8f264645cf709"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/verify_prize_mapping2.py",
+      "bytes": 2879,
+      "sha256": "179f53619fc042624968fa72aaecb12759cc4ba3e1559c135f00b4d09628cce7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/researcher_tools/webprobe.py",
+      "bytes": 1750,
+      "sha256": "d068f1461d3fabd4a7a380197d46c3a1392882a35def19ed52b387348b72c686"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_adv_fpr.txt",
+      "bytes": 35338,
+      "sha256": "34b9b1e24ea3e6487ddf5fc686ebfa1876438dfaf3b36aed48fff9dc2454c7b7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_adv_labels.txt",
+      "bytes": 517,
+      "sha256": "d63fd3e88e34225e5fc15126182c4ad8c5702a55f671c8a12c723929f1832a61"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_adv_probe1.txt",
+      "bytes": 3729,
+      "sha256": "8a12e8b8e2b56043a92de3d5bb8b34c2515bcae4a3e6205639bac76a2e9ca1d0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_ann.txt",
+      "bytes": 3830,
+      "sha256": "338fcc00730b0ca79392364a4ec14d5ab8809ec524ae17817221f66a834e788f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_fjtc_clean.txt",
+      "bytes": 5226,
+      "sha256": "82f00e891ea6dd1621d86d10444d853b7df67edde2c641d1ce09d5167babb7aa"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_pj_clean.txt",
+      "bytes": 4822,
+      "sha256": "0c7a0f63ee681a47b5f1b3a6b2a976535bb7aa04cf48cb67b9debab264d01ccb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_qa_clean.txt",
+      "bytes": 3887,
+      "sha256": "e369a030065ebd4d9902eb6cec8ef393cfd6577e36a359deb8cb32c269a09638"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_tmp.txt",
+      "bytes": 3802,
+      "sha256": "8ecc03e549d50f1eea0c93a2c8996f79be30ff9ce0d7a0f4967c59834c2721be"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/_view1.txt",
+      "bytes": 3010,
+      "sha256": "32b097a6771e464e15ae4806ee2a0058202a64e80dd91c7ec20a809e1f49315e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/bing_pj_2026.txt",
+      "bytes": 1592,
+      "sha256": "d8763ac868f6880df94a5762e47a784189dc06efeb5ee5947261126b334e01ff"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/bing_pj_window.txt",
+      "bytes": 1304,
+      "sha256": "83cd8f5dcbe9f3bde79ff0c4f59db023a22c05b5822961c2e2a08b67f12aa3df"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/bing_rule51.txt",
+      "bytes": 1065,
+      "sha256": "13c5f8b954388355113be029f900e87a876c8a9938613aa397641a9db89cc84f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/e1.txt",
+      "bytes": 2883,
+      "sha256": "123c728e232f998e8d80ae31504aa4e7f6012ca75fb6234ee5e284225301371a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/e2.txt",
+      "bytes": 13173,
+      "sha256": "8df3f5909d6b4b6afcbd1e30ada32a2c924a887d22f9f4ba98278d9b97a8be76"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/e3.txt",
+      "bytes": 30065,
+      "sha256": "15eb5dff0592dc0939317e6dc3f8abe59ef89404c577da73bc10ff0b10dce0f5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/e4.txt",
+      "bytes": 6298,
+      "sha256": "856aa77e3b639f1406b4ec69713c29deacea196d40a996f433d0908912ba22b7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/e5.txt",
+      "bytes": 1267,
+      "sha256": "1457e71d71ced6b21e2f6defeca0904cf772bb0639bf5e3ec03a5c74cc3a00b2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/e6.txt",
+      "bytes": 5545,
+      "sha256": "1c7581fcfce582217e2e7d2c9c4b63c8082556a0f4e0e9da85aa13ebd9ef9026"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/e7.txt",
+      "bytes": 177,
+      "sha256": "e041bc65182e595db90fecce2e47743b62d9da935afca66a3fef5174186e8cc0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/ENV.json",
+      "bytes": 600,
+      "sha256": "5ad2bed61552d5e36cffcf4e0a69dbf6cf44ae455a3356da868faf82166d8329"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/EVIDENCE_INDEX.md",
+      "bytes": 4898,
+      "sha256": "1a48ae3188bba8fd9895d46e7cb7a275f268f1a71de038ccfb7e835c98f09420"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/explore_levels.txt",
+      "bytes": 2470,
+      "sha256": "880375b49dc08442efaa57460fc2407131c9fec7aa88e2ec6b8215bbf3a6252d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/final_check.txt",
+      "bytes": 1370,
+      "sha256": "726c2037fef7e28fcbb9717db9f820ee3b0a91096f78eae444e1e3e306f64f76"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/links_dlt.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/links_home.txt",
+      "bytes": 181,
+      "sha256": "dc2944b0711e071f1fe76d8f24a2505ed847be43cf999c420fdac6f82426e81f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/links_news.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/newrule_era_pool_vs_prizes.csv",
+      "bytes": 10007,
+      "sha256": "c51a44ab33a32f5b64bb377daf6fbbb3ac2f925c746b3f13e8644b58c979f462"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/q1_pairs.txt",
+      "bytes": 8856,
+      "sha256": "60e3e03afedecabc01f25583bd245c4c06e59965f1977afe00fec32cc076a4b1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/q1_resolved.txt",
+      "bytes": 7964,
+      "sha256": "14fab8c2d9bee016986d22580971212ce441e06d9771973771f854d36ac3508b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/q3_pairs.txt",
+      "bytes": 1543,
+      "sha256": "79a7d262776da553b2d81819a8dee5ff3dade851c11e0fae025c279aad50692c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/q3_resolved.txt",
+      "bytes": 1384,
+      "sha256": "83029006d3bf322da01499303c6b75663b31240db1be4c296950994db548fb8e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/q4_pairs.txt",
+      "bytes": 6613,
+      "sha256": "a8cc198f27c90ea724cc361cd8a6cea137ee58f75618c379255d8b3a7f04de5c"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/q4_resolved.txt",
+      "bytes": 5786,
+      "sha256": "d3cd8172a28194575a527215fc8b49182bc38229f1541d38544d0003939e7110"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/s1.txt",
+      "bytes": 319,
+      "sha256": "ba4f6c42a1afc24382d82df7953e95c182b3c73ce48272bee7351ef5f3a3ffb2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/downl.py",
+      "bytes": 720,
+      "sha256": "bc3f9b71537ee86fd15a019a9f0cbb87da9137f17b980ede5280ac7b1be545e0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/downl2.py",
+      "bytes": 1010,
+      "sha256": "2bd6eb240352d5a8a074f5dc1ac6d219f51465a61e1982f1f9c1dd306596d664"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/e1.py",
+      "bytes": 1839,
+      "sha256": "99c2490259284c473d56241d15ab8ae17fdcf898a71e9d8c46f6e86a4798dba3"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/e2.py",
+      "bytes": 3545,
+      "sha256": "ad3a7e8f60ac2db8d615fd692fd20b8e0d256dd804dbf54ece4f95c5d75cb873"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/e3.py",
+      "bytes": 1218,
+      "sha256": "4de1b1f30bbba2bbd865be860a8e636239fdd3c9fdef10ab3cedacdea989ec65"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/e4.py",
+      "bytes": 1434,
+      "sha256": "3b1e330a6274bec594734b95277ed8fea7508777f1c6f9f0e1883986d05f5368"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/e5.py",
+      "bytes": 2356,
+      "sha256": "3c42f3ac14718c125a1fca8209ba7c55af123da5a1017d2ddefc120cf31d46f7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/e6.py",
+      "bytes": 1521,
+      "sha256": "6081751654d33eadb97dcb1e2b1c9f9f729ae59fd47f9cecfacfe6d0f4605ee9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/e7.py",
+      "bytes": 1346,
+      "sha256": "64a7d13b383472af24439c43898ad01b86b14709ae0e93ad4c7b375eeea87ad5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/env_info.py",
+      "bytes": 936,
+      "sha256": "b48be0103c76df3827a919ddf344b8da6e993cc7bf5c9b3ba8e64c31649140a5"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/evidence_index.py",
+      "bytes": 4656,
+      "sha256": "7e0b5bdf14b77fc6d71afb9bbfc40df884ee604e8b14cdefcbfc6c472161eec0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/explore_levels.py",
+      "bytes": 916,
+      "sha256": "8f6e42009839b98e0207f4d53a7b5967bf1cfab80d109502f8f903f01f94ecf9"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/extract.py",
+      "bytes": 560,
+      "sha256": "f7fa5939fb9113b8fadb9a8e557bd21b2d76355c67ff2fe3ffaaf01be6ba5f5e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/fetch.py",
+      "bytes": 1199,
+      "sha256": "6186ba2cce989102754cc9e985c8be9d68b05167166ebc0c52b383ff83528850"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/final_check.py",
+      "bytes": 3497,
+      "sha256": "9c1b9487f8777c061b5b117efb4ad5d34655d510ae86f9eec03a6fe94cad8c73"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/links.py",
+      "bytes": 580,
+      "sha256": "308c1eb6650a184481839654c8c9ffbf718c4b4e9547ee7f68d12aa59a0b848b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/pdftext.py",
+      "bytes": 387,
+      "sha256": "07d63a4406ff613fd3d85257f419830757d20a2ecb8da5a2734b6bf7769e2118"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/resolve.py",
+      "bytes": 1140,
+      "sha256": "f0a662cfee4462048edc631ded40df3edcc9d794ecf0dd5daac01f631465ec18"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/srch.py",
+      "bytes": 1426,
+      "sha256": "059dffc281b6f68a30e5161d20e70cd568c79f3a89bf389b0e4873bbc25ccd4f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/srch2.py",
+      "bytes": 2474,
+      "sha256": "8a6c89719a6d0b6f98d30868af940fa4363f571ab67b79cdd86108abd2cc1739"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/scripts/verify_pool_threshold.py",
+      "bytes": 4619,
+      "sha256": "7ee5157b15ee84f7486c6fa67201c6cc56a427478799b86e42e3486000783dd7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_draw26112.txt",
+      "bytes": 390,
+      "sha256": "a02e6919592857a1db38f7d90f6df17232b151e0d9430bb48cce9f7f5eb92ef4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_mof51.txt",
+      "bytes": 12002,
+      "sha256": "7541e29b35841fb18c450e0120b63e6daab9da0a696cb294fed6f119112d8206"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_oldrule.txt",
+      "bytes": 604,
+      "sha256": "a005763d759954e863dd27b68fbe47bb95f051451076ef9b73a18e40a875abea"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_oldrule2.txt",
+      "bytes": 578,
+      "sha256": "e6e6c705d4ba75e9566e23d6458f55a65164b8d07c168217034837e1ef60ceec"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_oldrule3.txt",
+      "bytes": 561,
+      "sha256": "f376da9670f0268533cf6b12869f16c9f0d20900c02ef66855524b84e93e48f0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_pj1.txt",
+      "bytes": 464,
+      "sha256": "d6bbd87b1e814c9133311507f1a130c2cbe5cce52986f2779eb90c0153a9defc"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_pj2.txt",
+      "bytes": 510,
+      "sha256": "5615a23295b78029bc27e27433c530bb039b5a6f600a1f6bc6b0e5e782d5b63a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_pj_so1.txt",
+      "bytes": 431,
+      "sha256": "3ac80d1490a2886d929d2993c7dc5580679c4f5d6f098e7e8f4a5e936712ee87"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_pj_so2.txt",
+      "bytes": 561,
+      "sha256": "b2c46a1e56ba7abe5bdbd3f71e49d4a56875143845c01e9ebb67fa6f3ec36e05"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_pj_so3.txt",
+      "bytes": 649,
+      "sha256": "d612f0058fa45a2f50627add01342970ae72f1f5d3640a535a6438170239a3b7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_r8_1.txt",
+      "bytes": 10007,
+      "sha256": "e28993814c22da24c6480d130d56dfb3246a33aeb8f79fd88c85d871e5247e6f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_r8_2.txt",
+      "bytes": 535,
+      "sha256": "0a86d605ad35b667ce5577eae1bca002e0f3a52a3b8233ea184f0eeb6c848497"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_r8_3.txt",
+      "bytes": 5729,
+      "sha256": "c89f118b1408250f4051e34c4d09203f4e27b318d4d8cb258def15cfb87730df"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_r8_4.txt",
+      "bytes": 6997,
+      "sha256": "e924cca88000a818bdc4ec299696d442f9f5cfd8764acb6f4bbd820e266acfdb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_r8_5.txt",
+      "bytes": 711,
+      "sha256": "4356029a7c62e61a32a399be01ce0a7020532b3e7a257d26e4ac70a4bc134b2b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_r8_6.txt",
+      "bytes": 404,
+      "sha256": "8debbe76847f79bb3575bacb2e42e29a087f129e83f79ae984814d3b9d571c2d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/search_r8_7.txt",
+      "bytes": 606,
+      "sha256": "f4eb6204edcf790b8946eafb405174389ada3e83e93064d515d44f79c6794bd1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_DLT_rules_2026.txt",
+      "bytes": 10897,
+      "sha256": "1ac36a864d5b372ab54e3ddf466f60662f4196da1a22c1eca966650fa4359701"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_fjtc_newrule_pool8yi.txt",
+      "bytes": 5226,
+      "sha256": "82f00e891ea6dd1621d86d10444d853b7df67edde2c641d1ce09d5167babb7aa"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_hnlottery_rule_change_26014.txt",
+      "bytes": 1885,
+      "sha256": "cbe6266a550ead031259d060ca7a3bbed559c42a59f3f56fc7a4d3cee2193315"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_js_lottery_draw_26014.txt",
+      "bytes": 3802,
+      "sha256": "8ecc03e549d50f1eea0c93a2c8996f79be30ff9ce0d7a0f4967c59834c2721be"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_js_lottery_rule_change_26014.txt",
+      "bytes": 3287,
+      "sha256": "c196d7cfaed29940b3b9bc4bf42e1192e6ac4c4afd3d70b40571bdd5b276940a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_mof_caizong2025_51.txt",
+      "bytes": 2781,
+      "sha256": "a31861fe24a60e6184732f0dd1c478f8a2f0fd09d45134440277cd4a3da5d3cd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_official_announce_rule_change_26014.txt",
+      "bytes": 987,
+      "sha256": "088ad37b8aaef6387883a934091ad97b7c5f8334ff71c670c71999a5bd1529ad"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_official_newrule_qa.txt",
+      "bytes": 3887,
+      "sha256": "e369a030065ebd4d9902eb6cec8ef393cfd6577e36a359deb8cb32c269a09638"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_official_paijiang_explainer_2026.txt",
+      "bytes": 4822,
+      "sha256": "0c7a0f63ee681a47b5f1b3a6b2a976535bb7aa04cf48cb67b9debab264d01ccb"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_sina_paijiang_end_2026.txt",
+      "bytes": 2299,
+      "sha256": "bba8f260d7f02f637d0d61d34b9a7acdd1890d92025f6c5c1a0e28a79680080f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/text_sina_rulechange_20260116.txt",
+      "bytes": 18703,
+      "sha256": "006174bdf3c05921ebcd23f1c2521fd0aac939dad8b73a18f1acdf1bf3dd474d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/research_scratch/topicC/verify_report.txt",
+      "bytes": 6136,
+      "sha256": "360f21ada48336a620b3721e1de784b6649b253b1290b19ca3f76ffe604ddf79"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/TOPIC_F_EVIDENCE_MANIFEST.json",
+      "bytes": 6025,
+      "sha256": "78c46247672201750261f90f0dc791be45d583cbf0e35d11050fdb75e8cf6b4f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_profitability_verification/sources/TOPIC_F_KEY_FINDINGS.json",
+      "bytes": 2860,
+      "sha256": "d543471ce21e9b9a8a5d9e254cb93f860474fd9e12a4c015a7dd22c2373c8aec"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/data/official_dlt_draws.csv",
+      "bytes": 617351,
+      "sha256": "1256eb9131ba8480250fe9d6c475ed3bde9a4424c8f6e31d990d662a36dac711"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/data/official_dlt_prize_levels.csv",
+      "bytes": 1418235,
+      "sha256": "6cc7850e1402301ed8fae2a054a017d202b33c1cd82a64d366e99545d49a6f37"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/data/official_fetch_meta.json",
+      "bytes": 558,
+      "sha256": "61a313c742b91c659eb9f60ec02589cd09d7c18ea7d0e5895789468a7a3a7283"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/protocol/INPUT_MANIFEST.json",
+      "bytes": 3780,
+      "sha256": "eec59267a9ccf6ad1de8a7a452f3568f44c91b93ceb420d032f91862c5f32c0e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/README.md",
+      "bytes": 2045,
+      "sha256": "c0cc9c2fb80a608ebcebd3ffce1ca1bbf0c4a8c7ebf599185c6a181df26bbddd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/results/four_cell_v3.json",
+      "bytes": 90196,
+      "sha256": "ade090da3566760a3dd0861c94b83616f714cb665514cb07fad1d0c5c879c613"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/results/required_floating_check.json",
+      "bytes": 13298,
+      "sha256": "2ff7e8f40d1464337e7ae8bc3837a31d1b0da9e8e968caf21cdf2879b60ca751"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/results/stake_amount_truncation_impact.csv",
+      "bytes": 13560,
+      "sha256": "c39b22558d47af472acc68819cc027b09e0d2f284fecf029df0f6aec6dd04569"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/2026派奖公告_10053457.html.html",
+      "bytes": 5079,
+      "sha256": "2c0dcff796710a66fdb3d21cfd264cd08012e6ab151122fbd17e5b9b387b10ef"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0001.json",
+      "bytes": 431422,
+      "sha256": "b342fa6d219c8ece2077a548195d8442237fb15364a64fb678b89e21bfc3196d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0002.json",
+      "bytes": 461384,
+      "sha256": "8453c7873c67286060c6ab93ce4f00c9bdd398de0430b37bfc8990ae3c58d63a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0003.json",
+      "bytes": 523670,
+      "sha256": "aa140b569c7af65b3f2c53a113db3bc2a5edbb078fac1f24403a5bfefb3c872e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0004.json",
+      "bytes": 554192,
+      "sha256": "92bdc5dadbca7665f69e5f60b1b42e80e2e4aed35c5efec0bb89d51dde1ad22b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0005.json",
+      "bytes": 463680,
+      "sha256": "cc6d86c20886d7419acd121b391f0e4880cd25a3ad2b8e5bf9ddee8c0a6c37e4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0006.json",
+      "bytes": 529245,
+      "sha256": "6e0b64dc525671a14e943ed55125a42c4afb0daa1eb2a784ccd4681551e9ecd2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0007.json",
+      "bytes": 546052,
+      "sha256": "64f38fdc98939e81e485b366f8bd7a1f4d040c8d511c18e77af9cc95d30524d7"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0008.json",
+      "bytes": 463852,
+      "sha256": "5d1c7738a6d888cef71c12db2659a13cf8ca0df0963cef21c9ba8cdf15fe45f8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0009.json",
+      "bytes": 526426,
+      "sha256": "39071c21df28b2480fdfc3c4cef98d3e12548d73868ce1b7ba4f4544a66beb6f"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0010.json",
+      "bytes": 463540,
+      "sha256": "1a7afa76ba66ba7adb348a12fb9549c317da0b1210ed8f1120699d1d21e097a4"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0011.json",
+      "bytes": 461866,
+      "sha256": "e4a391742f797b6f5ce7d0f2f98f11022c075bbfe1fd8723869f8869036d7d25"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0012.json",
+      "bytes": 457448,
+      "sha256": "88a0e53917840aca1a46b130fa00f209b19a0d46d3e446708efbc828fefb25a0"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0013.json",
+      "bytes": 457228,
+      "sha256": "964f0bb66df1c65dc3c1f5e76744cfa3b363574776efc0ca92a36d96a249f25e"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0014.json",
+      "bytes": 457122,
+      "sha256": "9280334bc897a313bf64c9eb9a75a0821cf5d368e5f4c16bd2a39b5f22284877"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0015.json",
+      "bytes": 456989,
+      "sha256": "6965d1a61952f32145a353e57184be079aad073cf9bc26f6f94c25cd27d7b324"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0016.json",
+      "bytes": 455102,
+      "sha256": "4804a3588f348ce8fde2548000214015d427284dad1f94e00ad98e3705c73271"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0017.json",
+      "bytes": 454936,
+      "sha256": "143ea6e8998b0df67bcc8c588b3b1e329ccd157d17b0e2029dcbbf08ca67bdbd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0018.json",
+      "bytes": 455138,
+      "sha256": "4d94f51f13ed7df9121d4b53def3f1f1938332db53d7f389607969e6ad3f8e03"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0019.json",
+      "bytes": 454953,
+      "sha256": "c4f6f50763cec27cca013a10e503b3e6f7adc84d6ca68ef97539edea017a6e03"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0020.json",
+      "bytes": 454309,
+      "sha256": "d729e814c913f9326fa89ac69bec237fafc054bd8eee4a8cf92c26a21bcdf999"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0021.json",
+      "bytes": 454064,
+      "sha256": "8930354d921cc6b18e4449d44bbbc4a2635fa7d327a01f9978734e1e345ba01b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0022.json",
+      "bytes": 453503,
+      "sha256": "3a227d3cff3db851b84397d9e522a8816c94ce8337c6b82208f6d36a7901beef"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0023.json",
+      "bytes": 453548,
+      "sha256": "86ea1de5f65950d9327df067d1b44399cc5ded2cfb05bafb9eaf4027c326077d"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0024.json",
+      "bytes": 452722,
+      "sha256": "be77633035bf68fb324b9b83258d2a589eed5dd086b92689fd280372f17febdd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0025.json",
+      "bytes": 450044,
+      "sha256": "d87b8492c3a94af70af30c6c177534d0ec6a12b36117c6d7a80f006026fbd6d1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0026.json",
+      "bytes": 450097,
+      "sha256": "7b252a9b7ad6aa2a88ba11cee71550a31fc0cdc6795572d67bf2d06f6f4b5e4b"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0027.json",
+      "bytes": 449787,
+      "sha256": "82eb80b1f001b5eb4e4ae277d4e36a86b152be07f450071186e3e0d823b13cac"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0028.json",
+      "bytes": 449962,
+      "sha256": "3129e49c3b54620eea0c04134a6ed251b9db0bec86f2c08282d13bdb280e8e57"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0029.json",
+      "bytes": 449368,
+      "sha256": "d58af71eefc6b2721715d25e174813545e2a47601a7e362a1b8c7e8057f11aff"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/official_api_page_0030.json",
+      "bytes": 154807,
+      "sha256": "818975130b69e3a14db8efb4cb636e8eaec761da462e166b0ad2664048aabde6"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/官方叠加说明_10053451.html.html",
+      "bytes": 7448,
+      "sha256": "b587e6b50c12044eb79becbe7aa2a427e0d8c0382041e8d07be475c140a25bcd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_bonus/sources/官方结束公告_10054208.html.html",
+      "bytes": 3740,
+      "sha256": "bf069922cec815900b2d002cc9f51d2443da751f84b1180ae5166f65b8637d17"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_indep_lens3/indep_lens3.py",
+      "bytes": 15073,
+      "sha256": "7e275daa315490a4371b191470f844c9c0e0403d0c67f63629a26c3a6de723d2"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_indep_lens3/indep_lens3_comparison.json",
+      "bytes": 1276,
+      "sha256": "6efce885ea13559279efaf457ed9ced6e334b7e9d756c6994db992b8ad646b7a"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_indep_lens3/indep_lens3_per_issue.csv",
+      "bytes": 16423,
+      "sha256": "90249e58e6a8ca8e8c9aca4b6ccb0c6c1b6bf32dcbfca7ba448219132c6ac4c8"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_indep_lens3/indep_lens3_result.json",
+      "bytes": 3011,
+      "sha256": "992df7965c7227233d5145b27e45a8c7f0d86849f2514e2b7d71a2b5bfa128cc"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_judge_lens0/judge0_per_issue.csv",
+      "bytes": 16577,
+      "sha256": "35b42cc4cb3779b84e631d1e24564ffd93abe5f6d04d68d63d01f3ab1b0e23fe"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_judge_lens0/judge0_summary.json",
+      "bytes": 565,
+      "sha256": "4ad7d7204f272e90599ee8689872658be9d548f1f35de145c176ebd220802a16"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_judge_lens0/judge_lens0.py",
+      "bytes": 19262,
+      "sha256": "714a69ce4dfbdeae1acb752aaf7bfd1c15d48a7be5f6bcd6ede5efe002e302bd"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_recheck_lens1/recheck_lens1_four_cell.py",
+      "bytes": 24255,
+      "sha256": "a4dd6dc3735b89095f3e7d5ed46733ec718fc0d4bcdea1f0f0448b79c13dbb38"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_recheck_lens1/results/recheck_lens1.json",
+      "bytes": 56475,
+      "sha256": "0abb6259ee26317c032f90ad5681400a3a7f433f82ed3b9693c405416b62f8b1"
+    },
+    {
+      "path": "outputs/2026-10-13_5plus12_v3_recheck_lens1/results/recheck_lens1_four_cell.csv",
+      "bytes": 301,
+      "sha256": "7aaf88f3f048ac37565d916ef0865ebccb5f7f2a1c9900883c3693ec7b833b0e"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_artifact_crosscheck_log.txt",
+      "bytes": 2824,
+      "sha256": "f95c594c82ca0104f25dd27c284e769496ee1ca0f83d99a78277ba2934186044"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_artifact_crosschecks.py",
+      "bytes": 6055,
+      "sha256": "a3f9794ff451b3321a4f14ed5b95f12c60991e6fc9527325800cd4eff7adf946"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_break_even_recheck.py",
+      "bytes": 16780,
+      "sha256": "10de4835be9fb5c17a6a06fa1eb91d7e3822bb216b31177fe31ead864afff5c6"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_console_log.txt",
+      "bytes": 15601,
+      "sha256": "f4aa82484b42d358c0fbed789d480ba4e2d5242a3eec80b8642f2838a51ef8c1"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_final_checks.py",
+      "bytes": 6337,
+      "sha256": "18ea3c6f1945bc99b6935a73691d849ff28883908c20bdb521160a90cb516682"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_final_checks_log.txt",
+      "bytes": 1778,
+      "sha256": "c9998663e212c65af69eb5ac15609ad770c4298678668023c0b09a551357e75d"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_result.json",
+      "bytes": 1587,
+      "sha256": "515146df8a7c79ebadae297150d465617eb72864301db5072016be3c52be636f"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_sidechecks.py",
+      "bytes": 9177,
+      "sha256": "5d65be64dea653b0f01ca1289f4e120e68c258c648463d5fb58f77ca84d0a8cb"
+    },
+    {
+      "path": "outputs/2026-10-13_review_adversarial_breakeven/adv_sidechecks_log.txt",
+      "bytes": 4725,
+      "sha256": "054b81fbb16887faab90eea32cb456733781d39060801feb7d4891e62f8fb15e"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_console_log.txt",
+      "bytes": 10375,
+      "sha256": "5b6144c448a621b96cdf57b9c3f4a2489ca3cf23c66b9c54a84814154e22072d"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_crosscheck_log.txt",
+      "bytes": 3378,
+      "sha256": "8e64f7e9980294e6173638bdf7ec471dc74bdc56d6249185fc4c3e190c66a5e1"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_independent_breakeven.py",
+      "bytes": 17572,
+      "sha256": "9657c1451ebd3fa8fc7ab27c6e7cc766734fc6c44b4fedcaa88e4a0bc42ee045"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_independent_result.json",
+      "bytes": 10406,
+      "sha256": "80a3e9e5d1e4aceadbf06a2f85d97b1ae376ea8133381b638e0b05ddeefd8b9e"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_level_mapping_check.json",
+      "bytes": 1197,
+      "sha256": "60fe1302ce4a95d122e89e90d718320bf49b95e5219fa07ddb7d78989866c95e"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_level_mapping_check.py",
+      "bytes": 3627,
+      "sha256": "fe25623cff76e04db0c2c7ae3d24326ec39f734bb382d0e3093f705af13174ce"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_level_mapping_log.txt",
+      "bytes": 1747,
+      "sha256": "2d4fed07a55b6e039171e8ca21afcfba2776b49eeb2c4eb039edd908f6f23a3f"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_official_crosscheck.json",
+      "bytes": 517,
+      "sha256": "17d089195cc8cbe2dd3902f18d6a70db33d9e39f35f172473a1a02fb98cf88b9"
+    },
+    {
+      "path": "outputs/2026-10-13_review_lens2_breakeven/lens2_official_crosscheck.py",
+      "bytes": 12127,
+      "sha256": "b24b5dd3a231041c5803fcf9254da5a011d7c4ba1ce8e78746f62c6a005692a3"
+    },
+    {
+      "path": "outputs/2026-10-13_v3_adversarial_judge/judge_extra.py",
+      "bytes": 2832,
+      "sha256": "61614807e4943268bf2bb9a3ab6ae9a85a21e90bb99b6a5b34afe616630dceb3"
+    },
+    {
+      "path": "outputs/2026-10-13_v3_adversarial_judge/judge_four_cell.py",
+      "bytes": 5495,
+      "sha256": "17f8b7831b501b308615bcb1b8424c837591ed1e72b6aea8f5e238255f3b7d16"
+    },
+    {
+      "path": "outputs/2026-10-13_v3_adversarial_judge/judge_per_issue.py",
+      "bytes": 7953,
+      "sha256": "b01ae2a3cb943afe98a6c86d1e84d0ff601b968a8a2987359c9ef5f5b58e8013"
+    },
+    {
+      "path": "outputs/2026-10-13_v3_adversarial_judge/results/judge_four_cell.json",
+      "bytes": 847,
+      "sha256": "36349171054988c65abc672c86f2aa1c50714b486c219ef3d435951fce10641f"
+    },
+    {
+      "path": "outputs/2026-10-13_v3_adversarial_judge/results/judge_per_issue.json",
+      "bytes": 938,
+      "sha256": "409c44123607e1ae8df95fe385029f17ce27a221dd1dbd938045e921f6719b46"
+    },
+    {
+      "path": "outputs/2026-10-13_v3_adversarial_judge/results/judge_verdict.json",
+      "bytes": 3287,
+      "sha256": "11c26913d3fcb2f9d666ad2f390a6e1efde45e584edd9eac7c5e3db8ec76055d"
+    }
+  ]
+}

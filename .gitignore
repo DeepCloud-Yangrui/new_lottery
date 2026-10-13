@@ -42,5 +42,9 @@ model/
 outputs/*.csv
 outputs/*.json
 
+# Research artifacts are transferred separately with a SHA256 manifest.
+outputs/**
+handoff/
+
 # If you later want to version small sample data, put it under: data_sample/
 # and add a rule like: !data_sample/

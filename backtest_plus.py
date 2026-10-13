@@ -44,26 +44,87 @@ from inference_plus import (
 FRONT_COLS = ["红球_1", "红球_2", "红球_3", "红球_4", "红球_5"]
 BACK_COLS = ["蓝球_1", "蓝球_2"]
 
+# 默认计奖口径：prize_rules.get_prize_table 的 mode。
+#   official = 官方逐期公布的单注奖金 + 全额派奖
+#             （5+12 单票 132 元满足"单张单期 >= 18 元"的派奖参与门槛）
+# 复现 2026-10-13 之前的历史结论请传 "legacy_config"。
+DEFAULT_PRIZE_MODE = "official"
+ACTIVE_PRIZE_MODE = DEFAULT_PRIZE_MODE
+
+# 浮动大奖（一等奖/二等奖）对应的 (前区命中, 后区命中)。
+# 稳健指标 roi_no_jackpot 会把这些组合的奖金置零后重算 ROI，
+# 用于排除"是否中过一/二等奖"这一极端事件对 ROI 的支配。
+JACKPOT_CONDITIONS = {(5, 2), (5, 1)}
+
+
+def set_prize_mode(mode):
+    """设置本次运行全局使用的计奖口径（见 prize_rules.get_prize_table）。"""
+    global ACTIVE_PRIZE_MODE
+    ACTIVE_PRIZE_MODE = mode
+    return ACTIVE_PRIZE_MODE
+
+
+def compute_prize_table(issue, prize_mode=None):
+    """按指定口径取该期的单注奖金表（委托 prize_rules）。"""
+    from prize_rules import get_prize_table
+    return get_prize_table(int(issue), mode=prize_mode or ACTIVE_PRIZE_MODE)
+
+
+def max_drawdown_from_zero(period_profits):
+    """从初始资金 0 开始的最大回撤（单位：元）。
+
+    旧实现用 ``cum = cumsum(profits)`` 后取 ``max(peak - cum)``，
+    由于 ``peak[0] == cum[0]``，**第一期就亏损的情形不会被计入回撤**。
+    这里把 0 作为资金曲线起点，修正该口径问题。
+    """
+    arr = np.asarray(list(period_profits), dtype=float)
+    if arr.size == 0:
+        return 0.0
+    cum = np.concatenate([[0.0], np.cumsum(arr)])
+    peak = np.maximum.accumulate(cum)
+    return float((peak - cum).max())
+
+
+def _max_loss_streak(period_profits):
+    """最长连续亏损期数（profit < 0 记为亏损期）。"""
+    best = cur = 0
+    for p in period_profits:
+        if p < 0:
+            cur += 1
+            best = max(best, cur)
+        else:
+            cur = 0
+    return best
+
+
 # ============================================================
-#  奖金计算 —— 使用 DLT_PRIZE_TABLE 逐注计奖
+#  奖金计算 —— 使用 prize_rules 的官方核验奖金表逐注计奖
 # ============================================================
 
-def calc_5_plus_12_reward(front_combo, target_front_set, target_back_set, issue):
+def calc_5_plus_12_reward(front_combo, target_front_set, target_back_set, issue,
+                          prize_mode=None, exclude_jackpot=False):
     """计算一组前区组合 + 后区全包（66注）的总奖金。
 
-    根据 issue 自动选择对应的奖金表（区分 26014 前后旧/新规则）。
-    遍历全部 66 个后区组合逐注计奖，不遗漏任何 (front_hit, back_hit) 组合。
+    奖金表由 ``prize_rules.get_prize_table`` 提供：
+    已开奖期号使用官方逐期公布的单注奖金（含全额派奖），
+    未开奖期号降级为规则基础档。
 
     Args:
         front_combo: 前区5码组合 (iterable)
         target_front_set: 实际开奖前区 (set)
         target_back_set: 实际开奖后区 (set)
-        issue: 目标期号（int），用于确定适用奖金表
+        issue: 目标期号（int）
+        prize_mode: 见 prize_rules.get_prize_table
+        exclude_jackpot: True 时把一等奖/二等奖（5+2、5+1）的奖金置零，
+            用于计算稳健指标 roi_no_jackpot
 
     Returns:
         (total_reward, front_hit): 总奖金（元），前区命中数
     """
-    prize_table = get_dlt_prize_table(issue)
+    prize_table = compute_prize_table(issue, prize_mode)
+    if exclude_jackpot:
+        prize_table = {k: v for k, v in prize_table.items()
+                       if k not in JACKPOT_CONDITIONS}
 
     front_hit = len(set(front_combo).intersection(target_front_set))
     total_reward = 0
@@ -324,6 +385,7 @@ def run_backtest_core(
             played = combos[:max(1, int(play_front_combos))]
             period_cost = 132 * len(played)  # 每组前区配 66 注后区 = 132 元
             period_reward = 0
+            period_reward_no_jackpot = 0
             best_front_hit = 0
             selected_fronts = []
 
@@ -331,7 +393,12 @@ def run_backtest_core(
                 reward, fh = calc_5_plus_12_reward(
                     combo, target_front_set, target_back_set, int(target["期数"])
                 )
+                reward_nj, _fh = calc_5_plus_12_reward(
+                    combo, target_front_set, target_back_set, int(target["期数"]),
+                    exclude_jackpot=True,
+                )
                 period_reward += reward
+                period_reward_no_jackpot += reward_nj
                 best_front_hit = max(best_front_hit, fh)
                 selected_fronts.append(
                     " ".join(["{:02d}".format(x) for x in sorted(combo)])
@@ -353,6 +420,7 @@ def run_backtest_core(
                 "front_hit": int(best_front_hit),
                 "cost": int(period_cost),
                 "reward": int(period_reward),
+                "reward_no_jackpot": int(period_reward_no_jackpot),
                 "profit": int(period_profit),
                 "cumulative_profit": int(total_reward - total_cost),
             })
@@ -419,6 +487,7 @@ def compute_strategy_metrics(records):
             "periods": 0,
             "total_cost": 0, "total_reward": 0, "total_profit": 0, "roi": 0.0,
             "total_reward_truncated": 0, "total_profit_truncated": 0, "roi_truncated": 0.0,
+            "total_reward_no_jackpot": None, "roi_no_jackpot": None,
             "avg_front_hit": 0.0,
             "hit0_rate": 0.0, "hit1_rate": 0.0, "hit2_rate": 0.0,
             "hit3_rate": 0.0, "hit4_rate": 0.0, "hit5_rate": 0.0,
@@ -435,12 +504,23 @@ def compute_strategy_metrics(records):
     total_profit = int(df["profit"].sum())
     roi = float(total_profit / total_cost) if total_cost > 0 else 0.0
 
-    # --- 截断收益（排除极端头奖污染）---
+    # --- 截断收益（辅助稳健性指标）---
+    # 注意单位口径：cap 作用在**每期** reward 上。单期可能包含多组
+    # （例如 n9_3x 每期 3 组 = 396 元成本）。因此 roi_truncated 只能作为
+    # 同成本结构之间的辅助比较指标；跨成本结构比较请用 roi_no_jackpot。
     reward_truncated = np.minimum(df["reward"].values.astype(float), _REWARD_CAP)
     total_reward_truncated = int(reward_truncated.sum())
     total_profit_truncated = int(total_reward_truncated - total_cost)
     roi_truncated = float(total_profit_truncated / total_cost) if total_cost > 0 else 0.0
     avg_period_profit_truncated = float(total_profit_truncated / periods) if periods > 0 else 0.0
+
+    # --- 剔除浮动大奖后的 ROI（口径与单位无关，推荐的主稳健指标）---
+    total_reward_no_jackpot = None
+    roi_no_jackpot = None
+    if "reward_no_jackpot" in df.columns:
+        total_reward_no_jackpot = int(df["reward_no_jackpot"].sum())
+        roi_no_jackpot = (float(total_reward_no_jackpot - total_cost) / total_cost
+                          if total_cost > 0 else 0.0)
 
     # --- 前区命中分布（0..5 精确计数）---
     hit_counts = df["front_hit"].value_counts().to_dict()
@@ -454,21 +534,10 @@ def compute_strategy_metrics(records):
     hit2_or_more = hit2_rate + hit3_rate + hit4_rate + hit5_rate
     hit3_or_more = hit3_rate + hit4_rate + hit5_rate
 
-    # 最大回撤：cumulative_profit 曲线从历史最高点的最大跌幅
-    cum = df["cumulative_profit"].values.astype(float)
-    peak = np.maximum.accumulate(cum)
-    max_drawdown = float((peak - cum).max()) if len(cum) > 0 else 0.0
+    # 最大回撤：资金曲线从 0 起算（修正旧实现遗漏第一期亏损的问题）
+    max_drawdown = max_drawdown_from_zero(df["profit"].values)
 
-    # 最长连续亏损期数：profit < 0 为亏损，profit >= 0 中断
-    profit_arr = df["profit"].values
-    max_loss_streak = 0
-    current_streak = 0
-    for p in profit_arr:
-        if p < 0:
-            current_streak += 1
-            max_loss_streak = max(max_loss_streak, current_streak)
-        else:
-            current_streak = 0
+    max_loss_streak = _max_loss_streak(df["profit"].values)
 
     avg_period_profit = float(total_profit / periods) if periods > 0 else 0.0
     profit_std = float(df["profit"].std(ddof=0)) if periods > 1 else 0.0
@@ -482,11 +551,14 @@ def compute_strategy_metrics(records):
         "total_reward": total_reward,
         "total_profit": total_profit,
         "roi": roi,
-        # 截断收益（reward_cap=10000，排除5+2/5+1等极端事件）
+        # 截断收益（引导性指标，仅用于同成本结构比较）
         "total_reward_truncated": total_reward_truncated,
         "total_profit_truncated": total_profit_truncated,
         "roi_truncated": roi_truncated,
         "avg_period_profit_truncated": avg_period_profit_truncated,
+        # 剔除一/二等奖后的 ROI（口径稳健，推荐）
+        "total_reward_no_jackpot": total_reward_no_jackpot,
+        "roi_no_jackpot": roi_no_jackpot,
         # 前区命中分布
         "avg_front_hit": avg_front_hit,
         "hit0_rate": hit0_rate, "hit1_rate": hit1_rate,
@@ -1192,7 +1264,8 @@ def _get_ranked_by_source(hist, rf_model_static=None, rf_meta=None,
 
 def generate_n9_candidate_pool(hist, profile_name,
                                rf_model_static=None, rf_meta=None,
-                               score_windows=(10, 30, 100), min_history=120):
+                               score_windows=(10, 30, 100), min_history=120,
+                               ranked_by_source=None):
     """按指定 profile 配额生成 9 个前区候选号。
 
     Args:
@@ -1202,6 +1275,8 @@ def generate_n9_candidate_pool(hist, profile_name,
         rf_meta: RF 元信息
         score_windows: 评分窗口
         min_history: 最小历史期数
+        ranked_by_source: 可选；若提供则跳过 _get_ranked_by_source 的重复计算
+            （RF/stat/gap 排名与 profile 无关，可跨 profile 共享缓存）
 
     Returns:
         dict: {
@@ -1218,8 +1293,11 @@ def generate_n9_candidate_pool(hist, profile_name,
         return {"profile_name": profile_name, "candidates": [],
                 "error": "unknown profile"}
 
-    ranked = _get_ranked_by_source(hist, rf_model_static, rf_meta,
-                                   score_windows, min_history)
+    if ranked_by_source is None:
+        ranked = _get_ranked_by_source(hist, rf_model_static, rf_meta,
+                                       score_windows, min_history)
+    else:
+        ranked = ranked_by_source
     rf_available = ranked["rf_stat"] is not None
 
     # 按配额依次取号，去重
@@ -1320,7 +1398,8 @@ def generate_n9_candidate_pool(hist, profile_name,
 
 def generate_3x5_from_n9_pool(candidates, ranked_by_source=None,
                                profile_name=None, candidate_sources=None,
-                               method="greedy_triple_coverage"):
+                               method="greedy_triple_coverage",
+                               front_group_count=3):
     """从 9 个候选号生成 3 组前区 5 码。
 
     核心算法：贪心最大化高价值三元组覆盖。
@@ -1425,7 +1504,7 @@ def generate_3x5_from_n9_pool(candidates, ranked_by_source=None,
     num_occurrence = {n: 0 for n in candidates}
     trace = []
 
-    for round_idx in range(3):
+    for round_idx in range(front_group_count):
         best_combo = None
         best_score = -1e9
 
@@ -1497,6 +1576,7 @@ def generate_3x5_from_n9_pool(candidates, ranked_by_source=None,
         })
 
     # 5. 构建返回
+    n_groups = len(selected_groups)
     groups = [list(g) for g in selected_groups]
     coverage_ratio = len(covered_triples) / total_triples if total_triples > 0 else 0
     weighted_ratio = weighted_covered / total_weighted if total_weighted > 0 else 0
@@ -1504,10 +1584,10 @@ def generate_3x5_from_n9_pool(candidates, ranked_by_source=None,
     return {
         "groups": groups,
         "method": method,
-        "front_group_count": len(groups),
+        "front_group_count": n_groups,
         "backend_full_cover": True,
         "cost_per_group": 132,
-        "total_cost": len(groups) * 132,
+        "total_cost": n_groups * 132,
         "coverage_stats": {
             "total_triples": total_triples,
             "covered_triples": len(covered_triples),
@@ -1607,7 +1687,7 @@ def run_n9_3x5plus12_backtest(data_asc, profile_name, periods=200,
             for b1 in range(1, 13):
                 for b2 in range(b1 + 1, 13):
                     bh = len({b1, b2}.intersection(target_back_set))
-                    prize = get_dlt_prize_table(issue).get((fh, bh), 0)
+                    prize = compute_prize_table(issue).get((fh, bh), 0)
                     period_reward += prize
 
         period_profit = period_reward - period_cost
@@ -1653,19 +1733,9 @@ def run_n9_3x5plus12_backtest(data_asc, profile_name, periods=200,
     _tp_t = int(_tr_t - _tc)
     _roi_t = _tp_t / _tc if _tc > 0 else 0.0
 
-    cum = df["cumulative_profit"].values.astype(float)
-    peak = np.maximum.accumulate(cum)
-    max_dd = float((peak - cum).max())
-
-    _pr = df["period_profit"].values
-    max_loss = 0
-    cur = 0
-    for p in _pr:
-        if p < 0:
-            cur += 1
-            max_loss = max(max_loss, cur)
-        else:
-            cur = 0
+    # 资金曲线从 0 起算（修正旧实现遗漏第一期亏损的口径问题）
+    max_dd = max_drawdown_from_zero(df["period_profit"].values)
+    max_loss = _max_loss_streak(df["period_profit"].values)
 
     return {
         "strategy_name": profile_name,
@@ -1693,8 +1763,10 @@ def run_n9_3x5plus12_backtest(data_asc, profile_name, periods=200,
 
 def run_random_3x5plus12_baseline(data_asc, periods=200,
                                    n_trials=100, rng_seed=42,
-                                   prize_table_func=get_dlt_prize_table):
+                                   prize_table_func=None):
     """Random 3组5+12 基线：每期随机选 3 组前区 + 后区全包。"""
+    if prize_table_func is None:
+        prize_table_func = compute_prize_table
     n_total = len(data_asc)
     start_idx = max(121, n_total - periods)
     end_idx = n_total - 1
@@ -1807,6 +1879,629 @@ def run_random_3x5plus12_baseline(data_asc, periods=200,
     return result
 
 
+# ============================================================
+#  信号门槛与跳过机制 (P2-4)
+# ============================================================
+
+def compute_n9_signal_features(pool, combo_result, profile_name):
+    """计算 n9 候选池的信号质量特征（仅使用开奖前可得信息）。"""
+    candidates = pool.get("candidates", [])
+    sources = pool.get("candidate_sources", {})
+    ranked = pool.get("ranked_by_source", {})
+    rf_available = pool.get("rf_available", False)
+
+    # multi_source: 号码被多个来源命中
+    multi_count = sum(1 for v in sources.values() if len(v) >= 2)
+    multi_rate = multi_count / 9.0 if len(candidates) >= 9 else 0.0
+    avg_src = sum(len(v) for v in sources.values()) / max(len(sources), 1)
+
+    # source_agreement: 各来源 Top9 的交集
+    stat_top = set(ranked.get("stat_miss_bonus", [])[:9])
+    rf_top = set(ranked.get("rf_stat", [])[:9]) if ranked.get("rf_stat") else set()
+    gap_top = set(ranked.get("gap_direct_top5", [])[:9])
+    s_r_overlap = len(stat_top & rf_top) / 9.0 if rf_top else 0.0
+    s_g_overlap = len(stat_top & gap_top) / 9.0
+    r_g_overlap = len(rf_top & gap_top) / 9.0 if rf_top else 0.0
+    agreement = (s_r_overlap + s_g_overlap + r_g_overlap) / max(3.0 if rf_available else 2.0, 1.0)
+
+    # candidate_rank_score: 加权排名分
+    profile = N9_PROFILES.get(profile_name, N9_PROFILES["n9_mix_441"])
+    src_weights = {
+        "stat_miss_bonus": profile.get("stat_miss_bonus", 4) / 9.0,
+        "rf_stat": profile.get("rf_stat", 4) / 9.0 if rf_available else 0,
+        "gap_direct_top5": profile.get("gap_direct_top5", 1) / 9.0,
+    }
+    total_w = sum(src_weights.values())
+    if total_w > 0:
+        for s in src_weights:
+            src_weights[s] /= total_w
+    rank_score = 0.0
+    for n in candidates:
+        ns = 0.0
+        for src, w in src_weights.items():
+            rl = ranked.get(src, [])
+            if rl and n in rl:
+                pos = rl.index(n)
+                ns += w * (35.0 - pos) / 35.0
+        rank_score += ns / 9.0
+
+    wcr = combo_result["coverage_stats"]["weighted_coverage_ratio"]
+
+    signal_score = (0.35 * rank_score + 0.25 * agreement +
+                    0.20 * wcr + 0.20 * multi_rate)
+
+    return {
+        "signal_score": round(signal_score, 6),
+        "multi_source_count": multi_count,
+        "multi_source_rate": round(multi_rate, 4),
+        "avg_source_count": round(avg_src, 4),
+        "coverage_ratio": combo_result["coverage_stats"]["coverage_ratio"],
+        "weighted_coverage_ratio": wcr,
+        "stat_rf_top9_overlap": round(s_r_overlap, 4),
+        "stat_gap_top9_overlap": round(s_g_overlap, 4),
+        "rf_gap_top9_overlap": round(r_g_overlap, 4),
+        "source_agreement_score": round(agreement, 4),
+        "candidate_rank_score": round(rank_score, 4),
+        "rf_available": rf_available,
+    }
+
+
+def run_n9_signal_gate_backtest(data_asc, profile_name, periods=200,
+                                  front_group_count=2, signal_quantile=0.70,
+                                  signal_lookback=200, min_signal_history=50,
+                                  rf_model_static=None, rf_meta=None,
+                                  score_windows=(10, 30, 100),
+                                  ranked_cache=None):
+    """带信号门槛的 n9_3x 回测。高信号期下注，低信号期跳过。
+
+    ranked_cache: 可选 dict，跨策略共享 (idx, rf_ok, score_windows) → ranked 的
+    排名缓存。RF/stat/gap 排名与 profile 无关，多个 profile/组数/门槛策略共用
+    同一批历史排名可避免重复 RF 推理（主耗时段）。
+    """
+    n_total = len(data_asc)
+    backtest_start = max(121, n_total - periods)
+    end_idx = n_total - 1
+    warmup_start = max(121, backtest_start - signal_lookback)
+    min_history = 120
+    rf_train_end = rf_meta.get("train_issue_end") if rf_meta else None
+
+    if ranked_cache is None:
+        ranked_cache = {}
+
+    def _pool_for(idx):
+        """构建 idx 期的候选池（排名走共享缓存，profile 合并本地完成）。"""
+        issue = int(data_asc.iloc[idx]["期数"])
+        _rf_ok = (rf_model_static is not None and rf_train_end is not None
+                  and rf_train_end < issue)
+        _key = (idx, _rf_ok, score_windows)
+        ranked = ranked_cache.get(_key)
+        if ranked is None:
+            ranked = _get_ranked_by_source(
+                data_asc.iloc[:idx],
+                rf_model_static if _rf_ok else None,
+                rf_meta, score_windows, min_history)
+            ranked_cache[_key] = ranked
+        pool = generate_n9_candidate_pool(
+            data_asc.iloc[:idx], profile_name,
+            rf_model_static=rf_model_static if _rf_ok else None,
+            rf_meta=rf_meta, score_windows=score_windows,
+            min_history=min_history,
+            ranked_by_source=ranked)
+        return pool, _rf_ok
+
+    records = []
+    signal_history = []
+    total_cost = 0
+    total_reward = 0
+    bet_count = 0
+    skip_count = 0
+    insufficient_count = 0
+    below_threshold_count = 0
+    warmup_signal_count = 0
+    rf_avail_count = 0
+    rf_unavail_count = 0
+
+    # --- Warmup: 预计算回测窗口之前的 signal_history ---
+    for idx in range(warmup_start, backtest_start):
+        pool_w, _ = _pool_for(idx)
+        combo_w = generate_3x5_from_n9_pool(
+            pool_w["candidates"],
+            ranked_by_source=pool_w.get("ranked_by_source"),
+            profile_name=profile_name,
+            candidate_sources=pool_w.get("candidate_sources"),
+            front_group_count=front_group_count,
+        )
+        sig_w = compute_n9_signal_features(pool_w, combo_w, profile_name)
+        signal_history.append(sig_w["signal_score"])
+        warmup_signal_count += 1
+
+    # --- Pre-compute signals for backtest periods ---
+    period_signals = []
+    for idx in range(backtest_start, end_idx + 1):
+        target = data_asc.iloc[idx]
+        issue = int(target["期数"])
+
+        pool, _rf_ok = _pool_for(idx)
+        if _rf_ok:
+            rf_avail_count += 1
+        else:
+            rf_unavail_count += 1
+
+        combo = generate_3x5_from_n9_pool(
+            pool["candidates"],
+            ranked_by_source=pool.get("ranked_by_source"),
+            profile_name=profile_name,
+            candidate_sources=pool.get("candidate_sources"),
+            front_group_count=front_group_count,
+        )
+        sig = compute_n9_signal_features(pool, combo, profile_name)
+        period_signals.append({
+            "idx": idx, "issue": issue, "pool": pool, "combo": combo,
+            "signal": sig, "rf_ok": _rf_ok,
+        })
+
+    # Apply rolling quantile gate
+    for ps in period_signals:
+        idx = ps["idx"]
+        issue = ps["issue"]
+        target = data_asc.iloc[idx]
+        actual_front = sorted([int(target[c]) for c in FRONT_COLS])
+        target_front_set = set(actual_front)
+        target_back_set = set(int(target[c]) for c in BACK_COLS)
+
+        current_signal = ps["signal"]["signal_score"]
+
+        # Compute threshold from signal_history (lookback, no look-ahead)
+        threshold = None
+        skipped_reason = ""
+        if len(signal_history) < min_signal_history:
+            skipped_reason = "insufficient_signal_history"
+            insufficient_count += 1
+        else:
+            lookback_scores = signal_history[-min(signal_lookback, len(signal_history)):]
+            threshold = np.quantile(lookback_scores, signal_quantile)
+            if current_signal < threshold:
+                skipped_reason = "below_signal_threshold"
+                below_threshold_count += 1
+
+        bet = (skipped_reason == "")
+        period_cost = front_group_count * 132 if bet else 0
+        period_reward = 0
+        max_hit = 0
+        any_h2 = False
+        any_h3 = False
+
+        if bet:
+            bet_count += 1
+            groups = ps["combo"]["groups"]
+            for g in groups:
+                fh = len(set(g).intersection(target_front_set))
+                max_hit = max(max_hit, fh)
+                if fh >= 2:
+                    any_h2 = True
+                if fh >= 3:
+                    any_h3 = True
+                for b1 in range(1, 13):
+                    for b2 in range(b1 + 1, 13):
+                        bh = len({b1, b2}.intersection(target_back_set))
+                        prize = compute_prize_table(issue).get((fh, bh), 0)
+                        period_reward += prize
+        else:
+            skip_count += 1
+
+        period_profit = period_reward - period_cost
+        total_cost += period_cost
+        total_reward += period_reward
+
+        # Append to signal history AFTER this period (no look-ahead)
+        signal_history.append(current_signal)
+
+        records.append({
+            "issue": issue, "profile_name": profile_name,
+            "front_group_count": front_group_count,
+            "signal_quantile": signal_quantile,
+            "candidates": ps["pool"]["candidates"],
+            "groups": ps["combo"]["groups"] if bet else [],
+            "actual_front": actual_front,
+            "max_group_front_hit": max_hit,
+            "any_group_hit2": any_h2, "any_group_hit3": any_h3,
+            "period_cost": period_cost, "period_reward": period_reward,
+            "period_profit": period_profit,
+            "cumulative_profit": total_reward - total_cost,
+            "bet": bet, "skipped_reason": skipped_reason,
+            "signal_score": current_signal,
+            "threshold": threshold,
+            "rf_available": ps["rf_ok"],
+        })
+
+    # Summary
+    df = pd.DataFrame(records)
+    _p = len(df)
+    _tc = int(df["period_cost"].sum())
+    _tr = int(df["period_reward"].sum())
+    _tp = int(df["period_profit"].sum())
+    _roi = _tp / _tc if _tc > 0 else 0.0
+    _rw_t = np.minimum(df["period_reward"].values.astype(float), 10000.0)
+    _roi_t = (int(_rw_t.sum()) - _tc) / _tc if _tc > 0 else 0.0
+    # 资金曲线从 0 起算（修正旧实现遗漏第一期亏损的口径问题）
+    max_dd = max_drawdown_from_zero(df["period_profit"].values)
+
+    # 日历口径：profit=0 的跳过期会中断连亏
+    max_loss_calendar = _max_loss_streak(df["period_profit"].values)
+    bet_df = df[df["bet"]]
+    _bp = len(bet_df)
+    # 下注口径：只看 bet 期（跳过不中断），用于评估真实连续亏损
+    max_loss_bet = _max_loss_streak(bet_df["period_profit"].values) if _bp > 0 else 0
+
+    return {
+        "strategy_name": "n9_gate_{}_q{:.0f}_g{}".format(
+            profile_name, signal_quantile * 100, front_group_count),
+        "profile_name": profile_name,
+        "front_group_count": front_group_count,
+        "signal_quantile": signal_quantile,
+        "total_periods": _p,
+        "bet_periods": bet_count,
+        "skip_periods": skip_count,
+        "bet_rate": bet_count / _p if _p > 0 else 0,
+        "total_cost": _tc, "total_reward": _tr, "total_profit": _tp,
+        "roi": _roi, "roi_truncated": _roi_t,
+        "avg_profit_per_total_period": _tp / _p if _p > 0 else 0.0,
+        "avg_profit_per_bet_period": _tp / _bp if _bp > 0 else 0.0,
+        "any_group_hit2_or_more_rate_per_bet": float(bet_df["any_group_hit2"].mean()) if _bp > 0 else 0,
+        "any_group_hit3_or_more_rate_per_bet": float(bet_df["any_group_hit3"].mean()) if _bp > 0 else 0,
+        "any_group_hit3_or_more_rate_per_total": float(df["any_group_hit3"].mean()),
+        "positive_bet_rate": float((bet_df["period_profit"] > 0).mean()) if _bp > 0 else 0,
+        "max_drawdown": max_dd,
+        "max_consecutive_bet_loss": max_loss_bet,
+        "max_consecutive_calendar_loss": max_loss_calendar,
+        "avg_signal_score_bet": float(bet_df["signal_score"].mean()) if _bp > 0 else 0,
+        "avg_signal_score_skip": float(df[~df["bet"]]["signal_score"].mean()) if skip_count > 0 else 0,
+        "rf_available_periods": rf_avail_count,
+        "rf_unavailable_periods": rf_unavail_count,
+        "warmup_signal_count": warmup_signal_count,
+        "insufficient_signal_history_count": insufficient_count,
+        "below_signal_threshold_count": below_threshold_count,
+        "records": records,
+    }
+
+
+# ============================================================
+#  Random same-bet-count baseline (P2-4)
+# ============================================================
+
+def run_random_same_bet_count_baseline(data_asc, periods, bet_periods,
+                                         front_group_count, n_trials=100,
+                                         rng_seed=42):
+    """Random baseline with the same bet schedule as a gated strategy.
+
+    与 gated 策略共用同一回测窗口（start_idx = max(121, len-periods)）。
+    每个 trial：从窗口内随机抽取 bet_periods 期下注，其余期
+    period_cost/reward/profit = 0、bet=false；下注期每期随机生成
+    front_group_count 组前区 5 码 + 后区 12 全包（与 gated 同成本结构）。
+
+    指标口径与 run_n9_signal_gate_backtest / compute_strategy_metrics 对齐：
+    - roi_truncated 对单期 reward 做 cap=10000 截断（排除头奖污染）
+    - any3_per_bet 只统计下注期的 any_group_hit3 率
+    - max_drawdown 由全窗口累计利润曲线计算
+    """
+    n_total = len(data_asc)
+    start_idx = max(121, n_total - periods)
+    end_idx = n_total - 1
+    all_indices = list(range(start_idx, end_idx + 1))
+    n_periods = len(all_indices)
+    n_bets_actual = min(bet_periods, n_periods)
+    reward_cap = 10000.0
+
+    if n_bets_actual <= 0 or n_periods <= 0:
+        return {"roi_truncated_mean": 0, "roi_truncated_std": 0,
+                "any3_per_bet_mean": 0, "any3_per_bet_std": 0,
+                "total_profit_mean": 0, "total_profit_std": 0,
+                "bet_periods": bet_periods, "front_group_count": front_group_count,
+                "periods": n_periods, "bet_rate": 0.0,
+                "total_cost_mean": 0.0, "total_reward_mean": 0.0,
+                "records": [], "trial_metrics": []}
+
+    trial_metrics = []
+    all_trial_records = []
+
+    for trial in range(n_trials):
+        rng = random.Random(rng_seed + trial * 10000)
+        bet_indices = set(rng.sample(all_indices, n_bets_actual))
+        records = []
+        tc = 0
+        tr = 0
+        tr_cap = 0.0
+
+        for idx in all_indices:
+            target = data_asc.iloc[idx]
+            issue = int(target["期数"])
+            tf_set = set(int(target[c]) for c in FRONT_COLS)
+            tb_set = set(int(target[c]) for c in BACK_COLS)
+            af = sorted([int(target[c]) for c in FRONT_COLS])
+            bet = idx in bet_indices
+
+            period_cost = front_group_count * 132 if bet else 0
+            period_reward = 0
+            max_hit = 0
+            any_h2 = False
+            any_h3 = False
+
+            if bet:
+                for _g in range(front_group_count):
+                    combo = sorted(rng.sample(range(1, 36), 5))
+                    fh = len(set(combo).intersection(tf_set))
+                    max_hit = max(max_hit, fh)
+                    if fh >= 2:
+                        any_h2 = True
+                    if fh >= 3:
+                        any_h3 = True
+                    for b1 in range(1, 13):
+                        for b2 in range(b1 + 1, 13):
+                            bh = len({b1, b2}.intersection(tb_set))
+                            prize = compute_prize_table(issue).get((fh, bh), 0)
+                            period_reward += prize
+
+            period_profit = period_reward - period_cost
+            tc += period_cost
+            tr += period_reward
+            tr_cap += min(period_reward, reward_cap)
+
+            records.append({
+                "issue": issue, "strategy_name": f"rand_same_{trial+1}",
+                "trial": trial + 1,
+                "bet_periods": n_bets_actual,
+                "front_group_count": front_group_count,
+                "actual_front": af,
+                "front_hit": max_hit,
+                "cost": period_cost, "reward": period_reward,
+                "profit": period_profit,
+                "period_cost": period_cost, "period_reward": period_reward,
+                "period_profit": period_profit,
+                "max_group_front_hit": max_hit,
+                "any_group_hit2": any_h2, "any_group_hit3": any_h3,
+                "cumulative_profit": tr - tc,
+                "bet": bet,
+            })
+
+        # Per-trial metrics（口径与 gated summary 对齐）
+        df_tr = pd.DataFrame(records)
+        bet_df_tr = df_tr[df_tr["bet"]]
+        _bp = int(len(bet_df_tr))
+        _tc_tr = int(df_tr["period_cost"].sum())
+        _tr_tr = int(df_tr["period_reward"].sum())
+        _tr_cap_tr = float(df_tr["period_reward"].clip(upper=reward_cap).sum())
+        _tp_tr = int(df_tr["period_profit"].sum())
+        _tp_cap_tr = float(_tr_cap_tr - _tc_tr)
+        _roi = float(_tp_tr / _tc_tr) if _tc_tr > 0 else 0.0
+        _roi_t = float(_tp_cap_tr / _tc_tr) if _tc_tr > 0 else 0.0
+        _any3 = float(bet_df_tr["any_group_hit3"].mean()) if _bp > 0 else 0.0
+        _any2 = float(bet_df_tr["any_group_hit2"].mean()) if _bp > 0 else 0.0
+        _max_dd = max_drawdown_from_zero(df_tr["period_profit"].values)
+        max_loss = _max_loss_streak(df_tr["period_profit"].values)
+
+        trial_metrics.append({
+            "trial": trial + 1,
+            "bet_periods": n_bets_actual,
+            "front_group_count": front_group_count,
+            "periods": n_periods,
+            "bet_rate": float(_bp / n_periods) if n_periods > 0 else 0.0,
+            "total_cost": _tc_tr,
+            "total_reward": _tr_tr,
+            "total_reward_truncated": float(_tr_cap_tr),
+            "total_profit": _tp_tr,
+            "total_profit_truncated": float(_tp_cap_tr),
+            "roi": _roi,
+            "roi_truncated": _roi_t,
+            "any2_per_bet": _any2,
+            "any3_per_bet": _any3,
+            "max_drawdown": _max_dd,
+            "max_consecutive_loss": max_loss,
+        })
+        all_trial_records.append(records)
+
+    _rois = [m["roi_truncated"] for m in trial_metrics]
+    _any3s = [m["any3_per_bet"] for m in trial_metrics]
+    _profs = [m["total_profit"] for m in trial_metrics]
+    _costs = [m["total_cost"] for m in trial_metrics]
+    _rews = [m["total_reward"] for m in trial_metrics]
+
+    def _mean_std(vals):
+        if not vals:
+            return 0.0, 0.0
+        _m = float(np.mean(vals))
+        _s = float(np.std(vals, ddof=1)) if len(vals) > 1 else 0.0
+        return _m, _s
+
+    _roi_t_mean, _roi_t_std = _mean_std(_rois)
+    _any3_mean, _any3_std = _mean_std(_any3s)
+    _prof_mean, _prof_std = _mean_std(_profs)
+    _cost_mean, _ = _mean_std(_costs)
+    _rew_mean, _ = _mean_std(_rews)
+
+    # 合并逐期均值（与 gated 每期一行同构，供明细查看）
+    merged_df = pd.DataFrame([r for recs in all_trial_records for r in recs])
+    summary_df = merged_df.groupby("issue").agg({
+        "cost": "mean", "reward": "mean", "profit": "mean",
+        "period_cost": "mean", "period_reward": "mean",
+        "period_profit": "mean", "max_group_front_hit": "mean",
+        "any_group_hit2": "mean", "any_group_hit3": "mean",
+        "bet": "mean", "front_hit": "mean",
+    }).reset_index()
+    summary_df["strategy_name"] = "random_same_bet_count"
+    summary_df["cumulative_profit"] = summary_df["profit"].cumsum()
+
+    result = {
+        "bet_periods": n_bets_actual,
+        "front_group_count": front_group_count,
+        "periods": n_periods,
+        "bet_rate": float(n_bets_actual / n_periods) if n_periods > 0 else 0.0,
+        # total_cost == bet_periods × front_group_count × 132 的 sanity check
+        "total_cost_mean": _cost_mean,
+        "total_reward_mean": _rew_mean,
+        "roi_truncated_mean": _roi_t_mean,
+        "roi_truncated_std": _roi_t_std,
+        "any3_per_bet_mean": _any3_mean,
+        "any3_per_bet_std": _any3_std,
+        "total_profit_mean": _prof_mean,
+        "total_profit_std": _prof_std,
+        "records": summary_df.to_dict("records"),
+        "trial_metrics": trial_metrics,
+    }
+    return result
+
+
+# ============================================================
+#  组合结构对照基线：同一候选池内的随机选号（P5 补充）
+# ============================================================
+
+def run_random_from_pool_baseline(data_asc, periods=200, top_n_front=10,
+                                  n_groups=1, n_trials=100, rng_seed=42,
+                                  score_mode="stat_miss_bonus",
+                                  rf_model_static=None, rf_meta=None,
+                                  score_windows=(10, 30, 100),
+                                  min_history=120, ranked_cache=None,
+                                  pool_callback=None):
+    """**组合结构对照**：候选池与策略完全相同，但组内选择随机。
+
+    目的：把"选号价值"与"候选池/缩水结构带来的收益"分离。
+    每个 trial、每一期：
+      1. 用与策略完全相同的评分逻辑生成候选池（top-N 或 pool_callback 返回的集合）；
+      2. 从候选池中**随机**取 n_groups 组 5 码（不放回抽号，组间可重叠）；
+      3. 每组配后区全包 66 注计奖。
+
+    与 ``run_random_baseline`` 的区别：后者从 1~35 全号池随机选 5，
+    同时检验了"选号"和"候选池"两个环节；本函数只检验"选号"环节。
+
+    Args:
+        pool_callback: 可选 f(hist, idx) -> list[int]，返回候选号列表。
+            提供时优先于 top_n_front 的内部评分逻辑（用于 9 候选池对照）。
+    """
+    n_total = len(data_asc)
+    start_idx = max(121, n_total - periods)
+    end_idx = n_total - 1
+    if ranked_cache is None:
+        ranked_cache = {}
+    _score_mode = score_mode
+    _mode_map = {"stat_miss_bonus": _compute_stat_miss_bonus,
+                 "stat_miss_penalty": _compute_stat_miss_penalty,
+                 "stat_no_miss": _compute_stat_no_miss,
+                 "gap_only": lambda h, w: _compute_gap_only_scores(h)}
+    rf_train_end = rf_meta.get("train_issue_end") if rf_meta else None
+
+    def _candidates(idx, hist):
+        if pool_callback is not None:
+            return list(pool_callback(hist, idx))
+        issue = int(data_asc.iloc[idx]["期数"])
+        _rf_ok = (rf_model_static is not None and rf_train_end is not None
+                  and rf_train_end < issue)
+        key = (idx, _rf_ok, score_windows, _score_mode, top_n_front)
+        got = ranked_cache.get(key)
+        if got is None:
+            _fn = _mode_map.get(_score_mode, _compute_stat_miss_bonus)
+            stat = _fn(hist, score_windows)
+            if _rf_ok and len(hist) >= min_history:
+                try:
+                    rf = predict_rf_scores(rf_model_static, hist,
+                                           windows=score_windows,
+                                           min_history=min_history)
+                except Exception:
+                    rf = np.zeros(35, dtype=float)
+            else:
+                rf = np.zeros(35, dtype=float)
+            w = _normalize_weights_no_lstm(plus_strategy["dlt"]["ensemble_weights"])
+            ens = w.get("rf", 0.5) * rf + w.get("stat", 0.5) * stat
+            got = (np.argsort(ens)[::-1][:int(top_n_front)] + 1).tolist()
+            ranked_cache[key] = got
+        return list(got)
+
+    trial_rows = []
+    for trial in range(n_trials):
+        rng = random.Random(rng_seed + trial * 10000)
+        records = []
+        tc = tr = tr_nj = 0
+        for idx in range(start_idx, end_idx + 1):
+            target = data_asc.iloc[idx]
+            issue = int(target["期数"])
+            tf_set = set(int(target[c]) for c in FRONT_COLS)
+            tb_set = set(int(target[c]) for c in BACK_COLS)
+            cand = _candidates(idx, data_asc.iloc[:idx])
+            period_cost = n_groups * 132
+            period_reward = 0
+            period_reward_nj = 0
+            max_hit = 0
+            any_h2 = any_h3 = any_h4 = any_h5 = False
+            for _g in range(n_groups):
+                combo = sorted(rng.sample(cand, 5))
+                fh = len(set(combo).intersection(tf_set))
+                max_hit = max(max_hit, fh)
+                any_h2 |= fh >= 2
+                any_h3 |= fh >= 3
+                any_h4 |= fh >= 4
+                any_h5 |= fh >= 5
+                for b1 in range(1, 13):
+                    for b2 in range(b1 + 1, 13):
+                        bh = len({b1, b2}.intersection(tb_set))
+                        prize = compute_prize_table(issue).get((fh, bh), 0)
+                        period_reward += prize
+                        if (fh, bh) not in JACKPOT_CONDITIONS:
+                            period_reward_nj += prize
+            period_profit = period_reward - period_cost
+            tc += period_cost
+            tr += period_reward
+            tr_nj += period_reward_nj
+            records.append({
+                "issue": issue, "strategy_name": "random_from_pool",
+                "trial": trial + 1,
+                "cost": period_cost, "reward": period_reward,
+                "reward_no_jackpot": period_reward_nj,
+                "profit": period_profit,
+                "period_cost": period_cost, "period_reward": period_reward,
+                "period_profit": period_profit,
+                "front_hit": max_hit,
+                "max_group_front_hit": max_hit,
+                "any_group_hit2": any_h2, "any_group_hit3": any_h3,
+                "any_group_hit4": any_h4, "any_group_hit5": any_h5,
+                "cumulative_profit": tr - tc,
+            })
+        m = compute_strategy_metrics(records)
+        m["_cost"] = tc
+        m["_reward"] = tr
+        trial_rows.append((m, records))
+
+    if not trial_rows:
+        return {"strategy_name": "random_from_pool", "periods": 0, "records": []}
+
+    keys = ["roi", "roi_no_jackpot", "roi_truncated", "total_profit", "total_reward",
+            "avg_front_hit", "hit2_or_more_rate", "hit3_or_more_rate",
+            "max_drawdown", "max_consecutive_loss", "total_cost"]
+    agg = {}
+    for k in keys:
+        vals = [m.get(k) for m, _ in trial_rows if m.get(k) is not None]
+        if not vals:
+            agg[k] = None
+            continue
+        agg[k] = float(np.mean(vals))
+        agg[k + "_std"] = float(np.std(vals, ddof=1)) if len(vals) > 1 else 0.0
+    # 逐期均值明细
+    merged = pd.DataFrame([r for _, recs in trial_rows for r in recs])
+    detail = merged.groupby("issue").agg({
+        "cost": "mean", "reward": "mean", "reward_no_jackpot": "mean",
+        "profit": "mean", "front_hit": "mean",
+        "any_group_hit3": "mean",
+    }).reset_index()
+    detail["cumulative_profit"] = detail["profit"].cumsum()
+    agg.update({
+        "strategy_name": "random_from_pool",
+        "periods": len(detail),
+        "n_trials": n_trials,
+        "top_n_front": top_n_front,
+        "n_groups": n_groups,
+        "records": detail.to_dict("records"),
+        "trial_metrics": [m for m, _ in trial_rows],
+    })
+    return agg
+
+
 def _extract_window_row(result, window_id, start_issue, end_issue):
     """从策略结果中提取滚动窗口所需的关键指标。"""
     return {
@@ -1848,6 +2543,11 @@ def main():
         description="大乐透 5+12 策略回测（支持 walk_forward RF + 多种基线）"
     )
     parser.add_argument("--name", default="dlt", type=str)
+    parser.add_argument("--prize_mode", default="official", type=str,
+                        choices=["official", "official_no_bonus", "official_full_bonus",
+                                 "base", "legacy_config"],
+                        help="计奖口径：official=官方逐期单注奖金 + 全额派奖（默认）；"
+                             "legacy_config=旧的静态奖金表（已知有误，仅供复现历史结论）")
     parser.add_argument("--start_offset", default=200, type=int,
                         help="回测最近多少期")
     parser.add_argument("--run_grid", default=0, type=int,
@@ -1906,10 +2606,27 @@ def main():
                         help="回测最近多少期")
     parser.add_argument("--n9_3x_random_trials", default=100, type=int,
                         help="random_3x5plus12 baseline trial数")
+    parser.add_argument("--n9_signal_gate_backtest", default=0, type=int,
+                        help="信号门槛回测：1=启用")
+    parser.add_argument("--n9_signal_profiles", default="all", type=str)
+    parser.add_argument("--n9_signal_periods", default=200, type=int)
+    parser.add_argument("--n9_signal_group_counts", default="2,3", type=str,
+                        help="逗号分隔的组数，如 2,3")
+    parser.add_argument("--n9_signal_quantiles", default="0.60,0.70,0.80",
+                        type=str, help="逗号分隔的分位数")
+    parser.add_argument("--n9_signal_lookback", default=200, type=int)
+    parser.add_argument("--n9_signal_min_history", default=50, type=int)
+    parser.add_argument("--n9_signal_random_trials", default=100, type=int)
     args = parser.parse_args()
 
     if args.name != "dlt":
         raise Exception("backtest_plus.py 当前仅支持 dlt")
+
+    set_prize_mode(args.prize_mode)
+    logger.info("计奖口径: {}（官方逐期单注奖金 + 全额派奖；"
+                "late/未开奖期降级为规则基础档）".format(args.prize_mode)
+                if args.prize_mode == "official" else
+                "计奖口径: {}（非默认口径）".format(args.prize_mode))
 
     # --- 加载数据 ---
     data_path = "{}{}".format(name_path["dlt"]["path"], data_file_name)
@@ -2382,6 +3099,179 @@ def main():
             logger.info("random trials 已保存: {} / {}".format(_rt_csv, _rt_json))
 
         logger.info("回测完成")
+        return
+
+    if int(args.n9_signal_gate_backtest) == 1:
+        # ================================================================
+        #  P2-4: 信号门槛与跳过机制
+        # ================================================================
+        _sg_periods = int(args.n9_signal_periods)
+        _sg_profiles = (["n9_mix_441", "n9_mix_531", "n9_mix_621"]
+                        if args.n9_signal_profiles == "all"
+                        else [args.n9_signal_profiles])
+        _sg_groups = [int(x) for x in args.n9_signal_group_counts.split(",")]
+        _sg_quantiles = [float(x) for x in args.n9_signal_quantiles.split(",")]
+        _sg_lookback = int(args.n9_signal_lookback)
+        _sg_min_hist = int(args.n9_signal_min_history)
+        _sg_trials = int(args.n9_signal_random_trials)
+        _sg_windows = (int(strategy["score_windows"]["short"]),
+                       int(strategy["score_windows"]["mid"]),
+                       int(strategy["score_windows"]["long"]))
+
+        _rf_sg, _rf_meta_sg = maybe_load_rf_model()
+        _rf_ok_sg = False
+        if _rf_sg is not None:
+            try:
+                _ = predict_rf_scores(_rf_sg, data_asc.iloc[:200], _sg_windows, 120)
+                _rf_ok_sg = True
+            except Exception as _e:
+                logger.warning("Signal gate: RF pre-check fail: {}".format(_e))
+        if not _rf_ok_sg:
+            _rf_sg = None
+            _rf_meta_sg = None
+
+        logger.info("=" * 60)
+        logger.info("信号门槛回测: {}期, profiles={}, groups={}, quantiles={}".format(
+            _sg_periods, _sg_profiles, _sg_groups, _sg_quantiles))
+
+        # idx 级排名缓存：RF/stat/gap 排名与 profile 无关，18 个策略共享，
+        # 避免每个策略都重复跑一遍全历史 RF 推理（每次 ~1s）。
+        _sg_rank_cache = {}
+        _sg_results = []
+        for _prof in _sg_profiles:
+            for _gc in _sg_groups:
+                for _q in _sg_quantiles:
+                    logger.info("--- {} g={} q={:.0%} ---".format(_prof, _gc, _q))
+                    _r = run_n9_signal_gate_backtest(
+                        data_asc, _prof, periods=_sg_periods,
+                        front_group_count=_gc, signal_quantile=_q,
+                        signal_lookback=_sg_lookback,
+                        min_signal_history=_sg_min_hist,
+                        rf_model_static=_rf_sg, rf_meta=_rf_meta_sg,
+                        score_windows=_sg_windows,
+                        ranked_cache=_sg_rank_cache,
+                    )
+                    logger.info("  bet={}/{} roi_t={:.4f} any3_per_bet={:.4f}".format(
+                        _r["bet_periods"], _r["total_periods"],
+                        _r["roi_truncated"],
+                        _r["any_group_hit3_or_more_rate_per_bet"]))
+                    _sg_results.append(_r)
+
+        # Random same-bet-count baseline (per gated strategy)
+        # 每个 gated 策略写入它自己的 random baseline 字段（不追加 random 行、
+        # 不按 bet_count 去重），保证 random 与 gated 使用相同窗口 / bet_periods /
+        # front_group_count / 成本结构。
+        _all_rand_trials = []
+        for _r in _sg_results:
+            _bc = _r["bet_periods"]
+            _gc = _r["front_group_count"]
+            if _bc > 0:
+                logger.info("--- random same-bet ({} bets, {} groups) ---".format(_bc, _gc))
+                _rand = run_random_same_bet_count_baseline(
+                    data_asc, periods=_sg_periods,
+                    bet_periods=_bc, front_group_count=_gc,
+                    n_trials=_sg_trials, rng_seed=42,
+                )
+                _r["random_roi_truncated_mean"] = _rand["roi_truncated_mean"]
+                _r["random_roi_truncated_std"] = _rand["roi_truncated_std"]
+                _r["random_any3_per_bet_mean"] = _rand["any3_per_bet_mean"]
+                _r["random_any3_per_bet_std"] = _rand["any3_per_bet_std"]
+                _r["random_total_profit_mean"] = _rand["total_profit_mean"]
+                _r["random_total_profit_std"] = _rand["total_profit_std"]
+                _r["random_bet_periods"] = _rand["bet_periods"]
+                _r["random_front_group_count"] = _rand["front_group_count"]
+                _r["random_bet_rate"] = _rand["bet_rate"]
+                _r["random_total_cost_mean"] = _rand["total_cost_mean"]
+                _r["beats_random_same_bet_roi"] = (
+                    _r["roi_truncated"] > _rand["roi_truncated_mean"])
+                _r["beats_random_same_bet_any3"] = (
+                    _r["any_group_hit3_or_more_rate_per_bet"] >
+                    _rand["any3_per_bet_mean"])
+                for _tm in _rand["trial_metrics"]:
+                    _row = dict(_tm)
+                    _row["gated_strategy"] = _r["strategy_name"]
+                    _all_rand_trials.append(_row)
+                logger.info(
+                    "  rand: roi_t={:.4f}+-{:.4f}  any3_per_bet={:.4f}+-{:.4f}  "
+                    "cost_mean={:.0f} (={}bets x {}g x 132)".format(
+                        _rand["roi_truncated_mean"], _rand["roi_truncated_std"],
+                        _rand["any3_per_bet_mean"], _rand["any3_per_bet_std"],
+                        _rand["total_cost_mean"], _rand["bet_periods"],
+                        _rand["front_group_count"]))
+
+        # 保存
+        _sg_all = []
+        for _r in _sg_results:
+            _sg_all.extend(_r.get("records", []))
+        _sg_df = pd.DataFrame(_sg_all)
+        _sg_csv = os.path.join("outputs", "n9_signal_gate_detail.csv")
+        _sg_json = os.path.join("outputs", "n9_signal_gate_detail.json")
+        out_dir = os.path.dirname(_sg_csv)
+        if out_dir and not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+        _sg_df.to_csv(_sg_csv, index=False, encoding="utf-8-sig")
+        with open(_sg_json, "w", encoding="utf-8") as f:
+            json.dump(_sg_all, f, ensure_ascii=False, indent=2)
+        logger.info("明细已保存: {} / {}".format(_sg_csv, _sg_json))
+
+        # Random trial 文件（每个 trial 一行聚合指标，带 gated_strategy 标记）
+        if _all_rand_trials:
+            _rt_df = pd.DataFrame(_all_rand_trials)
+            _rt_csv = os.path.join("outputs", "n9_signal_gate_random_trials.csv")
+            _rt_json = os.path.join("outputs", "n9_signal_gate_random_trials.json")
+            _rt_df.to_csv(_rt_csv, index=False, encoding="utf-8-sig")
+            with open(_rt_json, "w", encoding="utf-8") as f:
+                json.dump(_all_rand_trials, f, ensure_ascii=False, indent=2)
+            logger.info("random trials 已保存: {} / {} ({} rows)".format(
+                _rt_csv, _rt_json, len(_all_rand_trials)))
+
+        _sg_summary = []
+        for _r in _sg_results:
+            _s = {k: _r[k] for k in [
+                "strategy_name", "profile_name", "front_group_count",
+                "signal_quantile", "total_periods", "bet_periods",
+                "skip_periods", "bet_rate", "total_cost", "total_reward",
+                "total_profit", "roi", "roi_truncated",
+                "any_group_hit3_or_more_rate_per_bet",
+                "any_group_hit3_or_more_rate_per_total",
+                "positive_bet_rate", "max_drawdown",
+                "max_consecutive_bet_loss",
+                "avg_signal_score_bet", "avg_signal_score_skip",
+                "warmup_signal_count",
+                "insufficient_signal_history_count",
+                "below_signal_threshold_count",
+                "random_roi_truncated_mean", "random_roi_truncated_std",
+                "random_any3_per_bet_mean", "random_any3_per_bet_std",
+                "random_total_profit_mean", "random_total_profit_std",
+                "random_bet_periods", "random_front_group_count",
+                "random_bet_rate", "random_total_cost_mean",
+                "beats_random_same_bet_roi", "beats_random_same_bet_any3",
+            ] if k in _r}
+            _sg_summary.append(_s)
+
+        _sum_csv = os.path.join("outputs", "n9_signal_gate_summary.csv")
+        _sum_json = os.path.join("outputs", "n9_signal_gate_summary.json")
+        pd.DataFrame(_sg_summary).to_csv(_sum_csv, index=False, encoding="utf-8-sig")
+        with open(_sum_json, "w", encoding="utf-8") as f:
+            json.dump(_sg_summary, f, ensure_ascii=False, indent=2)
+        logger.info("汇总已保存: {} / {}".format(_sum_csv, _sum_json))
+
+        logger.info("=" * 60)
+        logger.info("信号门槛回测摘要")
+        _beats_count = sum(1 for _s in _sg_summary
+                           if _s.get("beats_random_same_bet_roi"))
+        logger.info("beats_random_roi: {}/{}".format(_beats_count, len(_sg_summary)))
+        for _s in sorted(_sg_summary,
+                         key=lambda x: x.get("roi_truncated", -99)):
+            _name = _s.get("strategy_name", "?")
+            logger.info("  {:>40s}: roi_t={:.4f} any3_bet={:.4f} bet={}/{} rate={:.0%} beat_rand={}".format(
+                _name, _s["roi_truncated"],
+                _s.get("any_group_hit3_or_more_rate_per_bet", 0),
+                _s.get("bet_periods", 0), _s.get("total_periods", 0),
+                _s.get("bet_rate", 0),
+                _s.get("beats_random_same_bet_roi", "?")))
+
+        logger.info("信号门槛回测完成")
         return
 
     if int(args.rolling_stability) == 1:
