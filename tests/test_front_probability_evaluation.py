@@ -420,3 +420,139 @@ def test_predictions_jsonl_is_per_period_not_per_number(tmp_path):
     rec = json.loads(lines[0])
     assert len(rec["p"]) == 35 and len(rec["top5"]) == 5
     assert "issue" in rec and "candidate" in rec and "fold" in rec
+
+
+# ---------------------------------------------------------------------------
+# 7. 对抗性复核发现并修复的缺陷（回归测试）
+# ---------------------------------------------------------------------------
+
+def _verdict_cfg(cands=("U", "F", "L", "R", "N"), n_periods_total=800):
+    return {
+        "candidates": {c: {} for c in cands},
+        "statistics": {"comparisons": ["L-U", "R-U", "N-U"],
+                       "tie_epsilon": 1e-12,
+                       "tie_preference_order": ["L", "R", "N"]},
+        "evaluation": {"frozen_blocks": [
+            {"fold": i, "target_index_start": 0, "target_index_stop": 200}
+            for i in range(4)]},
+    }
+
+
+def _fake_comparison(gain=0.01):
+    ci = {"lower": 0.005, "upper": 0.015}
+    return {"comparison": "X-U", "n_periods": 800, "overall_gain": gain,
+            "overall_brier_model": 0.11, "overall_brier_baseline": 0.12,
+            "overall_logloss_model": 0.40, "overall_logloss_baseline": 0.41,
+            "block_direction": {str(i): {"mean_gain": gain, "positive": True}
+                                for i in range(4)},
+            "n_blocks_positive": 4, "n_blocks": 4,
+            "intervals": {"20": ci, "50": ci},
+            "intervals_lower_bounds_positive": True,
+            "adjusted_two_sided_confidence": 0.98333333}
+
+
+def test_verdict_completeness_requires_every_frozen_candidate():
+    """完整性门槛必须覆盖全部冻结候选（含 F），否则会静默丢掉 F 相关条件。"""
+    cfg = _verdict_cfg()
+    summary = {"candidates": {m: {"n_periods": 800, "overall_brier": 0.12}
+                              for m in ("U", "F", "L", "R", "N")}}
+    v = ev.run_verdict(summary, {}, cfg)
+    assert set(v["required_candidates"]) >= {"U", "F", "L", "R", "N"}
+    assert v["complete_comparison"] is True
+
+    del summary["candidates"]["F"]
+    v2 = ev.run_verdict(summary, {}, cfg)
+    assert v2["complete_comparison"] is False
+    assert "F" in v2["incomplete_candidates"]
+    assert v2["promoted"] == [] and v2["selected"] is None
+
+
+def test_brier_not_worse_than_F_is_not_silently_dropped():
+    """F 缺失时「Brier 不高于 F」必须判为不满足，而不是从条件里消失。"""
+    cfg = _verdict_cfg()
+    cands = {m: {"n_periods": 800, "overall_brier": 0.11}
+             for m in ("U", "L", "R", "N")}
+    cands["U"] = {"n_periods": 800, "overall_brier": 0.12}
+    summary = {"candidates": cands}
+    comparisons = {f"{m}-U": _fake_comparison() for m in ("L", "R", "N")}
+    v = ev.run_verdict(summary, comparisons, cfg)
+    # 其它条件都满足，但 F 缺失 -> 不得晋级
+    assert v["complete_comparison"] is False
+    assert v["promoted"] == []
+
+
+def test_code_hash_is_content_sensitive(monkeypatch):
+    """源码指纹必须依赖文件内容，而不只是 git status（已脏文件再改不会被发现）。"""
+    base = ev.code_hash()
+    assert base == ev.code_hash()          # 稳定
+    real = ev.sha256_file
+    state = {"n": 0}
+
+    def fake(path, *a, **k):
+        state["n"] += 1
+        return "0" * 64 if state["n"] == 1 else real(path, *a, **k)
+
+    monkeypatch.setattr(ev, "sha256_file", fake)
+    assert ev.code_hash() != base
+
+
+def test_dataset_fingerprint_reflects_content_not_config():
+    """数据指纹取自 X/y/issues 内容，不依赖配置是否写了 sha256（更不能是占位串）。"""
+    csv = make_csv(tmp_path_csv := "/tmp/f1_fp_probe.csv")
+    cfg = tiny_config(csv)
+    ds = small_dataset(cfg)
+    fp = ev.dataset_fingerprint(ds)
+    assert "<unset>" not in fp and len(fp) == 64
+    assert fp == ev.dataset_fingerprint(small_dataset(cfg))
+
+    ds2 = {"X": ds["X"].copy(), "y": ds["y"].copy(), "issues": ds["issues"].copy()}
+    ds2["y"][0] = np.roll(ds2["y"][0], 1)
+    assert ev.dataset_fingerprint(ds2) != fp
+    os.remove(csv)
+
+
+def test_run_folds_does_not_resume_by_default(tmp_path):
+    csv = make_csv(tmp_path / "d.csv")
+    cfg = tiny_config(csv, cands=("U",), n_blocks=1)
+    ds = small_dataset(cfg)
+    run_dir = tmp_path / "r"
+    first = ev.run_folds(cfg, ds, str(run_dir), device="cpu",
+                         candidates=["U"], resume=False)
+    assert first["computed_units"] == 1
+    # 不传 resume：默认必须是重算，不得复用
+    second = ev.run_folds(cfg, ds, str(run_dir), device="cpu", candidates=["U"])
+    assert second["reused_units"] == 0 and second["computed_units"] == 1
+
+
+def test_repeated_quarantine_does_not_nest(tmp_path):
+    """同一单元被隔离两次时，两次都必须是 _incomplete/ 下的独立目录。"""
+    csv = make_csv(tmp_path / "d.csv")
+    cfg = tiny_config(csv, cands=("U",), n_blocks=1)
+    ds = small_dataset(cfg)
+    run_dir = tmp_path / "r"
+    ev.run_folds(cfg, ds, str(run_dir), device="cpu", candidates=["U"], resume=False)
+    for _ in range(2):
+        ev.run_folds(cfg, ds, str(run_dir), device="cpu", candidates=["U"], resume=False)
+    inc = run_dir / "_incomplete"
+    entries = sorted(p.name for p in inc.iterdir())
+    assert len(entries) == 2          # 第 2、3 次调用各隔离一次（首次是全新计算）
+    for name in entries:
+        assert name.startswith("f0_candU_")
+    assert len(set(entries)) == len(entries), "隔离目录名必须唯一"
+    # 不得出现把上一份隔离目录整个塞进新目录的嵌套
+    for p in inc.iterdir():
+        nested = list(p.glob("f0_candU*"))
+        assert not nested, f"隔离目录发生嵌套: {p}"
+
+
+def test_predictions_jsonl_uses_protocol_field_name(tmp_path):
+    """协议 §6 要求字段名为 model_id。"""
+    csv = make_csv(tmp_path / "d4.csv", n_rows=260, seed=58)
+    cfg = tiny_config(csv, min_history=40, n_blocks=1, block_size=10, cands=("U",))
+    cfg_path = tmp_path / "cfg.json"
+    cfg_path.write_text(json.dumps(cfg), encoding="utf-8")
+    run_dir = tmp_path / "r4"
+    ev.run_from_csv(str(cfg_path), str(csv), str(run_dir), device="cpu")
+    rec = json.loads(open(run_dir / "predictions.jsonl", encoding="utf-8").readline())
+    assert rec["model_id"] == "U"
+    assert rec["candidate"] == "U"

@@ -142,7 +142,8 @@
     ],
     "tie_epsilon": 1e-12,
     "tie_preference_order": ["L", "R", "N"],
-    "uniform_brier_reference": 0.04081632653061224,
+    "uniform_brier_reference": 0.12244897959183673,
+    "uniform_brier_reference_correction": "首版误写为 0.04081632653061224（=2/49）。正确值为 (5/35)(1-5/35)=6/49=0.12244897959…。该键不被任何代码读取，仅为文档参考；已执行的运行使用修正前的配置哈希 85f2701dc6518e771a1350df47afb67248a957371a83ef31e2d93a1b869c29a7，两者**唯一**差别即此键。",
     "uniform_top5_mean_hit_reference": 0.7142857142857143
   },
   "resources": {

@@ -81,15 +81,29 @@ def hash_config(config: Dict) -> str:
 
 
 def code_hash() -> str:
-    """当前仓库源码指纹（git HEAD + 工作区 diff 的哈希）。"""
+    """当前源码指纹：git HEAD + **工作区源码文件内容**的 sha256。
+
+    只用 ``git status --porcelain`` 不够：对**已经处于修改状态**的文件再改一次，
+    porcelain 输出不变，缓存单元会被误判为可复用（对抗性复核发现）。
+    因此这里直接对 ``git ls-files`` 列出的源码文件内容取哈希。
+    """
     import subprocess
     try:
         head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                               capture_output=True, text=True, check=True).stdout.strip()
-        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT,
-                               capture_output=True, text=True, check=True).stdout
-        h = hashlib.sha256((head + "\n" + dirty).encode("utf-8")).hexdigest()[:16]
-        return "{}:{}".format(head[:12], h)
+        tracked = subprocess.run(["git", "ls-files", "tools", "tests", "configs",
+                                  "*.py"],
+                                 cwd=ROOT, capture_output=True, text=True,
+                                 check=True).stdout.split()
+        h = hashlib.sha256(head.encode("utf-8"))
+        for rel in sorted(set(tracked)):
+            p = os.path.join(ROOT, rel)
+            if not os.path.isfile(p):
+                h.update(("MISSING " + rel).encode("utf-8"))
+                continue
+            h.update(rel.encode("utf-8"))
+            h.update(sha256_file(p).encode("ascii"))
+        return "{}:{}".format(head[:12], h.hexdigest()[:16])
     except Exception:
         return "no-git"
 
@@ -368,13 +382,19 @@ def run_verdict(summary: Dict, comparisons: Dict, config: Dict) -> Dict:
     """按预登记条件判定哪些候选通过；全部候选未完成则不作完整裁决。"""
     expected = list(config.get("statistics", {}).get("comparisons", []))
     models = sorted({c.split("-")[0] for c in expected if "-" in c})
-    needed = sorted(set(models) | {"U"})
+    # 完整性门槛必须覆盖全部冻结候选（含 F）。只查 comparisons 里的模型名会漏掉 F，
+    # 使预登记的「Brier 不高于 F」条件被静默跳过或跨不同期次集比较
+    # （对抗性复核发现，已修）。
+    needed = sorted(set(models) | {"U"} | set(config.get("candidates", {}).keys()))
     folds = config.get("evaluation", {}).get("frozen_blocks", [])
     expected_periods = int(sum(int(f["target_index_stop"]) - int(f["target_index_start"])
                                for f in folds))
     complete = bool(needed) and all(
         summary.get("candidates", {}).get(m, {}).get("n_periods", 0) == expected_periods
         and expected_periods > 0 for m in needed)
+    missing = sorted(
+        m for m in needed
+        if summary.get("candidates", {}).get(m, {}).get("n_periods", 0) != expected_periods)
 
     promoted = []
     per_model = {}
@@ -391,10 +411,11 @@ def run_verdict(summary: Dict, comparisons: Dict, config: Dict) -> Dict:
                     comp["overall_logloss_model"] <= comp["overall_logloss_baseline"],
             }
             f_brier = summary["candidates"].get("F", {}).get("overall_brier")
+            # F 缺失时该条件**不成立**，而不是被过滤掉 —— 预登记条件不得静默消失。
             crit["brier_not_worse_than_F"] = (
-                (summary["candidates"][m]["overall_brier"] <= f_brier)
-                if f_brier is not None else None)
-            ok = all(v for v in crit.values() if v is not None)
+                bool(summary["candidates"][m]["overall_brier"] <= f_brier)
+                if f_brier is not None else False)
+            ok = all(bool(v) for v in crit.values())
             per_model[m] = {"criteria": crit, "promoted": bool(ok)}
             if ok:
                 promoted.append(m)
@@ -413,6 +434,8 @@ def run_verdict(summary: Dict, comparisons: Dict, config: Dict) -> Dict:
 
     return {
         "complete_comparison": bool(complete),
+        "required_candidates": needed,
+        "incomplete_candidates": missing,
         "per_model": per_model,
         "promoted": promoted,
         "selected": winner,
@@ -540,17 +563,36 @@ def _fit_and_predict_unit(fold: Dict, candidate: str, dataset: Dict,
     }
 
 
+def dataset_fingerprint(dataset: Dict) -> str:
+    """数据集内容指纹：直接对 X/y/issues 的字节取哈希。
+
+    不依赖配置里是否写了 sha256，因此不存在"<unset>"这种会把不同数据
+    混成同一个缓存键的回退（对抗性复核发现）。
+    """
+    h = hashlib.sha256()
+    for key in ("X", "y", "issues"):
+        arr = np.ascontiguousarray(np.asarray(dataset[key]))
+        h.update(key.encode("ascii"))
+        h.update(str(arr.dtype).encode("ascii"))
+        h.update(str(arr.shape).encode("ascii"))
+        h.update(arr.tobytes())
+    return h.hexdigest()
+
+
 def run_folds(config: Dict, dataset: Dict, run_dir: str, device: Optional[str],
               candidates: Optional[Sequence[str]] = None,
-              resume: bool = True) -> Dict:
-    """按折 × 候选运行（或复用）所有单元。"""
+              resume: bool = False) -> Dict:
+    """按折 × 候选运行（或复用）所有单元。
+
+    ``resume`` 默认 **False**：不显式要求就不复用既有产物。
+    """
     folds = fold_ranges(config)
     cands = list(candidates) if candidates else list(config.get("candidates", {}).keys())
     os.makedirs(os.path.join(run_dir, "units"), exist_ok=True)
 
     hashes = {
         "code_hash": code_hash(),
-        "data_hash": config.get("data", {}).get("sha256") or "<unset>",
+        "data_hash": dataset_fingerprint(dataset),
         "config_hash": hash_config(config),
     }
 
@@ -573,8 +615,14 @@ def run_folds(config: Dict, dataset: Dict, run_dir: str, device: Optional[str],
                 inc = os.path.join(run_dir, "_incomplete")
                 os.makedirs(inc, exist_ok=True)
                 stamp = time.strftime("%Y%m%d-%H%M%S")
-                shutil.move(ud, os.path.join(
-                    inc, "f{}_cand{}_bis".format(fold["fold"], cand)))
+                dest = os.path.join(
+                    inc, "f{}_cand{}_{}".format(fold["fold"], cand, stamp))
+                n = 0
+                while os.path.exists(dest):      # 同一秒内多次隔离时仍保持唯一
+                    n += 1
+                    dest = os.path.join(
+                        inc, "f{}_cand{}_{}_{}".format(fold["fold"], cand, stamp, n))
+                shutil.move(ud, dest)
 
             try:
                 rec = _fit_and_predict_unit(fold, cand, dataset, config, device)
@@ -735,7 +783,8 @@ def run_from_csv(config_path: str, data_csv: str, run_dir: str,
             for k in range(len(rec["issues"])):
                 fh.write(json.dumps({
                     "issue": int(rec["issues"][k]),
-                    "candidate": rec["candidate"],
+                    "model_id": rec["candidate"],      # 协议 §6 要求的字段名
+                    "candidate": rec["candidate"],     # 同一值的别名，便于阅读
                     "fold": int(rec["fold"]),
                     "train_end": int(rec["train_end"]),
                     "model_hash": rec["model_hash"],
