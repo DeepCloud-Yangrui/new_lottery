@@ -28,7 +28,7 @@ SCHEDULE = [
      '自11月2日晚开售的第26126期开始，至11月30日晚停售的第26137期结束，共12期'),
     ('https://www.js-lottery.com/tzgg/tzgg/cms/post-148036.html','utf8',
      '第26120期（2026年10月19日21:10开售）至第26135期（2026年11月25日21:00止售）'),
-    ('https://www.nmtc.com.cn/ywdt/23280.html','utf8','游戏销售截止时间由当期开奖日20:00调整为21:00'),
+    ('https://www.js-lottery.com/tzgg/tzgg/cms/post-137115.html','utf8','游戏销售截止时间由当期开奖日20:00调整为21:00'),
     ('https://m.lottery.gov.cn/ksjz/m/yxgz_dlt/','utf8','超级大乐透每周一、三、六开奖（休市日除外）'),
 ]
 ROOT = Path('outputs/next_5plus12')
