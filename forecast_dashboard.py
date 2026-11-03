@@ -1,5 +1,6 @@
 """Read-only Streamlit view of on-demand 5+12 forecasts."""
 import json
+import inspect
 import math
 from datetime import datetime
 from pathlib import Path
@@ -52,7 +53,7 @@ def render(root=DATA):
         st.error(f"本期记录无法核验：{exc}")
         return
     st.caption(f"生成于 {created:%Y-%m-%d %H:%M:%S}（北京）　·　训练截至第 {r['train_end']} 期")
-    with st.container(border=True):
+    with st.container(**({"border":True} if "border" in inspect.signature(st.container).parameters else {})):
         st.caption("主模型预测　/　前区五个号码")
         st.header(balls(r["front"],35,5))
         st.write("后区 **01–12 全包**　·　66 注　·　单组成本 **132 元**")
@@ -62,7 +63,8 @@ def render(root=DATA):
     with a:
         names=st.multiselect("比较策略",list(MODELS.values()),default=[MODELS["N"],MODELS["U"]])
         if names:
-            st.line_chart(probs[names]*100,x_label="前区号码",y_label="入选概率（%）")
+            axes = {"x_label":"前区号码","y_label":"入选概率（%）"} if "x_label" in inspect.signature(st.line_chart).parameters else {}
+            st.line_chart(probs[names]*100,**axes)
         st.caption("每个点是一个号码入选前区的边际概率，不是五个号码同时命中的概率。历史比较尚未证实主模型优于均匀基线。")
     with b:
         result_file=root/f"{issue}.result.json"
