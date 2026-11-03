@@ -2,6 +2,7 @@
 import argparse
 import fcntl
 import hashlib
+import html
 import json
 import os
 import pickle
@@ -22,6 +23,14 @@ from tools.front_probability_models import fit_candidate, predict_candidate
 CST = timezone(timedelta(hours=8))
 API = 'https://webapi.sporttery.cn/gateway/lottery/'
 DIGITAL = API + 'getDigitalDrawInfoV1.qry?param=85,0&isVerify=1'
+SCHEDULE = [
+    ('https://www.wztc.cn/system/2026/10/30/105863888.shtml','gb18030',
+     '自11月2日晚开售的第26126期开始，至11月30日晚停售的第26137期结束，共12期'),
+    ('https://www.js-lottery.com/tzgg/tzgg/cms/post-148036.html','utf8',
+     '第26120期（2026年10月19日21:10开售）至第26135期（2026年11月25日21:00止售）'),
+    ('https://www.nmtc.com.cn/ywdt/23280.html','utf8','游戏销售截止时间由当期开奖日20:00调整为21:00'),
+    ('https://m.lottery.gov.cn/ksjz/m/yxgz_dlt/','utf8','超级大乐透每周一、三、六开奖（休市日除外）'),
+]
 ROOT = Path('outputs/next_5plus12')
 CFG = Path('configs/front_probability_f1.json')
 OFFICIAL = {'webapi.sporttery.cn', 'www.lottery.gov.cn', 'm.lottery.gov.cn'}
@@ -126,6 +135,27 @@ def sale(d, last, when, issue=None):
     return target,end
 
 
+def scheduled_slot(last, when, issue):
+    # Only the intersection of two published, independently anchored schedules.
+    # Beyond this window a new official schedule or live sales row is required.
+    def enumerate_window(start, end, first, final):
+        ds=pd.date_range(start,end)
+        dates=[d.date() for d in ds if d.weekday() in (0,2,5)]
+        if len(dates)!=final-first+1:raise ValueError('官方期数与日历不符')
+        return dict(zip(range(first,final+1),dates))
+    js=enumerate_window('2026-10-20','2026-11-25',26120,26135)
+    zj=enumerate_window('2026-11-03','2026-11-30',26126,26137)
+    for t,day in zj.items():
+        if js.get(t)!=day:continue
+        prev=js[t-1]
+        # Conservative publication gate: do not publish on opening evening.
+        start=datetime.combine(prev+timedelta(days=1),datetime.min.time(),CST)
+        end=datetime.combine(day,datetime.min.time(),CST).replace(hour=21)
+        if start<=when<end and t-1==last and issue in (None,t):
+            return t,start,end
+    raise ValueError('无覆盖当前时刻且与最新开奖一致的双源公告日程')
+
+
 def status(url, last, issue):
     obj = get(url)
     def visit(v):
@@ -144,6 +174,24 @@ def status(url, last, issue):
         except (KeyError, TypeError, ValueError):
             continue
         good[(target,end.isoformat(),row['lotterySaleBeginTime'])] = row
+    if not good and url==DIGITAL:
+        latest=obj['value']['dlt']
+        if int(latest['lotteryDrawNum'])!=last or not latest.get('lotteryDrawResult'):
+            raise ValueError('公告日程与最新开奖状态不一致')
+        target,start,end=scheduled_slot(last,now(),issue)
+        evidence=[]
+        for src,enc,fragment in SCHEDULE:
+            raw=subprocess.check_output(['curl','-fsSL','--proto-redir','=https','--max-time','20',src])
+            plain=re.sub(r'\s+','',html.unescape(re.sub('<[^>]+>','',raw.decode(enc))))
+            if fragment not in plain:raise ValueError('官方销售公告内容不符: '+src)
+            evidence.append(dict(url=src,sha256=sha(raw),text=fragment))
+        row=dict(lotteryGameNum='85',lotteryDrawNum=target,lotteryDrawResult='',
+                 lotterySaleBeginTime=start.strftime('%Y-%m-%d %H:%M:%S'),
+                 lotterySaleEndtime=end.strftime('%Y-%m-%d %H:%M:%S'))
+        sale(row,last,now(),target)
+        return target,dict(method='published_schedule_not_live_terminal',url=url,
+                           latest_draw=last,retrieved=now().isoformat(),sources=evidence,row=row,
+                           start_note='公告开售次日零点起才发布，并非实际开售时刻')
     if len(good) != 1:
         raise ValueError('未取得唯一官方在售期及其停售时间；不发布号码')
     key,row = good.popitem()
